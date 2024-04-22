@@ -1,2 +1,2 @@
-# DSW1-AA1
-Atividade 1 de DSW1
+# DSW1
+Repositório para a disciplina de Desenvolvimento de Softwares para Web 1
