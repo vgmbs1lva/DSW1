@@ -11,7 +11,7 @@ import java.io.IOException;
 public class IndexController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirecionar para a página de listagem de vagas
-        response.sendRedirect("vagas?action=list");
+        // Redirecionar para a página de login
+        response.sendRedirect("login.jsp");
     }
 }
