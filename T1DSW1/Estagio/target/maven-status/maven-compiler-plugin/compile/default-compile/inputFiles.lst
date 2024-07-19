@@ -1,0 +1,13 @@
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/controller/RegisterController.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/domain/Vaga.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/domain/Profissional.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/controller/LoginController.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/dao/ProfissionalDAO.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/controller/IndexController.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/domain/Usuario.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/dao/EmpresaDAO.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/domain/Empresa.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/dao/GenericDAO.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/dao/VagaDAO.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/dao/UsuarioDAO.java
+/home/spinelli/T1DSW1/Estagio/src/main/java/br/ufscar/dc/dsw/util/Erro.java
