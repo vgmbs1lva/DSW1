@@ -7,8 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import br.ufscar.dc.dsw.dao.UsuarioDAO;
+import br.ufscar.dc.dsw.dao.EmpresaDAO;
 import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.domain.Empresa;
 import br.ufscar.dc.dsw.util.Erro;
 
 @WebServlet("/login")
@@ -30,25 +33,23 @@ public class LoginController extends HttpServlet {
             erros.add("Senha não informada!");
         }
         if (!erros.isExisteErros()) {
-            UsuarioDAO dao = new UsuarioDAO();
-            Usuario usuario = dao.findByEmail(login);
-
-            if (usuario != null) {
-                System.out.println("Usuário encontrado: " + usuario.getEmail() + ", tipo: " + usuario.getTipo());
-            } else {
-                System.out.println("Usuário não encontrado.");
-            }
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuario = usuarioDAO.findByEmail(login);
 
             if (usuario != null && usuario.getSenha().equals(senha)) {
-                request.getSession().setAttribute("usuarioLogado", usuario);
+                HttpSession sessao = request.getSession();
+                sessao.setAttribute("usuarioLogado", usuario);
                 if ("admin".equals(usuario.getTipo())) {
-                    response.sendRedirect("Logado/Admin/index.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Logado/Admin/index.jsp");
                 } else if ("empresa".equals(usuario.getTipo())) {
-                    response.sendRedirect("Logado/Empresas/index.jsp");
+                    EmpresaDAO empresaDAO = new EmpresaDAO();
+                    Empresa empresa = empresaDAO.findByEmail(usuario.getEmail());
+                    sessao.setAttribute("empresaLogada", empresa);
+                    response.sendRedirect(request.getContextPath() + "/Logado/Empresas/index.jsp");
                 } else if ("profissional".equals(usuario.getTipo())) {
-                    response.sendRedirect("Logado/Profissionais/index.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
                 } else {
-                    response.sendRedirect("home.jsp"); // Caso tipo não seja reconhecido
+                    response.sendRedirect(request.getContextPath() + "/home.jsp"); // Caso tipo não seja reconhecido
                 }
             } else {
                 if (usuario != null) {

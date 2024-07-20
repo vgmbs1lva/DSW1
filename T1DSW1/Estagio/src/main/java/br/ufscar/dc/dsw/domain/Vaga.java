@@ -7,6 +7,33 @@ public class Vaga {
     private double remuneracao;
     private String dataLimiteInscricao;
 
+    // Construtor padrão
+    public Vaga() {
+    }
+
+    // Construtor com todos os campos exceto o id
+    public Vaga(int idEmpresa, String descricao, double remuneracao, String dataLimiteInscricao) {
+        this.idEmpresa = idEmpresa;
+        this.descricao = descricao;
+        this.remuneracao = remuneracao;
+        this.dataLimiteInscricao = dataLimiteInscricao;
+    }
+
+    // Construtor com todos os campos
+    public Vaga(int id, int idEmpresa, String descricao, double remuneracao, String dataLimiteInscricao) {
+        this.id = id;
+        this.idEmpresa = idEmpresa;
+        this.descricao = descricao;
+        this.remuneracao = remuneracao;
+        this.dataLimiteInscricao = dataLimiteInscricao;
+    }
+
+    public Vaga(String descricao, double v, String dataLimiteInscricao) {
+        this.descricao = descricao;
+        this.remuneracao = v;
+        this.dataLimiteInscricao = dataLimiteInscricao;
+    }
+
     // Getters and Setters
     public int getId() {
         return id;

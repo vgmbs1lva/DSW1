@@ -1,2 +1,5 @@
 br/ufscar/dc/dsw/controller/IndexController.class
+br/ufscar/dc/dsw/controller/EmpresasController.class
+br/ufscar/dc/dsw/controller/ProfissionaisController.class
+br/ufscar/dc/dsw/controller/VagasController.class
 br/ufscar/dc/dsw/util/Erro.class

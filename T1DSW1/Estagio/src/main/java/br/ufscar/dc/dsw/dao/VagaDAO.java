@@ -15,7 +15,7 @@ public class VagaDAO extends GenericDAO {
             pst.setInt(1, vaga.getIdEmpresa());
             pst.setString(2, vaga.getDescricao());
             pst.setDouble(3, vaga.getRemuneracao());
-            pst.setString(4, vaga.getDataLimiteInscricao());
+            pst.setDate(4, Date.valueOf(vaga.getDataLimiteInscricao()));
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,6 +37,30 @@ public class VagaDAO extends GenericDAO {
                 vaga.setRemuneracao(rs.getDouble("remuneracao"));
                 vaga.setDataLimiteInscricao(rs.getString("data_limite_inscricao"));
                 listaVagas.add(vaga);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaVagas;
+    }
+
+    public List<Vaga> getAllByEmpresa(int idEmpresa) {
+        List<Vaga> listaVagas = new ArrayList<>();
+        String sql = "SELECT * FROM Vaga WHERE id_empresa = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, idEmpresa);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Vaga vaga = new Vaga();
+                    vaga.setId(rs.getInt("id"));
+                    vaga.setIdEmpresa(rs.getInt("id_empresa"));
+                    vaga.setDescricao(rs.getString("descricao"));
+                    vaga.setRemuneracao(rs.getDouble("remuneracao"));
+                    vaga.setDataLimiteInscricao(rs.getString("data_limite_inscricao"));
+                    listaVagas.add(vaga);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,15 +92,14 @@ public class VagaDAO extends GenericDAO {
     }
 
     public void update(Vaga vaga) {
-        String sql = "UPDATE Vaga SET id_empresa = ?, descricao = ?, remuneracao = ?, data_limite_inscricao = ? WHERE id = ?";
+        String sql = "UPDATE Vaga SET descricao = ?, remuneracao = ?, data_limite_inscricao = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
 
-            pst.setInt(1, vaga.getIdEmpresa());
-            pst.setString(2, vaga.getDescricao());
-            pst.setDouble(3, vaga.getRemuneracao());
-            pst.setString(4, vaga.getDataLimiteInscricao());
-            pst.setInt(5, vaga.getId());
+            pst.setString(1, vaga.getDescricao());
+            pst.setDouble(2, vaga.getRemuneracao());
+            pst.setDate(3, Date.valueOf(vaga.getDataLimiteInscricao()));
+            pst.setInt(4, vaga.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -9,7 +9,32 @@ public class Empresa {
     private String descricao;
     private String cidade;
 
-    // Getters and Setters
+    // Construtor padrão
+    public Empresa() {
+    }
+
+    // Construtor com todos os campos exceto o id
+    public Empresa(String nome, String email, String senha, String cnpj, String descricao, String cidade) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cnpj = cnpj;
+        this.descricao = descricao;
+        this.cidade = cidade;
+    }
+
+    // Construtor com todos os campos
+    public Empresa(int id, String nome, String email, String senha, String cnpj, String descricao, String cidade) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cnpj = cnpj;
+        this.descricao = descricao;
+        this.cidade = cidade;
+    }
+
+    // Getters e Setters
     public int getId() {
         return id;
     }

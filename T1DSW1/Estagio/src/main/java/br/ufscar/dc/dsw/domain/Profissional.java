@@ -10,7 +10,49 @@ public class Profissional {
     private String sexo;
     private String dataNascimento;
 
-    // Getters and Setters
+    // Construtores
+    public Profissional() {
+    }
+
+    public Profissional(String nome, String email, String senha, String cpf, String telefone, String sexo, String dataNascimento) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Profissional(int id, String nome, String email, String senha, String cpf, String telefone, String sexo, String dataNascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Profissional(String nome, String cpf, String telefone, String sexo, String dataNascimento) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Profissional(int id, String nome, String cpf, String telefone, String sexo, String dataNascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
+
+    // Getters e Setters
     public int getId() {
         return id;
     }

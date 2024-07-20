@@ -5,38 +5,41 @@ DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 CREATE DATABASE SistemaEstagioEmprego;
 USE SistemaEstagioEmprego;
 
--- Tabela para armazenar informações dos profissionais
-CREATE TABLE Profissionais (
-                               id INT AUTO_INCREMENT PRIMARY KEY,
-                               nome VARCHAR(255) NOT NULL,
-                               cpf VARCHAR(14) NOT NULL UNIQUE,
-                               telefone VARCHAR(20),
-                               sexo ENUM('M', 'F', 'Outro'),
-                               data_nascimento DATE
-);
+-- Criação da tabela Profissionais
+CREATE TABLE IF NOT EXISTS Profissionais (
+                                             id INT AUTO_INCREMENT PRIMARY KEY,
+                                             nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE,
+    telefone VARCHAR(20),
+    sexo ENUM('M', 'F', 'Outro'),
+    data_nascimento DATE
+    );
 
--- Tabela para armazenar informações das empresas
-CREATE TABLE Empresas (
-                          id INT AUTO_INCREMENT PRIMARY KEY,
-                          nome VARCHAR(255) NOT NULL,
-                          cnpj VARCHAR(18) NOT NULL UNIQUE,
-                          descricao TEXT,
-                          cidade VARCHAR(100)
-);
+-- Criação da tabela Empresas
+CREATE TABLE IF NOT EXISTS Empresas (
+                                        id INT AUTO_INCREMENT PRIMARY KEY,
+                                        nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
+    descricao TEXT,
+    cidade VARCHAR(100)
+    );
 
+-- Criação da tabela Usuario
+CREATE TABLE IF NOT EXISTS Usuario (
+                                       id INT AUTO_INCREMENT PRIMARY KEY,
+                                       email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    tipo ENUM('profissional', 'empresa', 'admin') NOT NULL,
+    id_profissional INT,
+    id_empresa INT,
+    FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE SET NULL,
+    FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE SET NULL
+    );
 
-
--- Tabela para armazenar informações de login dos usuários
-CREATE TABLE Usuario (
-                         id INT AUTO_INCREMENT PRIMARY KEY,
-                         email VARCHAR(255) NOT NULL UNIQUE,
-                         senha VARCHAR(255) NOT NULL,
-                         tipo ENUM('profissional', 'empresa', 'admin') NOT NULL,
-                         id_profissional INT,
-                         id_empresa INT,
-                         FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE SET NULL,
-                         FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE SET NULL
-);
 
 
 

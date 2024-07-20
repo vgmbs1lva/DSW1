@@ -31,8 +31,8 @@ abstract public class GenericDAO {
         /* Conexão banco de dados MySQL */
 
         String host     = System.getenv().getOrDefault("MYSQL_HOST", "localhost");
-        String user     = System.getenv().getOrDefault("MYSQL_USER", "spinelli");
-        String password = System.getenv().getOrDefault("MYSQL_ROOT_PASSWORD", "pass");
+        String user     = System.getenv().getOrDefault("MYSQL_USER", "root");
+        String password = System.getenv().getOrDefault("MYSQL_ROOT_PASSWORD", "18637859");
 
         return DriverManager.getConnection("jdbc:mysql://" + host + ":3306/SistemaEstagioEmprego", user, password);
     }
