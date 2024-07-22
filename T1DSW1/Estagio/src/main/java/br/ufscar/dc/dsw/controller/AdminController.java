@@ -36,15 +36,15 @@ public class AdminController extends HttpServlet {
         String action = request.getPathInfo();
         try {
             switch (action) {
-                // case "/empresas":
-                //     listEmpresas(request, response);
-                //     break;
-                // case "/profissionais":
-                //     listProfissionais(request, response);
-                //     break;
-                // case "/vagas":
-                //     listVagas(request, response);
-                //     break;
+                case "/empresas":
+                    listEmpresas(request, response);
+                    break;
+                case "/profissionais":
+                    listProfissionais(request, response);
+                    break;
+                case "/vagas":
+                    listVagas(request, response);
+                    break;
                 default:
                     showAdminPage(request, response);
                     break;
@@ -60,27 +60,27 @@ public class AdminController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    // private void listEmpresas(HttpServletRequest request, HttpServletResponse response)
-    //         throws ServletException, IOException {
-    //     List<Empresa> listEmpresas = empresaDAO.getAll();
-    //     request.setAttribute("listaEmpresas", listEmpresas);
-    //     RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaEmpresas.jsp");
-    //     dispatcher.forward(request, response);
-    // }
+    private void listEmpresas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Empresa> listEmpresas = empresaDAO.getAll();
+        request.setAttribute("listaEmpresas", listEmpresas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaEmpresas.jsp");
+        dispatcher.forward(request, response);
+    }
 
-    // private void listProfissionais(HttpServletRequest request, HttpServletResponse response)
-    //         throws ServletException, IOException {
-    //     List<Profissional> listProfissionais = profissionalDAO.getAll();
-    //     request.setAttribute("listaProfissionais", listProfissionais);
-    //     RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaProfissionais.jsp");
-    //     dispatcher.forward(request, response);
-    // }
+    private void listProfissionais(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Profissional> listProfissionais = profissionalDAO.getAll();
+        request.setAttribute("listaProfissionais", listProfissionais);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaProfissionais.jsp");
+        dispatcher.forward(request, response);
+    }
 
-    // private void listVagas(HttpServletRequest request, HttpServletResponse response)
-    //         throws ServletException, IOException {
-    //     List<Vaga> listVagas = vagaDAO.getAll();
-    //     request.setAttribute("listaVagas", listVagas);
-    //     RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaVagas.jsp");
-    //     dispatcher.forward(request, response);
-    // }
+    private void listVagas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Vaga> listVagas = vagaDAO.getAll();
+        request.setAttribute("listaVagas", listVagas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/listaVagas.jsp");
+        dispatcher.forward(request, response);
+    }
 }

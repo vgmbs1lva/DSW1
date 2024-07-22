@@ -25,8 +25,8 @@
             <td>${vaga.remuneracao}</td>
             <td>${vaga.dataLimiteInscricao}</td>
             <td>
-                <a href="edit?id=${vaga.id}">Editar</a>
-                <a href="delete?id=${vaga.id}" onclick="return confirm('Tem certeza?')">Deletar</a>
+                <a href="${pageContext.request.contextPath}/admin/empresas/edit?id=${empresa.id}">Editar</a>
+                <a href="${pageContext.request.contextPath}/admin/empresas/delete?id=${empresa.id}" onclick="return confirm('Tem certeza?')">Deletar</a>
             </td>
         </tr>
     </c:forEach>

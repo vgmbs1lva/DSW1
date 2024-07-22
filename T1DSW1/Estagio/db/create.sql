@@ -47,7 +47,7 @@ CREATE TABLE Vaga (
     descricao TEXT NOT NULL,
     remuneracao DECIMAL(10, 2),
     data_limite_inscricao DATE,
-    cidade VARCHAR(100) NOT NULL, -- Adicionada a cidade
+    cidade VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE CASCADE
 );
 
@@ -58,21 +58,21 @@ CREATE TABLE StatusCandidatura (
 );
 
 -- Inserindo status padrão na tabela StatusCandidatura
-INSERT INTO StatusCandidatura (descricao) VALUES ('ABERTO'), ('NÃO SELECIONADO');
+INSERT INTO StatusCandidatura (descricao) VALUES ('ABERTO'), ('NÃO SELECIONADO'), ('ENTREVISTA');
 
 CREATE TABLE Candidatura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_profissional INT NOT NULL,
     id_vaga INT NOT NULL,
     curriculo VARCHAR(255) NOT NULL,
-    id_status INT NOT NULL DEFAULT 1, -- Status padrão: ABERTO
+    id_status INT NOT NULL DEFAULT 1,
     data_candidatura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    entrevistaLink VARCHAR(255),
+    entrevistaDataHora DATETIME,
     FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES Vaga(id) ON DELETE CASCADE,
     FOREIGN KEY (id_status) REFERENCES StatusCandidatura(id)
 );
-
-
 
 -- Inserir usuário administrador
 INSERT INTO Usuario (email, senha, tipo) VALUES ('admin@example.com', 'admin123', 'admin');
@@ -108,4 +108,3 @@ VALUES
 
 INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_candidatura)
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
-

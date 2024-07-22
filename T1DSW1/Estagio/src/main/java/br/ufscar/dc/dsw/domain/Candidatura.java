@@ -7,8 +7,8 @@ public class Candidatura {
     private Profissional profissional;
     private Vaga vaga;
     private StatusCandidatura status;
+    private String curriculo;
     private LocalDate dataCandidatura;
-    private String curriculo; // Para armazenar o currículo em PDF
 
     public Candidatura() {
     }
@@ -79,4 +79,6 @@ public class Candidatura {
     public void setCurriculo(String curriculo) {
         this.curriculo = curriculo;
     }
+
+    
 }

@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.CandidaturaDAO;
-import br.ufscar.dc.dsw.dao.ProfissionalDAO;
 import br.ufscar.dc.dsw.dao.StatusCandidaturaDAO;
 import br.ufscar.dc.dsw.dao.VagaDAO;
 import br.ufscar.dc.dsw.domain.Candidatura;
@@ -21,14 +20,12 @@ import java.io.IOException;
 public class CandidaturaController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CandidaturaDAO candidaturaDAO;
-    private ProfissionalDAO profissionalDAO;
     private VagaDAO vagaDAO;
     private StatusCandidaturaDAO statusCandidaturaDAO;
 
     @Override
     public void init() {
         candidaturaDAO = new CandidaturaDAO();
-        profissionalDAO = new ProfissionalDAO();
         vagaDAO = new VagaDAO();
         statusCandidaturaDAO = new StatusCandidaturaDAO();
     }
@@ -39,6 +36,7 @@ public class CandidaturaController extends HttpServlet {
         HttpSession sessao = request.getSession();
         Profissional profissionalLogado = (Profissional) sessao.getAttribute("profissionalLogado");
         if (profissionalLogado == null) {
+            sessao.setAttribute("mensagemErro", "Você precisa estar logado para se candidatar a uma vaga.");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
@@ -59,6 +57,7 @@ public class CandidaturaController extends HttpServlet {
         HttpSession sessao = request.getSession();
         Profissional profissionalLogado = (Profissional) sessao.getAttribute("profissionalLogado");
         if (profissionalLogado == null) {
+            sessao.setAttribute("mensagemErro", "Você precisa estar logado para se candidatar a uma vaga.");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }

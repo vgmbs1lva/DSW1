@@ -56,6 +56,6 @@
             </tr>
         </c:forEach>
     </table>
-    <a href="${pageContext.request.contextPath}/empresas/">Voltar</a>
+    <a href="${pageContext.request.contextPath}/Logado/Empresas/index.jsp">Voltar</a>
 </body>
 </html>

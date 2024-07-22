@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/vagas/*")
@@ -67,6 +68,9 @@ public class VagasController extends HttpServlet {
                 case "/candidatos":
                     listCandidatos(request, response);
                     break;
+                case "/updateStatus":
+                    updateStatusCandidatura(request, response);
+                    break;    
                 default:
                     if ("admin".equals(usuarioLogado.getTipo())) {
                         response.sendRedirect(request.getContextPath() + "/Logado/Admin/index.jsp");
@@ -184,13 +188,58 @@ public class VagasController extends HttpServlet {
 
     private void listCandidatos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idVaga = Integer.parseInt(request.getParameter("idVaga"));
+        String idVagaStr = request.getParameter("idVaga");
+        
+        if (idVagaStr == null || idVagaStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID da vaga não fornecido.");
+            return;
+        }
+
+        int idVaga = 0;
+        try {
+            idVaga = Integer.parseInt(idVagaStr);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID da vaga inválido.");
+            return;
+        }
+
         List<Candidatura> listaCandidaturas = candidaturaDAO.getCandidatosByVaga(idVaga);
-                //preciso que adicione o nome dos profissionais e o email aqui nessa listaCandidaturas
-        request.setAttribute("idVaga", idVaga);
-        request.setAttribute("listaCandidaturas", listaCandidaturas);
-        request.getRequestDispatcher("/Logado/Empresas/listaCandidatos.jsp").forward(request, response);
         request.setAttribute("listaCandidaturas", listaCandidaturas);
         request.getRequestDispatcher("/Logado/Empresas/listaCandidatos.jsp").forward(request, response);
     }
+
+    private void updateStatusCandidatura(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        String idCandidaturaStr = request.getParameter("idCandidatura");
+        String idStatusStr = request.getParameter("status");
+        String entrevistaLink = request.getParameter("entrevistaLink");
+        String entrevistaDataHoraStr = request.getParameter("entrevistaDataHora");
+
+        if (idCandidaturaStr == null || idCandidaturaStr.isEmpty() || idStatusStr == null || idStatusStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parâmetros inválidos.");
+            return;
+        }
+
+        int idCandidatura = 0;
+        int idStatus = 0;
+        try {
+            idCandidatura = Integer.parseInt(idCandidaturaStr);
+            idStatus = Integer.parseInt(idStatusStr);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido.");
+            return;
+        }
+
+        LocalDateTime entrevistaDataHora = null;
+        if (entrevistaDataHoraStr != null && !entrevistaDataHoraStr.isEmpty()) {
+            entrevistaDataHora = LocalDateTime.parse(entrevistaDataHoraStr);
+        }
+
+        candidaturaDAO.updateStatus(idCandidatura, idStatus, entrevistaLink, entrevistaDataHora);
+
+        response.sendRedirect(request.getContextPath() + "/vagas/candidatos?idVaga=" + request.getParameter("idVaga"));
+    }
+
+
+
 }

@@ -73,5 +73,13 @@
             </tr>
         </c:forEach>
     </table>
+    <c:choose>
+        <c:when test="${not empty sessionScope.profissionalLogado}">
+            <a href="${pageContext.request.contextPath}/Logado/Profissionais/index.jsp">Voltar</a>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.request.contextPath}/login.jsp">Voltar</a>
+        </c:otherwise>
+    </c:choose>
 </body>
 </html>

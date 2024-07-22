@@ -1,7 +1,9 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.ProfissionalDAO;
+import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Profissional;
+import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,10 +20,12 @@ import java.util.List;
 public class ProfissionaisController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProfissionalDAO profissionalDAO;
+    private CandidaturaDAO candidaturaDAO;
 
     @Override
     public void init() {
         profissionalDAO = new ProfissionalDAO();
+        candidaturaDAO = new CandidaturaDAO();
     }
 
     @Override
@@ -39,6 +45,9 @@ public class ProfissionaisController extends HttpServlet {
                     break;
                 case "/list":
                     listProfissionais(request, response);
+                    break;
+                case "/minhasCandidaturas":
+                    listCandidaturas(request, response);
                     break;
                 default:
                     response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
@@ -130,6 +139,19 @@ public class ProfissionaisController extends HttpServlet {
         profissionalDAO.delete(id);
         response.sendRedirect("list");
     }
+
+    private void listCandidaturas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession sessao = request.getSession();
+        Profissional profissionalLogado = (Profissional) sessao.getAttribute("profissionalLogado");
+        if (profissionalLogado == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        List<Candidatura> listaCandidaturas = candidaturaDAO.getCandidaturasByProfissional(profissionalLogado.getId());
+        request.setAttribute("listaCandidaturas", listaCandidaturas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Profissionais/listaCandidaturas.jsp");
+        dispatcher.forward(request, response);
+    }
 }
-
-

@@ -2,12 +2,13 @@ package br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Profissional;
+import br.ufscar.dc.dsw.domain.StatusCandidatura;
 import br.ufscar.dc.dsw.domain.Vaga;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,26 +126,26 @@ public class CandidaturaDAO extends GenericDAO {
 
     public List<Candidatura> getCandidatosByVaga(int idVaga) {
         List<Candidatura> listaCandidaturas = new ArrayList<>();
-        String sql = "SELECT p.nome, p.email, c.data_candidatura, c.curriculo "
-                   + "FROM Candidatura c "
-                   + "JOIN Profissional p ON c.id_profissional = p.id "
-                   + "WHERE c.id_vaga = ?";
-    
-        try (Connection conn = this.getConnection();
+        String sql = "SELECT c.id, p.nome, p.email, c.curriculo, c.data_candidatura " +
+                     "FROM Candidatura c " +
+                     "JOIN Profissionais p ON c.id_profissional = p.id " +
+                     "WHERE c.id_vaga = ?";
+        try (Connection conn = this.getConnection(); 
              PreparedStatement pst = conn.prepareStatement(sql)) {
-    
             pst.setInt(1, idVaga);
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     Candidatura candidatura = new Candidatura();
+                    candidatura.setId(rs.getInt("id"));
+    
                     Profissional profissional = new Profissional();
-                    
                     profissional.setNome(rs.getString("nome"));
                     profissional.setEmail(rs.getString("email"));
                     candidatura.setProfissional(profissional);
-                    
-                    candidatura.setDataCandidatura(rs.getDate("data_candidatura").toLocalDate());
+    
                     candidatura.setCurriculo(rs.getString("curriculo"));
+                    candidatura.setDataCandidatura(rs.getTimestamp("data_candidatura").toLocalDateTime().toLocalDate());
+    
                     listaCandidaturas.add(candidatura);
                 }
             }
@@ -154,23 +155,23 @@ public class CandidaturaDAO extends GenericDAO {
         return listaCandidaturas;
     }
     
-    
 
     public List<Candidatura> getAllByVaga(int idVaga) {
         List<Candidatura> lista = new ArrayList<>();
-        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email "
+        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, c.data_candidatura "
                    + "FROM Candidatura c "
                    + "JOIN Profissional p ON c.id_profissional = p.id "
                    + "WHERE c.id_vaga = ?";
     
         try (Connection conn = this.getConnection(); 
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-            statement.setInt(1, idVaga);
-            try (ResultSet rs = statement.executeQuery()) {
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, idVaga);
+            try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     Candidatura candidatura = new Candidatura();
                     candidatura.setId(rs.getInt("id"));
                     candidatura.setCurriculo(rs.getString("curriculo"));
+                    candidatura.setDataCandidatura(rs.getDate("data_candidatura").toLocalDate());
                     
                     Profissional profissional = new Profissional();
                     profissional.setId(rs.getInt("prof_id"));
@@ -187,5 +188,68 @@ public class CandidaturaDAO extends GenericDAO {
         }
         return lista;
     }
+
+    public List<Candidatura> getCandidaturasByProfissional(int idProfissional) {
+        List<Candidatura> lista = new ArrayList<>();
+        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, s.id as status_id, s.descricao as status_desc, v.id as vaga_id, v.descricao as vaga_desc "
+                   + "FROM Candidatura c "
+                   + "JOIN Profissionais p ON c.id_profissional = p.id "
+                   + "JOIN StatusCandidatura s ON c.id_status = s.id "
+                   + "JOIN Vaga v ON c.id_vaga = v.id "
+                   + "WHERE c.id_profissional = ?";
+
+        try (Connection conn = this.getConnection(); 
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, idProfissional);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Candidatura candidatura = new Candidatura();
+                    candidatura.setId(rs.getInt("id"));
+                    candidatura.setCurriculo(rs.getString("curriculo"));
+
+                    Profissional profissional = new Profissional();
+                    profissional.setId(rs.getInt("prof_id"));
+                    profissional.setNome(rs.getString("nome"));
+                    profissional.setEmail(rs.getString("email"));
+
+                    StatusCandidatura status = new StatusCandidatura();
+                    status.setId(rs.getInt("status_id"));
+                    status.setDescricao(rs.getString("status_desc"));
+
+                    Vaga vaga = new Vaga();
+                    vaga.setId(rs.getInt("vaga_id"));
+                    vaga.setDescricao(rs.getString("vaga_desc"));
+
+                    candidatura.setProfissional(profissional);
+                    candidatura.setStatus(status);
+                    candidatura.setVaga(vaga);
+
+                    lista.add(candidatura);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    public void updateStatus(int idCandidatura, int idStatus, String entrevistaLink, LocalDateTime entrevistaDataHora) {
+        String sql = "UPDATE Candidatura SET id_status = ?, entrevista_link = ?, entrevista_data_hora = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
     
+            pst.setInt(1, idStatus);
+            pst.setString(2, entrevistaLink);
+            if (entrevistaDataHora != null) {
+                pst.setTimestamp(3, Timestamp.valueOf(entrevistaDataHora));
+            } else {
+                pst.setNull(3, Types.TIMESTAMP);
+            }
+            pst.setInt(4, idCandidatura);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

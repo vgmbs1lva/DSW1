@@ -22,4 +22,13 @@ public class Erro {
     public List<String> getErros() {
         return erros;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (String erro : erros) {
+            sb.append(erro).append("<br>");
+        }
+        return sb.toString();
+    }
 }

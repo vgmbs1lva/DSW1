@@ -16,5 +16,8 @@
         <p>Aqui você pode gerenciar suas informações e vagas.</p>
         <a href="../Vagas/formulario.jsp">Criar Nova Vaga</a>
         <a href="${pageContext.request.contextPath}/vagas/listByEmpresa">Minhas Vagas</a>
+        <a href="${pageContext.request.contextPath}/login.jsp">
+            <button type="button">Voltar para Login</button>
+        </a>
     </body>
 </html>

@@ -1,12 +1,11 @@
 package br.ufscar.dc.dsw.controller;
 
-import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 import br.ufscar.dc.dsw.dao.EmpresaDAO;
-import br.ufscar.dc.dsw.dao.VagaDAO;
-import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Empresa;
-import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.dao.CandidaturaDAO;
+import br.ufscar.dc.dsw.dao.VagaDAO;
 import br.ufscar.dc.dsw.domain.Vaga;
+import br.ufscar.dc.dsw.domain.Candidatura;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,8 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @WebServlet("/empresas/*")
@@ -28,38 +27,22 @@ public class EmpresasController extends HttpServlet {
     @Override
     public void init() {
         empresaDAO = new EmpresaDAO();
-        vagaDAO = new VagaDAO();
-        candidaturaDAO = new CandidaturaDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession sessao = request.getSession();
-        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-
-        if (usuarioLogado == null || !usuarioLogado.getTipo().equals("empresa")) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
-        }
-
         String action = request.getPathInfo();
         try {
             switch (action) {
                 case "/new":
                     showNewForm(request, response);
                     break;
-                case "/insert":
-                    insertEmpresa(request, response);
-                    break;
-                case "/delete":
-                    deleteEmpresa(request, response);
-                    break;
                 case "/edit":
                     showEditForm(request, response);
                     break;
-                case "/update":
-                    updateEmpresa(request, response);
+                case "/delete":
+                    deleteEmpresa(request, response);
                     break;
                 case "/list":
                     listEmpresas(request, response);
@@ -71,7 +54,7 @@ public class EmpresasController extends HttpServlet {
                     listCandidatos(request, response);
                     break;
                 default:
-                    response.sendRedirect(request.getContextPath() + "/Logado/Empresas/index.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Logado/Empresa/index.jsp");
                     break;
             }
         } catch (Exception e) {
@@ -82,7 +65,30 @@ public class EmpresasController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        String action = request.getPathInfo();
+        try {
+            switch (action) {
+                case "/insert":
+                    insertEmpresa(request, response);
+                    break;
+                case "/update":
+                    updateEmpresa(request, response);
+                    break;
+                default:
+                    response.sendRedirect(request.getContextPath() + "/Logado/Empresa/index.jsp");
+                    break;
+            }
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+    }
+
+    private void listEmpresas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Empresa> listEmpresas = empresaDAO.getAll();
+        request.setAttribute("listaEmpresas", listEmpresas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/lista.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
@@ -91,8 +97,17 @@ public class EmpresasController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void insertEmpresa(HttpServletRequest request, HttpServletResponse response)
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Empresa existingEmpresa = empresaDAO.get(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/formulario.jsp");
+        request.setAttribute("empresa", existingEmpresa);
+        dispatcher.forward(request, response);
+    }
+
+    private void insertEmpresa(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         String nome = request.getParameter("nome");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
@@ -100,29 +115,13 @@ public class EmpresasController extends HttpServlet {
         String descricao = request.getParameter("descricao");
         String cidade = request.getParameter("cidade");
 
-        Empresa empresa = new Empresa(nome, email, senha, cnpj, descricao, cidade);
-        empresaDAO.insert(empresa);
-        response.sendRedirect(request.getContextPath() + "/empresas/list");
-    }
-
-    private void deleteEmpresa(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        empresaDAO.delete(id);
-        response.sendRedirect(request.getContextPath() + "/empresas/list");
-    }
-
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Empresa empresa = empresaDAO.get(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/formulario.jsp");
-        request.setAttribute("empresa", empresa);
-        dispatcher.forward(request, response);
+        Empresa novaEmpresa = new Empresa(nome, email, senha, cnpj, descricao, cidade);
+        empresaDAO.insert(novaEmpresa);
+        response.sendRedirect("list");
     }
 
     private void updateEmpresa(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String nome = request.getParameter("nome");
         String email = request.getParameter("email");
@@ -133,16 +132,16 @@ public class EmpresasController extends HttpServlet {
 
         Empresa empresa = new Empresa(id, nome, email, senha, cnpj, descricao, cidade);
         empresaDAO.update(empresa);
-        response.sendRedirect(request.getContextPath() + "/empresas/list");
+        response.sendRedirect("list");
     }
 
-    private void listEmpresas(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        List<Empresa> listaEmpresas = empresaDAO.getAll();
-        request.setAttribute("listaEmpresas", listaEmpresas);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/ListaEmpresas.jsp");
-        dispatcher.forward(request, response);
+    private void deleteEmpresa(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        empresaDAO.delete(id);
+        response.sendRedirect("list");
     }
+
 
     private void listVagas(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -156,7 +155,7 @@ public class EmpresasController extends HttpServlet {
 
     private void listCandidatos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idVagaStr = request.getParameter("idVaga");
+        String idVagaStr = request.getParameter("id");
         if (idVagaStr != null) {
             try {
                 int idVaga = Integer.parseInt(idVagaStr);

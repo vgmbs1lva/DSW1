@@ -55,23 +55,22 @@ public class LoginController extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
                     sessao.setAttribute("profissionalLogado", profissional);
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/home.jsp"); // Caso tipo não seja reconhecido
+                    response.sendRedirect(request.getContextPath() + "/login.jsp"); // Caso tipo não seja reconhecido
                 }
             } else {
                 if (usuario != null) {
-                    erros.add("Login ou senha inválidos. Você está tentando entrar como " + usuario.getTipo() + ".");
+                    erros.add("Senha invalida. Você está tentando entrar como " + usuario.getTipo() + ".");
                 } else {
                     erros.add("Login ou senha inválidos.");
                 }
-                request.setAttribute("mensagens", erros);
-                request.setAttribute("usuarioTipo", usuario != null ? usuario.getTipo() : "desconhecido");
-                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-                rd.forward(request, response);
+                HttpSession sessao = request.getSession();
+                sessao.setAttribute("mensagemErro", erros.toString());
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
         } else {
-            request.setAttribute("mensagens", erros);
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            HttpSession sessao = request.getSession();
+            sessao.setAttribute("mensagemErro", erros.toString());
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }
 }
