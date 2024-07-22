@@ -23,17 +23,19 @@
         <th>Descrição</th>
         <th>Remuneração</th>
         <th>Data Limite</th>
+        <th>Cidade</th>
         <th>Ações</th>
     </tr>
-    <c:forEach var="Vaga" items="${vagas}">
+    <c:forEach var="vaga" items="${vagas}">
         <tr>
-            <td>${Vaga.id}</td>
-            <td>${Vaga.descricao}</td>
-            <td>${Vaga.remuneracao}</td>
-            <td>${Vaga.dataLimiteInscricao}</td>
+            <td>${vaga.id}</td>
+            <td>${vaga.descricao}</td>
+            <td>${vaga.remuneracao}</td>
+            <td>${vaga.dataLimiteInscricao}</td>
+            <td>${vaga.cidade}</td>
             <td>
-                <a href="edit?id=${Vaga.id}">Editar</a>
-                <a href="delete?id=${Vaga.id}" onclick="return confirm('Tem certeza?')">Deletar</a>
+                <a href="edit?id=${vaga.id}">Editar</a>
+                <a href="delete?id=${vaga.id}" onclick="return confirm('Tem certeza?')">Deletar</a>
             </td>
         </tr>
     </c:forEach>

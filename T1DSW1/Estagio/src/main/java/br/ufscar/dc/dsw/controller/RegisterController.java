@@ -58,10 +58,10 @@ public class RegisterController extends HttpServlet {
             usuario.setIdProfissional(idProfissional);
 
             usuarioDAO.insert(usuario);
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } else {
             // Tratar erro de inserção
-            response.sendRedirect("register.jsp?error=1");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=1");
         }
     }
 
@@ -93,10 +93,10 @@ public class RegisterController extends HttpServlet {
             usuario.setIdEmpresa(idEmpresa);
 
             usuarioDAO.insert(usuario);
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } else {
             // Tratar erro de inserção
-            response.sendRedirect("register.jsp?error=1");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=1");
         }
     }
 }

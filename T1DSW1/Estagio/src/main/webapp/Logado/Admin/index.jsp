@@ -1,11 +1,23 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    HttpSession sessao = request.getSession();
+    if (sessao.getAttribute("usuarioLogado") == null) {
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+    }
+%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Admin</title>
+    <title>Página de Administração</title>
 </head>
 <body>
-<h1>Você fez login como admin</h1>
+<h1>Bem-vindo, Administrador</h1>
+<ul>
+    <li><a href="${pageContext.request.contextPath}/empresas/list">Gerenciar Empresas</a></li>
+    <li><a href="${pageContext.request.contextPath}/profissionais/list">Gerenciar Profissionais</a></li>
+    <li><a href="${pageContext.request.contextPath}/vagas/list">Gerenciar Vagas</a></li>
+</ul>
+
 </body>
 </html>

@@ -65,6 +65,15 @@
             color: red;
             margin-bottom: 10px;
         }
+        .list-jobs-button {
+            color: #fda085; /* Change color to match other links */
+            text-decoration: none;
+            display: block;
+            margin-top: 30;
+        }
+        .list-jobs-button:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -78,14 +87,14 @@
     <a href="register.jsp">Não possui conta? Registre-se</a>
     <div class="error-messages">
         <%
-            Erro erros = (Erro) request.getAttribute("mensagens");
-            if (erros != null) {
-                for (String mensagem : erros.getErros()) {
-                    out.println("<p>" + mensagem + "</p>");
-                }
+            String mensagemErro = (String) session.getAttribute("mensagemErro");
+            if (mensagemErro != null) {
+                out.println("<p>" + mensagemErro + "</p>");
+                session.removeAttribute("mensagemErro");
             }
         %>
     </div>
+    <a href="listarVagas" class="list-jobs-button">Ver Todas as Vagas</a> <!-- Moved down here and styled similarly -->
 </div>
 </body>
 </html>

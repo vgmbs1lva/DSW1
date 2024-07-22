@@ -1,6 +1,13 @@
 package br.ufscar.dc.dsw.controller;
 
-import java.io.IOException;
+import br.ufscar.dc.dsw.dao.UsuarioDAO;
+import br.ufscar.dc.dsw.dao.EmpresaDAO;
+import br.ufscar.dc.dsw.dao.ProfissionalDAO;
+import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.domain.Empresa;
+import br.ufscar.dc.dsw.domain.Profissional;
+import br.ufscar.dc.dsw.util.Erro;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,11 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import br.ufscar.dc.dsw.dao.UsuarioDAO;
-import br.ufscar.dc.dsw.dao.EmpresaDAO;
-import br.ufscar.dc.dsw.domain.Usuario;
-import br.ufscar.dc.dsw.domain.Empresa;
-import br.ufscar.dc.dsw.util.Erro;
+import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
@@ -47,7 +50,10 @@ public class LoginController extends HttpServlet {
                     sessao.setAttribute("empresaLogada", empresa);
                     response.sendRedirect(request.getContextPath() + "/Logado/Empresas/index.jsp");
                 } else if ("profissional".equals(usuario.getTipo())) {
+                    ProfissionalDAO profissionalDAO = new ProfissionalDAO();
+                    Profissional profissional = profissionalDAO.findByEmail(usuario.getEmail());
                     response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
+                    sessao.setAttribute("profissionalLogado", profissional);
                 } else {
                     response.sendRedirect(request.getContextPath() + "/home.jsp"); // Caso tipo não seja reconhecido
                 }

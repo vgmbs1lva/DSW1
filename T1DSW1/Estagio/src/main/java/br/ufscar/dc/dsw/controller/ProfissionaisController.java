@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,30 +25,44 @@ public class ProfissionaisController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession sessao = request.getSession();
         String action = request.getPathInfo();
         try {
             switch (action) {
                 case "/new":
                     showNewForm(request, response);
                     break;
-                case "/insert":
-                    insertProfissional(request, response);
-                    break;
-                case "/delete":
-                    deleteProfissional(request, response);
-                    break;
                 case "/edit":
                     showEditForm(request, response);
                     break;
-                case "/update":
-                    updateProfissional(request, response);
+                case "/delete":
+                    deleteProfissional(request, response);
                     break;
                 case "/list":
                     listProfissionais(request, response);
                     break;
                 default:
-                    response.sendRedirect(request.getContextPath() + "/logado/Profissionais/lista.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
+                    break;
+            }
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getPathInfo();
+        try {
+            switch (action) {
+                case "/insert":
+                    insertProfissional(request, response);
+                    break;
+                case "/update":
+                    updateProfissional(request, response);
+                    break;
+                default:
+                    response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
                     break;
             }
         } catch (Exception e) {
@@ -61,48 +74,52 @@ public class ProfissionaisController extends HttpServlet {
             throws ServletException, IOException {
         List<Profissional> listProfissionais = profissionalDAO.getAll();
         request.setAttribute("listaProfissionais", listProfissionais);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Profissionais/lista.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Profissionais/lista.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Profissionais/formularios.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Profissionais/formulario.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Profissional existingProfissional = profissionalDAO.getById(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Profissionais/formularios.jsp");
+        Profissional existingProfissional = profissionalDAO.get(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Profissionais/formulario.jsp");
         request.setAttribute("profissional", existingProfissional);
         dispatcher.forward(request, response);
     }
 
     private void insertProfissional(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException {
         String nome = request.getParameter("nome");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
         String telefone = request.getParameter("telefone");
         String sexo = request.getParameter("sexo");
-        String dataNascimento = request.getParameter("dataNascimento");
+        String dataNascimento = request.getParameter("data_nascimento");
 
-        Profissional profissional = new Profissional(nome, cpf, telefone, sexo, dataNascimento);
-        profissionalDAO.insert(profissional);
+        Profissional novoProfissional = new Profissional(nome, email, senha, cpf, telefone, sexo, dataNascimento);
+        profissionalDAO.insert(novoProfissional);
         response.sendRedirect("list");
     }
 
     private void updateProfissional(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String nome = request.getParameter("nome");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
         String telefone = request.getParameter("telefone");
         String sexo = request.getParameter("sexo");
-        String dataNascimento = request.getParameter("dataNascimento");
+        String dataNascimento = request.getParameter("data_nascimento");
 
-        Profissional profissional = new Profissional(id, nome, cpf, telefone, sexo, dataNascimento);
+        Profissional profissional = new Profissional(id, nome, email, senha, cpf, telefone, sexo, dataNascimento);
         profissionalDAO.update(profissional);
         response.sendRedirect("list");
     }
@@ -114,3 +131,5 @@ public class ProfissionaisController extends HttpServlet {
         response.sendRedirect("list");
     }
 }
+
+

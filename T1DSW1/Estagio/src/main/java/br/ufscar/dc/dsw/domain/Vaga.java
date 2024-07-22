@@ -6,35 +6,40 @@ public class Vaga {
     private String descricao;
     private double remuneracao;
     private String dataLimiteInscricao;
+    private String cidade;
+    private Empresa empresa;
 
-    // Construtor padrão
     public Vaga() {
     }
 
-    // Construtor com todos os campos exceto o id
-    public Vaga(int idEmpresa, String descricao, double remuneracao, String dataLimiteInscricao) {
-        this.idEmpresa = idEmpresa;
-        this.descricao = descricao;
-        this.remuneracao = remuneracao;
-        this.dataLimiteInscricao = dataLimiteInscricao;
-    }
-
-    // Construtor com todos os campos
-    public Vaga(int id, int idEmpresa, String descricao, double remuneracao, String dataLimiteInscricao) {
+    public Vaga(int id, int idEmpresa, String descricao, double remuneracao, String dataLimiteInscricao, String cidade) {
         this.id = id;
         this.idEmpresa = idEmpresa;
         this.descricao = descricao;
         this.remuneracao = remuneracao;
         this.dataLimiteInscricao = dataLimiteInscricao;
+        this.cidade = cidade;
     }
 
-    public Vaga(String descricao, double v, String dataLimiteInscricao) {
+    public Vaga(Empresa empresa, String descricao, double remuneracao, String dataLimiteInscricao, String cidade) {
+        this.empresa = empresa;
         this.descricao = descricao;
-        this.remuneracao = v;
+        this.remuneracao = remuneracao;
         this.dataLimiteInscricao = dataLimiteInscricao;
+        this.cidade = cidade;
     }
 
-    // Getters and Setters
+    public Vaga(int id, Empresa empresa, String descricao, double remuneracao, String dataLimiteInscricao, String cidade) {
+        this.id = id;
+        this.empresa = empresa;
+        this.descricao = descricao;
+        this.remuneracao = remuneracao;
+        this.dataLimiteInscricao = dataLimiteInscricao;
+        this.cidade = cidade;
+    }
+
+    // Getters e Setters
+
     public int getId() {
         return id;
     }
@@ -73,5 +78,21 @@ public class Vaga {
 
     public void setDataLimiteInscricao(String dataLimiteInscricao) {
         this.dataLimiteInscricao = dataLimiteInscricao;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

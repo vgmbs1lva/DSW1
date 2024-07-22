@@ -34,6 +34,13 @@ public class Empresa {
         this.cidade = cidade;
     }
 
+    // Construtor para filtrar vagas
+    public Empresa(int id, String nome, String cidade) {
+        this.id = id;
+        this.nome = nome;
+        this.cidade = cidade;
+    }
+
     // Getters e Setters
     public int getId() {
         return id;

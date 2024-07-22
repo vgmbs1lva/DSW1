@@ -1,8 +1,11 @@
 package br.ufscar.dc.dsw.controller;
 
+import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 import br.ufscar.dc.dsw.dao.EmpresaDAO;
 import br.ufscar.dc.dsw.dao.VagaDAO;
+import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Empresa;
+import br.ufscar.dc.dsw.domain.Usuario;
 import br.ufscar.dc.dsw.domain.Vaga;
 
 import javax.servlet.RequestDispatcher;
@@ -20,20 +23,22 @@ public class EmpresasController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private EmpresaDAO empresaDAO;
     private VagaDAO vagaDAO;
+    private CandidaturaDAO candidaturaDAO;
 
     @Override
     public void init() {
         empresaDAO = new EmpresaDAO();
         vagaDAO = new VagaDAO();
+        candidaturaDAO = new CandidaturaDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sessao = request.getSession();
-        Empresa empresaLogada = (Empresa) sessao.getAttribute("empresaLogada");
+        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 
-        if (empresaLogada == null) {
+        if (usuarioLogado == null || !usuarioLogado.getTipo().equals("empresa")) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
@@ -45,22 +50,28 @@ public class EmpresasController extends HttpServlet {
                     showNewForm(request, response);
                     break;
                 case "/insert":
-                    insertVaga(request, response);
+                    insertEmpresa(request, response);
                     break;
                 case "/delete":
-                    deleteVaga(request, response);
+                    deleteEmpresa(request, response);
                     break;
                 case "/edit":
                     showEditForm(request, response);
                     break;
                 case "/update":
-                    updateVaga(request, response);
+                    updateEmpresa(request, response);
                     break;
                 case "/list":
-                    listVagas(request, response, empresaLogada);
+                    listEmpresas(request, response);
+                    break;
+                case "/minhasVagas":
+                    listVagas(request, response);
+                    break;
+                case "/candidatos":
+                    listCandidatos(request, response);
                     break;
                 default:
-                    response.sendRedirect(request.getContextPath() + "/logado/Empresas/index.jsp");
+                    response.sendRedirect(request.getContextPath() + "/Logado/Empresas/index.jsp");
                     break;
             }
         } catch (Exception e) {
@@ -68,59 +79,96 @@ public class EmpresasController extends HttpServlet {
         }
     }
 
-    private void listVagas(HttpServletRequest request, HttpServletResponse response, Empresa empresa)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Vaga> listVagas = vagaDAO.getAllByEmpresa(empresa.getId());
-        request.setAttribute("listaVagas", listVagas);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Empresas/lista.jsp");
-        dispatcher.forward(request, response);
+        doGet(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Empresas/formularios.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/formulario.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void insertEmpresa(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nome = request.getParameter("nome");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String cnpj = request.getParameter("cnpj");
+        String descricao = request.getParameter("descricao");
+        String cidade = request.getParameter("cidade");
+
+        Empresa empresa = new Empresa(nome, email, senha, cnpj, descricao, cidade);
+        empresaDAO.insert(empresa);
+        response.sendRedirect(request.getContextPath() + "/empresas/list");
+    }
+
+    private void deleteEmpresa(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        empresaDAO.delete(id);
+        response.sendRedirect(request.getContextPath() + "/empresas/list");
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Vaga existingVaga = vagaDAO.getById(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/Empresas/formularios.jsp");
-        request.setAttribute("vaga", existingVaga);
+        Empresa empresa = empresaDAO.get(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/formulario.jsp");
+        request.setAttribute("empresa", empresa);
         dispatcher.forward(request, response);
     }
 
-    private void insertVaga(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+    private void updateEmpresa(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String nome = request.getParameter("nome");
+        String email = request.getParameter("email");
+        String senha = request.getParameter("senha");
+        String cnpj = request.getParameter("cnpj");
+        String descricao = request.getParameter("descricao");
+        String cidade = request.getParameter("cidade");
+
+        Empresa empresa = new Empresa(id, nome, email, senha, cnpj, descricao, cidade);
+        empresaDAO.update(empresa);
+        response.sendRedirect(request.getContextPath() + "/empresas/list");
+    }
+
+    private void listEmpresas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Empresa> listaEmpresas = empresaDAO.getAll();
+        request.setAttribute("listaEmpresas", listaEmpresas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Admin/ListaEmpresas.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void listVagas(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession sessao = request.getSession();
         Empresa empresaLogada = (Empresa) sessao.getAttribute("empresaLogada");
-
-        String descricao = request.getParameter("descricao");
-        String remuneracao = request.getParameter("remuneracao");
-        String dataLimiteInscricao = request.getParameter("dataLimiteInscricao");
-
-        Vaga vaga = new Vaga(empresaLogada.getId(), descricao, Double.parseDouble(remuneracao), dataLimiteInscricao);
-        vagaDAO.insert(vaga);
-        response.sendRedirect("list");
+        List<Vaga> listaVagas = vagaDAO.getAllByEmpresa(empresaLogada.getId());
+        request.setAttribute("listaVagas", listaVagas);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/listaVagas.jsp");
+        dispatcher.forward(request, response);
     }
 
-    private void updateVaga(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String descricao = request.getParameter("descricao");
-        String remuneracao = request.getParameter("remuneracao");
-        String dataLimiteInscricao = request.getParameter("dataLimiteInscricao");
-
-        Vaga vaga = new Vaga(id, Integer.parseInt(request.getParameter("idEmpresa")), descricao, Double.parseDouble(remuneracao), dataLimiteInscricao);
-        vagaDAO.update(vaga);
-        response.sendRedirect("list");
-    }
-
-    private void deleteVaga(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        vagaDAO.delete(id);
-        response.sendRedirect("list");
+    private void listCandidatos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idVagaStr = request.getParameter("idVaga");
+        if (idVagaStr != null) {
+            try {
+                int idVaga = Integer.parseInt(idVagaStr);
+                List<Candidatura> listaCandidaturas = candidaturaDAO.getCandidatosByVaga(idVaga);
+                request.setAttribute("listaCandidaturas", listaCandidaturas);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/Logado/Empresas/listaCandidatos.jsp");
+                dispatcher.forward(request, response);
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/empresas/minhasVagas?error=invalidId");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/empresas/minhasVagas?error=missingId");
+        }
     }
 }
