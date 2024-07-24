@@ -2,8 +2,10 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.EmpresaDAO;
 import br.ufscar.dc.dsw.domain.Empresa;
+import br.ufscar.dc.dsw.domain.Usuario;
 import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 import br.ufscar.dc.dsw.dao.VagaDAO;
+import br.ufscar.dc.dsw.dao.UsuarioDAO;
 import br.ufscar.dc.dsw.domain.Vaga;
 import br.ufscar.dc.dsw.domain.Candidatura;
 
@@ -23,10 +25,12 @@ public class EmpresasController extends HttpServlet {
     private EmpresaDAO empresaDAO;
     private VagaDAO vagaDAO;
     private CandidaturaDAO candidaturaDAO;
+    private UsuarioDAO usuarioDAO;
 
     @Override
     public void init() {
         empresaDAO = new EmpresaDAO();
+        usuarioDAO = new UsuarioDAO();
     }
 
     @Override
@@ -119,9 +123,18 @@ public class EmpresasController extends HttpServlet {
         String cidade = request.getParameter("cidade");
 
         Empresa novaEmpresa = new Empresa(nome, email, senha, cnpj, descricao, cidade);
-        empresaDAO.insert(novaEmpresa);
-        response.sendRedirect("list");
+        int idEmpresa = empresaDAO.insert(novaEmpresa);
+
+        if (idEmpresa > 0) {
+            // Inserir na tabela Usuario
+            Usuario novoUsuario = new Usuario(email, senha, "empresa", null, idEmpresa);
+            usuarioDAO.insert(novoUsuario);
+            response.sendRedirect("list");
+        } else {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro ao criar empresa.");
+        }
     }
+
 
     private void updateEmpresa(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -134,13 +147,32 @@ public class EmpresasController extends HttpServlet {
         String cidade = request.getParameter("cidade");
 
         Empresa empresa = new Empresa(id, nome, email, senha, cnpj, descricao, cidade);
-        empresaDAO.update(empresa);
-        response.sendRedirect("list");
+        boolean sucessoEmpresa = empresaDAO.update(empresa);
+
+        if (sucessoEmpresa) {
+            // Atualizar na tabela Usuario
+            Usuario usuario = usuarioDAO.findByEmpresaId(id);
+            if (usuario != null) {
+                usuario.setEmail(email);
+                usuario.setSenha(senha);
+                usuarioDAO.update(usuario);
+            }
+            response.sendRedirect("list");
+        } else {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro ao atualizar empresa.");
+        }
     }
+
 
     private void deleteEmpresa(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+
+        Usuario usuario = usuarioDAO.findByEmpresaId(id);
+        if (usuario != null) {
+            usuarioDAO.delete(usuario.getId());
+        }
+
         empresaDAO.delete(id);
         response.sendRedirect("list");
     }
