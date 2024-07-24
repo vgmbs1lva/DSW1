@@ -3,6 +3,9 @@ package br.ufscar.dc.dsw.controller;
 import br.ufscar.dc.dsw.dao.ProfissionalDAO;
 import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Profissional;
+import br.ufscar.dc.dsw.domain.Usuario;
+import br.ufscar.dc.dsw.dao.UsuarioDAO;
+
 import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -21,11 +24,13 @@ public class ProfissionaisController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProfissionalDAO profissionalDAO;
     private CandidaturaDAO candidaturaDAO;
+    private UsuarioDAO usuarioDAO;
 
     @Override
     public void init() {
         profissionalDAO = new ProfissionalDAO();
         candidaturaDAO = new CandidaturaDAO();
+        usuarioDAO = new UsuarioDAO();
     }
 
     @Override
@@ -116,29 +121,57 @@ public class ProfissionaisController extends HttpServlet {
         String dataNascimento = request.getParameter("data_nascimento");
 
         Profissional novoProfissional = new Profissional(nome, email, senha, cpf, telefone, sexo, dataNascimento);
-        profissionalDAO.insert(novoProfissional);
-        response.sendRedirect("list");
+        int idProfissional = profissionalDAO.insert(novoProfissional);
+
+        if (idProfissional > 0) {
+            // Inserir na tabela Usuario
+            Usuario novoUsuario = new Usuario(email, senha, "profissional", idProfissional, null);
+            usuarioDAO.insert(novoUsuario);
+            response.sendRedirect("list");
+        } else {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro ao criar profissional.");
+        }
     }
+
 
     private void updateProfissional(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String nome = request.getParameter("nome");
-        String email = request.getParameter("email");
-        String senha = request.getParameter("senha");
-        String cpf = request.getParameter("cpf");
-        String telefone = request.getParameter("telefone");
-        String sexo = request.getParameter("sexo");
-        String dataNascimento = request.getParameter("data_nascimento");
+        throws IOException {
+    int id = Integer.parseInt(request.getParameter("id"));
+    String nome = request.getParameter("nome");
+    String email = request.getParameter("email");
+    String senha = request.getParameter("senha");
+    String cpf = request.getParameter("cpf");
+    String telefone = request.getParameter("telefone");
+    String sexo = request.getParameter("sexo");
+    String dataNascimento = request.getParameter("data_nascimento");
 
-        Profissional profissional = new Profissional(id, nome, email, senha, cpf, telefone, sexo, dataNascimento);
-        profissionalDAO.update(profissional);
+    Profissional profissional = new Profissional(id, nome, email, senha, cpf, telefone, sexo, dataNascimento);
+    boolean sucessoProfissional = profissionalDAO.update(profissional);
+
+    if (sucessoProfissional) {
+        // Atualizar na tabela Usuario
+        Usuario usuario = usuarioDAO.findByProfissionalId(id);
+        if (usuario != null) {
+            usuario.setEmail(email);
+            usuario.setSenha(senha);
+            usuarioDAO.update(usuario);
+        }
         response.sendRedirect("list");
+    } else {
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erro ao atualizar profissional.");
     }
+}
+
 
     private void deleteProfissional(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+
+        Usuario usuario = usuarioDAO.findByProfissionalId(id);
+        if (usuario != null) {
+        usuarioDAO.delete(usuario.getId());
+    }
+
         profissionalDAO.delete(id);
         response.sendRedirect("list");
     }
