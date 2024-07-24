@@ -8,25 +8,41 @@ import java.util.List;
 public class EmpresaDAO extends GenericDAO {
 
     public int insert(Empresa empresa) {
-        String sql = "INSERT INTO Empresas (nome, email, senha, cnpj, descricao, cidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlEmpresa = "INSERT INTO Empresas (nome, email, senha, cnpj, descricao, cidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO Usuario (email, senha, tipo, id_empresa) VALUES (?, ?, 'empresa', ?)";
+    
         try (Connection conn = getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pst.setString(1, empresa.getNome());
-            pst.setString(2, empresa.getEmail());
-            pst.setString(3, empresa.getSenha());
-            pst.setString(4, empresa.getCnpj());
-            pst.setString(5, empresa.getDescricao());
-            pst.setString(6, empresa.getCidade());
-            int affectedRows = pst.executeUpdate();
-
-            if (affectedRows == 0) {
+             PreparedStatement pstEmpresa = conn.prepareStatement(sqlEmpresa, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstUsuario = conn.prepareStatement(sqlUsuario)) {
+    
+            // Inserir empresa
+            pstEmpresa.setString(1, empresa.getNome());
+            pstEmpresa.setString(2, empresa.getEmail());
+            pstEmpresa.setString(3, empresa.getSenha());
+            pstEmpresa.setString(4, empresa.getCnpj());
+            pstEmpresa.setString(5, empresa.getDescricao());
+            pstEmpresa.setString(6, empresa.getCidade());
+            int affectedRowsEmpresa = pstEmpresa.executeUpdate();
+    
+            if (affectedRowsEmpresa == 0) {
                 throw new SQLException("Creating company failed, no rows affected.");
             }
-
-            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+    
+            try (ResultSet generatedKeys = pstEmpresa.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
+                    int idEmpresa = generatedKeys.getInt(1);
+    
+                    // Inserir usuário
+                    pstUsuario.setString(1, empresa.getEmail());
+                    pstUsuario.setString(2, empresa.getSenha());
+                    pstUsuario.setInt(3, idEmpresa);
+                    int affectedRowsUsuario = pstUsuario.executeUpdate();
+    
+                    if (affectedRowsUsuario == 0) {
+                        throw new SQLException("Creating user failed, no rows affected.");
+                    }
+    
+                    return idEmpresa;
                 } else {
                     throw new SQLException("Creating company failed, no ID obtained.");
                 }
@@ -36,6 +52,7 @@ public class EmpresaDAO extends GenericDAO {
         }
         return -1; // Retorna -1 se a inserção falhar
     }
+    
 
     public Empresa findByEmail(String email) {
         String sql = "SELECT * FROM Empresas WHERE email = ?";
@@ -111,7 +128,7 @@ public class EmpresaDAO extends GenericDAO {
         return listEmpresa;
     }
 
-    public void update(Empresa empresa) {
+    public boolean update(Empresa empresa) {
         String sql = "UPDATE Empresas SET nome = ?, email = ?, senha = ?, cnpj = ?, descricao = ?, cidade = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -123,10 +140,12 @@ public class EmpresaDAO extends GenericDAO {
             pst.setString(5, empresa.getDescricao());
             pst.setString(6, empresa.getCidade());
             pst.setInt(7, empresa.getId());
-            pst.executeUpdate();
+            int affectedRows = pst.executeUpdate();
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void delete(int id) {
