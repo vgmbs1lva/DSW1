@@ -10,28 +10,44 @@ import java.util.List;
 public class ProfissionalDAO extends GenericDAO {
 
     public int insert(Profissional profissional) {
-        String sql = "INSERT INTO Profissionais (nome, email, senha, cpf, telefone, sexo, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sqlProfissional = "INSERT INTO Profissionais (nome, email, senha, cpf, telefone, sexo, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO Usuario (email, senha, tipo, id_profissional) VALUES (?, ?, 'profissional', ?)";
+    
         try (Connection conn = getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pst.setString(1, profissional.getNome());
-            pst.setString(2, profissional.getEmail());
-            pst.setString(3, profissional.getSenha());
-            pst.setString(4, profissional.getCpf());
-            pst.setString(5, profissional.getTelefone());
-            pst.setString(6, profissional.getSexo());
-            pst.setDate(7, Date.valueOf(profissional.getDataNascimento()));
-            int affectedRows = pst.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
+             PreparedStatement pstProfissional = conn.prepareStatement(sqlProfissional, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstUsuario = conn.prepareStatement(sqlUsuario)) {
+    
+            // Inserir profissional
+            pstProfissional.setString(1, profissional.getNome());
+            pstProfissional.setString(2, profissional.getEmail());
+            pstProfissional.setString(3, profissional.getSenha());
+            pstProfissional.setString(4, profissional.getCpf());
+            pstProfissional.setString(5, profissional.getTelefone());
+            pstProfissional.setString(6, profissional.getSexo());
+            pstProfissional.setDate(7, Date.valueOf(profissional.getDataNascimento()));
+            int affectedRowsProfissional = pstProfissional.executeUpdate();
+    
+            if (affectedRowsProfissional == 0) {
+                throw new SQLException("Creating professional failed, no rows affected.");
             }
-
-            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+    
+            try (ResultSet generatedKeys = pstProfissional.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
+                    int idProfissional = generatedKeys.getInt(1);
+    
+                    // Inserir usuário
+                    pstUsuario.setString(1, profissional.getEmail());
+                    pstUsuario.setString(2, profissional.getSenha());
+                    pstUsuario.setInt(3, idProfissional);
+                    int affectedRowsUsuario = pstUsuario.executeUpdate();
+    
+                    if (affectedRowsUsuario == 0) {
+                        throw new SQLException("Creating user failed, no rows affected.");
+                    }
+    
+                    return idProfissional;
                 } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
+                    throw new SQLException("Creating professional failed, no ID obtained.");
                 }
             }
         } catch (SQLException e) {
@@ -39,6 +55,7 @@ public class ProfissionalDAO extends GenericDAO {
         }
         return -1; // Retorna -1 se a inserção falhar
     }
+    
 
     public Profissional get(int id) {
         String sql = "SELECT * FROM Profissionais WHERE id = ?";
@@ -91,7 +108,7 @@ public class ProfissionalDAO extends GenericDAO {
         return listProfissionais;
     }
 
-    public void update(Profissional profissional) {
+    public boolean update(Profissional profissional) {
         String sql = "UPDATE Profissionais SET nome = ?, email = ?, senha = ?, cpf = ?, telefone = ?, sexo = ?, data_nascimento = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -104,10 +121,12 @@ public class ProfissionalDAO extends GenericDAO {
             pst.setString(6, profissional.getSexo());
             pst.setDate(7, Date.valueOf(profissional.getDataNascimento()));
             pst.setInt(8, profissional.getId());
-            pst.executeUpdate();
+            int affectedRows = pst.executeUpdate();
+            return affectedRows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void delete(int id) {
