@@ -8,6 +8,28 @@ public class Usuario {
     private Integer idProfissional;
     private Integer idEmpresa;
 
+    public Usuario() {
+    }
+    
+    // Construtor com todos os parâmetros
+    public Usuario(int id, String email, String senha, String tipo, Integer idProfissional, Integer idEmpresa) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.tipo = tipo;
+        this.idProfissional = idProfissional;
+        this.idEmpresa = idEmpresa;
+    }
+
+    // Construtor sem ID (para inserção)
+    public Usuario(String email, String senha, String tipo, Integer idProfissional, Integer idEmpresa) {
+        this.email = email;
+        this.senha = senha;
+        this.tipo = tipo;
+        this.idProfissional = idProfissional;
+        this.idEmpresa = idEmpresa;
+    }
+
     // Getters and Setters
     public int getId() {
         return id;
