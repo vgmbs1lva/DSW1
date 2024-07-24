@@ -13,11 +13,11 @@ Repositório para a disciplina de **Desenvolvimento de Softwares para Web 1**.
 ## Código de Criação do Banco de Dados
 
 ```sql
--- Dropar o banco de dados se já existir
+ Dropar o banco de dados se já existir
 DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 
 -- Criação do banco de dados
-CREATE DATABASE SistemaEstagioEmprego;
+CREATE DATABASE SistemaEstagioEmprego CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE SistemaEstagioEmprego;
 
 -- Criação da tabela Profissionais
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Profissionais (
     telefone VARCHAR(20),
     sexo ENUM('M', 'F', 'Outro'),
     data_nascimento DATE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Criação da tabela Empresas
 CREATE TABLE IF NOT EXISTS Empresas (
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Empresas (
     cnpj VARCHAR(18) NOT NULL UNIQUE,
     descricao VARCHAR(255),
     cidade VARCHAR(100)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Criação da tabela Usuario
 CREATE TABLE IF NOT EXISTS Usuario (
@@ -53,10 +53,10 @@ CREATE TABLE IF NOT EXISTS Usuario (
     id_empresa INT,
     FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE SET NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE SET NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Tabela para armazenar informações das vagas
-CREATE TABLE Vaga (
+CREATE TABLE IF NOT EXISTS Vaga (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_empresa INT NOT NULL,
     descricao TEXT NOT NULL,
@@ -64,18 +64,18 @@ CREATE TABLE Vaga (
     data_limite_inscricao DATE,
     cidade VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE CASCADE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Tabela para armazenar os diferentes status de candidatura
-CREATE TABLE StatusCandidatura (
+CREATE TABLE IF NOT EXISTS StatusCandidatura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(50) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Inserindo status padrão na tabela StatusCandidatura
 INSERT INTO StatusCandidatura (descricao) VALUES ('ABERTO'), ('NÃO SELECIONADO'), ('ENTREVISTA');
 
-CREATE TABLE Candidatura (
+CREATE TABLE IF NOT EXISTS Candidatura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_profissional INT NOT NULL,
     id_vaga INT NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE Candidatura (
     FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES Vaga(id) ON DELETE CASCADE,
     FOREIGN KEY (id_status) REFERENCES StatusCandidatura(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Inserir usuário administrador
 INSERT INTO Usuario (email, senha, tipo) VALUES ('admin@example.com', 'admin123', 'admin');
@@ -123,7 +123,7 @@ VALUES
 
 INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_candidatura)
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
-```
+
 
 ---
 
@@ -131,15 +131,15 @@ VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
 
 | Requisito | Status | Eduardo Spinelli | Victor Germano |
 |-----------|--------|------------------|----------------|
-| **R1**    | ☑️ Implementado | 50% | 50% |
-| **R2**    | ☑️ Implementado | 50% | 50% |
-| **R3**    | ☑️ Implementado | 50% | 50% |
-| **R4**    | ☑️ Implementado | 50% | 50% |
-| **R5**    | ☑️ Implementado | 50% | 50% |
-| **R6**    | ☑️ Implementado | 50% | 50% |
-| **R7**    | ☑️ Implementado | 50% | 50% |
-| **R8**    | ☑️ Implementado | 50% | 50% |
-| **R9**    | ☑️ Implementado (80%) | 50% | 50% |
+| **R1**    | ☑️ Implementado | 33% | 67% |
+| **R2**    | ☑️ Implementado | 33% | 67% |
+| **R3**    | ☑️ Implementado | 33% | 67% |
+| **R4**    | ☑️ Implementado | 33% | 67% |
+| **R5**    | ☑️ Implementado (sem pdf) | 33% | 67% |
+| **R6**    | ☑️ Implementado | 33% | 67% |
+| **R7**    | ☑️ Implementado | 33% | 67% |
+| **R8**    | ☑️ Implementado (sem email) | 33% | 67% |
+| **R9**    | ☑️ Implementado (80%) | 100% | 0% |
 
 
 ---
