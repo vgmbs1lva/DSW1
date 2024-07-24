@@ -13,7 +13,7 @@ Repositório para a disciplina de **Desenvolvimento de Softwares para Web 1**.
 ## Código de Criação do Banco de Dados
 
 ```sql
- Dropar o banco de dados se já existir
+-- Dropar o banco de dados se já existir
 DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 
 -- Criação do banco de dados
@@ -101,7 +101,7 @@ VALUES
 -- Inserir exemplos na tabela Empresas
 INSERT INTO Empresas (nome, email, senha, cnpj, descricao, cidade)
 VALUES 
-('Empresa X', 'empresax@example.com', 'senha123', '12.345.678/0001-00', 'Empresa de tecnologia', 'São Paulo'),
+('Empresa X', 'empresax@example.com', 'senha123', '12.345.678/0001-00', 'Empresa de tecnologia', 'Recife'),
 ('Empresa Y', 'empresay@example.com', 'senha123', '98.765.432/0001-00', 'Empresa de marketing', 'Rio de Janeiro');
 
 -- Inserir exemplos na tabela Usuario para profissionais e empresas
@@ -118,11 +118,31 @@ VALUES
 -- Inserir exemplos na tabela Vaga
 INSERT INTO Vaga (id_empresa, descricao, remuneracao, data_limite_inscricao, cidade)
 VALUES 
-(1, 'Desenvolvedor Java', 3000.00, '2024-08-01', 'São Paulo'),
+(1, 'Desenvolvedor Java', 3000.00, '2024-08-01', 'Recife'),
 (2, 'Analista de Marketing', 2500.00, '2024-08-15', 'Rio de Janeiro');
 
 INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_candidatura)
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
+
+
+### Usuarios do site
+ADMIN:
+Login - admin@example.com
+Senha - admin123
+
+EMPRESAS:
+Login - empresax@example.com
+Senha - senha123
+
+Login - empresay@example.com
+Senha - senha123
+
+PROFISSIONAIS:
+Login - joao@example.com
+Senha - senha123
+
+Login - maria@example.com
+Senha - senha123
 
 
 ---
