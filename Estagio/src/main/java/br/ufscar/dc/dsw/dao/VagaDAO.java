@@ -95,7 +95,7 @@ public class VagaDAO extends GenericDAO {
 
     public List<Vaga> getAllByCidade(String cidade) {
         List<Vaga> listaVagas = new ArrayList<>();
-        String sql = "SELECT v.*, e.nome AS empresa_nome, e.cidade AS empresa_cidade FROM Vaga v LEFT JOIN Empresas e ON v.id_empresa = e.id WHERE v.cidade = ?";
+        String sql = "SELECT v.*, e.nome AS empresa_nome, e.cidade AS empresa_cidade FROM Vaga v LEFT JOIN Empresas e ON v.id_empresa = e.id WHERE v.cidade = ? AND v.data_limite_inscricao >= CURDATE()";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
 
