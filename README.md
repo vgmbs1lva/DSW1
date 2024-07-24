@@ -1,12 +1,19 @@
-# DSW1
-Repositório para a disciplina de Desenvolvimento de Softwares para Web 1
+```markdown
+# DSW1 - Desenvolvimento de Softwares para Web 1
 
-SGBD utilizado -> MySQL
-Script de Criação -> db/create.sql
+Repositório para a disciplina de **Desenvolvimento de Softwares para Web 1**.
 
-Código de criação
+### SGBD Utilizado
+- **MySQL**
 
-```SQL
+### Script de Criação
+- Localização: `db/create.sql`
+
+---
+
+## Código de Criação do Banco de Dados
+
+```sql
 -- Dropar o banco de dados se já existir
 DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 
@@ -119,36 +126,28 @@ INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_ca
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
 ```
 
+---
 
- R1:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R2:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R3:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R4:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R5:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R6:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R7:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
-    
- R8:
-    (X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-    Divisão na implementação da funcionalidade: Eduardo Spinelli (50%), Victor Germano (50%) 
+## Responsabilidades de Implementação
 
+| Requisito | Status | Eduardo Spinelli | Victor Germano |
+|-----------|--------|------------------|----------------|
+| **R1**    | ☑️ Implementado | 50% | 50% |
+| **R2**    | ☑️ Implementado | 50% | 50% |
+| **R3**    | ☑️ Implementado | 50% | 50% |
+| **R4**    | ☑️ Implementado | 50% | 50% |
+| **R5**    | ☑️ Implementado | 50% | 50% |
+| **R6**    | ☑️ Implementado | 50% | 50% |
+| **R7**    | ☑️ Implementado | 50% | 50% |
+| **R8**    | ☑️ Implementado | 50% | 50% |
+
+---
+
+### Contribuidores
+- **Eduardo Spinelli**
+- **Victor Germano**
+
+---
+
+> Projeto desenvolvido como parte da disciplina de **Desenvolvimento de Softwares para Web 1**.
+```
