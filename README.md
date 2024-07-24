@@ -125,26 +125,6 @@ INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_ca
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
 
 
-### Usuarios do site
-ADMIN:
-Login - admin@example.com
-Senha - admin123
-
-EMPRESAS:
-Login - empresax@example.com
-Senha - senha123
-
-Login - empresay@example.com
-Senha - senha123
-
-PROFISSIONAIS:
-Login - joao@example.com
-Senha - senha123
-
-Login - maria@example.com
-Senha - senha123
-
-
 ---
 
 ## Responsabilidades de Implementação
