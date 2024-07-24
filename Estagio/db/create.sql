@@ -1,8 +1,8 @@
--- Dropar o banco de dados se já existir
+ Dropar o banco de dados se já existir
 DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 
 -- Criação do banco de dados
-CREATE DATABASE SistemaEstagioEmprego;
+CREATE DATABASE SistemaEstagioEmprego CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE SistemaEstagioEmprego;
 
 -- Criação da tabela Profissionais
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Profissionais (
     telefone VARCHAR(20),
     sexo ENUM('M', 'F', 'Outro'),
     data_nascimento DATE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Criação da tabela Empresas
 CREATE TABLE IF NOT EXISTS Empresas (
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Empresas (
     cnpj VARCHAR(18) NOT NULL UNIQUE,
     descricao VARCHAR(255),
     cidade VARCHAR(100)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Criação da tabela Usuario
 CREATE TABLE IF NOT EXISTS Usuario (
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS Usuario (
     id_empresa INT,
     FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE SET NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE SET NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Tabela para armazenar informações das vagas
-CREATE TABLE Vaga (
+CREATE TABLE IF NOT EXISTS Vaga (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_empresa INT NOT NULL,
     descricao TEXT NOT NULL,
@@ -49,18 +49,18 @@ CREATE TABLE Vaga (
     data_limite_inscricao DATE,
     cidade VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_empresa) REFERENCES Empresas(id) ON DELETE CASCADE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Tabela para armazenar os diferentes status de candidatura
-CREATE TABLE StatusCandidatura (
+CREATE TABLE IF NOT EXISTS StatusCandidatura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(50) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Inserindo status padrão na tabela StatusCandidatura
 INSERT INTO StatusCandidatura (descricao) VALUES ('ABERTO'), ('NÃO SELECIONADO'), ('ENTREVISTA');
 
-CREATE TABLE Candidatura (
+CREATE TABLE IF NOT EXISTS Candidatura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_profissional INT NOT NULL,
     id_vaga INT NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE Candidatura (
     FOREIGN KEY (id_profissional) REFERENCES Profissionais(id) ON DELETE CASCADE,
     FOREIGN KEY (id_vaga) REFERENCES Vaga(id) ON DELETE CASCADE,
     FOREIGN KEY (id_status) REFERENCES StatusCandidatura(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Inserir usuário administrador
 INSERT INTO Usuario (email, senha, tipo) VALUES ('admin@example.com', 'admin123', 'admin');
