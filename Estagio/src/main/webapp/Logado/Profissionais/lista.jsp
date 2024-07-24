@@ -88,6 +88,7 @@
         <tr>
             <th><fmt:message key="label.id" /></th>
             <th><fmt:message key="label.name" /></th>
+            <th><fmt:message key="label.email" /></th>
             <th><fmt:message key="label.cpf" /></th>
             <th><fmt:message key="label.phone" /></th>
             <th><fmt:message key="label.gender" /></th>
@@ -98,6 +99,7 @@
             <tr>
                 <td>${profissional.id}</td>
                 <td>${profissional.nome}</td>
+                <td>${profissional.email}</td>
                 <td>${profissional.cpf}</td>
                 <td>${profissional.telefone}</td>
                 <td>${profissional.sexo}</td>
