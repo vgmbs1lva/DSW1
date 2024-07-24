@@ -1,4 +1,3 @@
-```markdown
 # DSW1 - Desenvolvimento de Softwares para Web 1
 
 Repositório para a disciplina de **Desenvolvimento de Softwares para Web 1**.
@@ -150,4 +149,3 @@ VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
 ---
 
 > Projeto desenvolvido como parte da disciplina de **Desenvolvimento de Softwares para Web 1**.
-```
