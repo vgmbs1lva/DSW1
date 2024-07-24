@@ -7,46 +7,72 @@
 <fmt:setBundle basename="message" />
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><fmt:message key="page.title.myJobs" /></title>
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             font-family: 'Arial', sans-serif;
-            margin: 20px;
+            margin: 0;
         }
-        table {
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .container h1 {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .container table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        table, th, td {
+        .container table, th, td {
             border: 1px solid #ddd;
         }
-        th, td {
+        .container th, td {
             padding: 8px;
             text-align: left;
         }
-        th {
+        .container th {
             background-color: #f2f2f2;
         }
-        .filter-container {
-            margin-bottom: 20px;
+        .container a {
+            color: #fda085;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
         }
-        .language-switcher {
+        .container a:hover {
+            text-decoration: underline;
+        }
+        .container .language-switcher {
             margin-top: 20px;
         }
-        .language-switcher a {
+        .container .language-switcher a {
             margin: 0 5px;
             text-decoration: none;
             color: #333;
         }
-        .language-switcher a:hover {
+        .container .language-switcher a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
+<div class="container">
     <h1><fmt:message key="label.myJobs" /></h1>
-    <table border="1">
+    <table>
         <tr>
             <th>ID</th>
             <th><fmt:message key="label.description" /></th>
@@ -75,5 +101,6 @@
         <a href="?lang=pt_BR"><fmt:message key="label.portuguese" /></a>
         <a href="?lang=en"><fmt:message key="label.english" /></a>
     </div>
+</div>
 </body>
 </html>

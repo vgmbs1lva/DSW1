@@ -11,8 +11,58 @@
     <title><fmt:message key="page.title.jobListing" /></title>
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             font-family: 'Arial', sans-serif;
-            margin: 20px;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .container h1 {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .filter-container label {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .filter-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .filter-container button {
+            background: #fda085;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .filter-container button:hover {
+            background: #f6d365;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -29,11 +79,12 @@
         th {
             background-color: #f2f2f2;
         }
-        .filter-container {
-            margin-bottom: 20px;
+        a {
+            color: #fda085;
+            text-decoration: none;
         }
-        .error-message {
-            color: red;
+        a:hover {
+            text-decoration: underline;
         }
         .language-switcher {
             margin-top: 20px;
@@ -49,6 +100,7 @@
     </style>
 </head>
 <body>
+<div class="container">
     <h1><fmt:message key="page.title.jobListing" /></h1>
     <div class="filter-container">
         <form action="listarVagas" method="get">
@@ -99,5 +151,6 @@
         <a href="?lang=pt_BR"><fmt:message key="label.portuguese" /></a>
         <a href="?lang=en"><fmt:message key="label.english" /></a>
     </div>
+</div>
 </body>
 </html>
