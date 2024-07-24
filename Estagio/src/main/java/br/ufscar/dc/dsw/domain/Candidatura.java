@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Candidatura {
     private int id;
@@ -9,6 +10,8 @@ public class Candidatura {
     private StatusCandidatura status;
     private String curriculo;
     private LocalDate dataCandidatura;
+    private String entrevistaLink;
+    private LocalDateTime entrevistaDataHora;
 
     public Candidatura() {
     }
@@ -64,14 +67,6 @@ public class Candidatura {
         this.status = status;
     }
 
-    public LocalDate getDataCandidatura() {
-        return dataCandidatura;
-    }
-
-    public void setDataCandidatura(LocalDate dataCandidatura) {
-        this.dataCandidatura = dataCandidatura;
-    }
-
     public String getCurriculo() {
         return curriculo;
     }
@@ -80,5 +75,28 @@ public class Candidatura {
         this.curriculo = curriculo;
     }
 
+    public LocalDate getDataCandidatura() {
+        return dataCandidatura;
+    }
+
+    public void setDataCandidatura(LocalDate dataCandidatura) {
+        this.dataCandidatura = dataCandidatura;
+    }
+
+    public String getEntrevistaLink() {
+        return entrevistaLink;
+    }
+
+    public void setEntrevistaLink(String entrevistaLink) {
+        this.entrevistaLink = entrevistaLink;
+    }
+
+    public LocalDateTime getEntrevistaDataHora() {
+        return entrevistaDataHora;
+    }
+
+    public void setEntrevistaDataHora(LocalDateTime entrevistaDataHora) {
+        this.entrevistaDataHora = entrevistaDataHora;
+    }
     
 }

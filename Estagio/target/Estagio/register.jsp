@@ -1,10 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="${param.lang != null ? param.lang : 'pt-BR'}">
+<fmt:setLocale value="${param.lang != null ? param.lang : 'pt_BR'}"/>
+<fmt:setBundle basename="message" />
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Registro</title>
+    <title><fmt:message key="page.title.register" /></title>
     <style>
         body {
             display: flex;
@@ -95,6 +99,17 @@
         .radio-container .radio-label {
             margin-right: 15px;
         }
+        .language-switcher {
+            margin-top: 20px;
+        }
+        .language-switcher a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+        }
+        .language-switcher a:hover {
+            text-decoration: underline;
+        }
     </style>
     <script>
         function toggleForm(type) {
@@ -112,11 +127,11 @@
             dateInput.onblur = function() {
                 if (this.value === '') {
                     this.type = 'text';
-                    this.placeholder = 'Data de Nascimento';
+                    this.placeholder = '<fmt:message key="label.dateOfBirth" />';
                 }
             };
             dateInput.type = 'text';
-            dateInput.placeholder = 'Data de Nascimento';
+            dateInput.placeholder = '<fmt:message key="label.dateOfBirth" />';
         }
 
         window.onload = function() {
@@ -126,45 +141,49 @@
 </head>
 <body>
 <div class="register-container">
-    <h1>Registrar</h1>
+    <h1><fmt:message key="label.register" /></h1>
     <div class="toggle-buttons">
-        <button id="btn-professional" class="active" onclick="toggleForm('professional')">Profissional</button>
-        <button id="btn-company" onclick="toggleForm('company')">Empresa</button>
+        <button id="btn-professional" class="active" onclick="toggleForm('professional')"><fmt:message key="label.professional" /></button>
+        <button id="btn-company" onclick="toggleForm('company')"><fmt:message key="label.company" /></button>
     </div>
     <form id="form-professional" action="register" method="post" style="display: block;">
         <input type="hidden" name="tipo" value="profissional">
-        <input type="text" name="nome" placeholder="Nome" required>
-        <input type="email" name="email" placeholder="E-mail" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <input type="text" name="cpf" placeholder="CPF" required>
-        <input type="text" name="telefone" placeholder="Telefone" required>
+        <input type="text" name="nome" placeholder="<fmt:message key='label.name' />" required>
+        <input type="email" name="email" placeholder="<fmt:message key='label.email' />" required>
+        <input type="password" name="senha" placeholder="<fmt:message key='label.password' />" required>
+        <input type="text" name="cpf" placeholder="<fmt:message key='label.cpf' />" required>
+        <input type="text" name="telefone" placeholder="<fmt:message key='label.phone' />" required>
         <div class="radio-container">
-            <label class="radio-label">Sexo:</label>
+            <label class="radio-label"><fmt:message key="label.gender" />:</label>
             <label>
-                <input type="radio" name="sexo" value="M" required> Masculino
+                <input type="radio" name="sexo" value="M" required> <fmt:message key="label.male" />
             </label>
             <label>
-                <input type="radio" name="sexo" value="F" required> Feminino
+                <input type="radio" name="sexo" value="F" required> <fmt:message key="label.female" />
             </label>
             <label>
-                <input type="radio" name="sexo" value="Outro" required> Outro
+                <input type="radio" name="sexo" value="Outro" required> <fmt:message key="label.other" />
             </label>
         </div>
         <input type="date" name="data_nascimento" id="data_nascimento" required>
-        <button type="submit">Registrar Profissional</button>
+        <button type="submit"><fmt:message key="label.register" /></button>
     </form>
 
     <form id="form-company" action="register" method="post" style="display: none;">
         <input type="hidden" name="tipo" value="empresa">
-        <input type="text" name="nome" placeholder="Nome da Empresa" required>
-        <input type="email" name="email" placeholder="E-mail" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <input type="text" name="cnpj" placeholder="CNPJ" required>
-        <input type="text" name="descricao" placeholder="Descrição" required>
-        <input type="text" name="cidade" placeholder="Cidade" required>
-        <button type="submit">Registrar Empresa</button>
+        <input type="text" name="nome" placeholder="<fmt:message key='label.companyName' />" required>
+        <input type="email" name="email" placeholder="<fmt:message key='label.email' />" required>
+        <input type="password" name="senha" placeholder="<fmt:message key='label.password' />" required>
+        <input type="text" name="cnpj" placeholder="<fmt:message key='label.cnpj' />" required>
+        <input type="text" name="descricao" placeholder="<fmt:message key='label.description' />" required>
+        <input type="text" name="cidade" placeholder="<fmt:message key='label.city' />" required>
+        <button type="submit"><fmt:message key="label.register" /></button>
     </form>
-    <a href="login.jsp">Já possui uma conta? Faça o login</a>
+    <a href="login.jsp"><fmt:message key="label.alreadyRegistered" /></a>
+    <div class="language-switcher">
+        <a href="?lang=pt_BR">Português</a>
+        <a href="?lang=en">English</a>
+    </div>
 </div>
 </body>
 </html>

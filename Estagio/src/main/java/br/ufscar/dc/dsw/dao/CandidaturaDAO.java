@@ -5,12 +5,11 @@ import br.ufscar.dc.dsw.domain.Profissional;
 import br.ufscar.dc.dsw.domain.StatusCandidatura;
 import br.ufscar.dc.dsw.domain.Vaga;
 
-import java.io.InputStream;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.InputStream;
 
 public class CandidaturaDAO extends GenericDAO {
 
@@ -30,7 +29,6 @@ public class CandidaturaDAO extends GenericDAO {
         }
     }
 
-
     public List<Candidatura> getAll() {
         List<Candidatura> listaCandidaturas = new ArrayList<>();
         String sql = "SELECT * FROM Candidatura";
@@ -46,6 +44,8 @@ public class CandidaturaDAO extends GenericDAO {
                 candidatura.setStatus(new StatusCandidaturaDAO().getById(rs.getInt("id_status")));
                 candidatura.setDataCandidatura(rs.getDate("data_candidatura").toLocalDate());
                 candidatura.setCurriculo(rs.getString("curriculo"));
+                candidatura.setEntrevistaLink(rs.getString("entrevistaLink"));
+                candidatura.setEntrevistaDataHora(rs.getTimestamp("entrevistaDataHora") != null ? rs.getTimestamp("entrevistaDataHora").toLocalDateTime() : null);
                 listaCandidaturas.add(candidatura);
             }
         } catch (SQLException e) {
@@ -70,6 +70,8 @@ public class CandidaturaDAO extends GenericDAO {
                     candidatura.setStatus(new StatusCandidaturaDAO().getById(rs.getInt("id_status")));
                     candidatura.setDataCandidatura(rs.getDate("data_candidatura").toLocalDate());
                     candidatura.setCurriculo(rs.getString("curriculo"));
+                    candidatura.setEntrevistaLink(rs.getString("entrevistaLink"));
+                    candidatura.setEntrevistaDataHora(rs.getTimestamp("entrevistaDataHora") != null ? rs.getTimestamp("entrevistaDataHora").toLocalDateTime() : null);
                 }
             }
         } catch (SQLException e) {
@@ -126,9 +128,10 @@ public class CandidaturaDAO extends GenericDAO {
 
     public List<Candidatura> getCandidatosByVaga(int idVaga) {
         List<Candidatura> listaCandidaturas = new ArrayList<>();
-        String sql = "SELECT c.id, p.nome, p.email, c.curriculo, c.data_candidatura " +
+        String sql = "SELECT c.id, p.nome, p.email, c.curriculo, c.data_candidatura, s.descricao as status_desc, c.entrevistaLink, c.entrevistaDataHora " +
                      "FROM Candidatura c " +
                      "JOIN Profissionais p ON c.id_profissional = p.id " +
+                     "JOIN StatusCandidatura s ON c.id_status = s.id " +
                      "WHERE c.id_vaga = ?";
         try (Connection conn = this.getConnection(); 
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -145,6 +148,10 @@ public class CandidaturaDAO extends GenericDAO {
     
                     candidatura.setCurriculo(rs.getString("curriculo"));
                     candidatura.setDataCandidatura(rs.getTimestamp("data_candidatura").toLocalDateTime().toLocalDate());
+                    candidatura.setStatus(new StatusCandidatura());
+                    candidatura.getStatus().setDescricao(rs.getString("status_desc"));
+                    candidatura.setEntrevistaLink(rs.getString("entrevistaLink"));
+                    candidatura.setEntrevistaDataHora(rs.getTimestamp("entrevistaDataHora") != null ? rs.getTimestamp("entrevistaDataHora").toLocalDateTime() : null);
     
                     listaCandidaturas.add(candidatura);
                 }
@@ -154,15 +161,14 @@ public class CandidaturaDAO extends GenericDAO {
         }
         return listaCandidaturas;
     }
-    
 
     public List<Candidatura> getAllByVaga(int idVaga) {
         List<Candidatura> lista = new ArrayList<>();
-        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, c.data_candidatura "
-                   + "FROM Candidatura c "
-                   + "JOIN Profissional p ON c.id_profissional = p.id "
-                   + "WHERE c.id_vaga = ?";
-    
+        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, c.data_candidatura " +
+                     "FROM Candidatura c " +
+                     "JOIN Profissionais p ON c.id_profissional = p.id " +
+                     "WHERE c.id_vaga = ?";
+
         try (Connection conn = this.getConnection(); 
              PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, idVaga);
@@ -172,14 +178,14 @@ public class CandidaturaDAO extends GenericDAO {
                     candidatura.setId(rs.getInt("id"));
                     candidatura.setCurriculo(rs.getString("curriculo"));
                     candidatura.setDataCandidatura(rs.getDate("data_candidatura").toLocalDate());
-                    
+
                     Profissional profissional = new Profissional();
                     profissional.setId(rs.getInt("prof_id"));
                     profissional.setNome(rs.getString("nome"));
                     profissional.setEmail(rs.getString("email"));
-                    
+
                     candidatura.setProfissional(profissional);
-                    
+
                     lista.add(candidatura);
                 }
             }
@@ -191,7 +197,7 @@ public class CandidaturaDAO extends GenericDAO {
 
     public List<Candidatura> getCandidaturasByProfissional(int idProfissional) {
         List<Candidatura> lista = new ArrayList<>();
-        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, s.id as status_id, s.descricao as status_desc, v.id as vaga_id, v.descricao as vaga_desc "
+        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email, s.id as status_id, s.descricao as status_desc, v.id as vaga_id, v.descricao as vaga_desc, c.entrevistaLink, c.entrevistaDataHora "
                    + "FROM Candidatura c "
                    + "JOIN Profissionais p ON c.id_profissional = p.id "
                    + "JOIN StatusCandidatura s ON c.id_status = s.id "
@@ -223,6 +229,8 @@ public class CandidaturaDAO extends GenericDAO {
                     candidatura.setProfissional(profissional);
                     candidatura.setStatus(status);
                     candidatura.setVaga(vaga);
+                    candidatura.setEntrevistaLink(rs.getString("entrevistaLink"));
+                    candidatura.setEntrevistaDataHora(rs.getTimestamp("entrevistaDataHora") != null ? rs.getTimestamp("entrevistaDataHora").toLocalDateTime() : null);
 
                     lista.add(candidatura);
                 }
@@ -234,10 +242,10 @@ public class CandidaturaDAO extends GenericDAO {
     }
 
     public void updateStatus(int idCandidatura, int idStatus, String entrevistaLink, LocalDateTime entrevistaDataHora) {
-        String sql = "UPDATE Candidatura SET id_status = ?, entrevista_link = ?, entrevista_data_hora = ? WHERE id = ?";
+        String sql = "UPDATE Candidatura SET id_status = ?, entrevistaLink = ?, entrevistaDataHora = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
-    
+
             pst.setInt(1, idStatus);
             pst.setString(2, entrevistaLink);
             if (entrevistaDataHora != null) {
@@ -251,5 +259,4 @@ public class CandidaturaDAO extends GenericDAO {
             e.printStackTrace();
         }
     }
-
 }

@@ -20,8 +20,8 @@
     <p>Aqui você pode gerenciar suas informações.</p>
     <a href="<%= request.getContextPath() %>/listarVagas">Ver Vagas Disponíveis</a>
     <a href="<%= request.getContextPath() %>/profissionais/candidaturas">Minhas Candidaturas</a> <!-- Adicionado -->
-    <a href="${pageContext.request.contextPath}/login.jsp">
-        <button type="button">Voltar para Login</button>
+    <a href="${pageContext.request.contextPath}/logout">
+        <button type="button">Sair</button>
     </a>
 </body>
 

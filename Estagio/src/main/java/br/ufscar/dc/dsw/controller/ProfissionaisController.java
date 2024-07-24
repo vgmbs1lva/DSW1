@@ -49,6 +49,9 @@ public class ProfissionaisController extends HttpServlet {
                 case "/minhasCandidaturas":
                     listCandidaturas(request, response);
                     break;
+                case "/logout":
+                    response.sendRedirect(request.getContextPath() + "/logout");
+                    break;   
                 default:
                     response.sendRedirect(request.getContextPath() + "/Logado/Profissionais/index.jsp");
                     break;

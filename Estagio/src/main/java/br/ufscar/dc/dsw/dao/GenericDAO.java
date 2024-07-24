@@ -17,7 +17,7 @@ public class GenericDAO {
         try {
             String url = "jdbc:mysql://localhost:3306/SistemaEstagioEmprego?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "root";
+            String password = "18637859";
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);

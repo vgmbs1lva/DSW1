@@ -53,6 +53,9 @@ public class EmpresasController extends HttpServlet {
                 case "/candidatos":
                     listCandidatos(request, response);
                     break;
+                case "/logout":
+                    response.sendRedirect(request.getContextPath() + "/logout");
+                    break;   
                 default:
                     response.sendRedirect(request.getContextPath() + "/Logado/Empresa/index.jsp");
                     break;

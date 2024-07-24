@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.dao;
 
 import br.ufscar.dc.dsw.domain.Vaga;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import br.ufscar.dc.dsw.domain.Empresa;
 import br.ufscar.dc.dsw.domain.Profissional;
 
 public class VagaDAO extends GenericDAO {
+    
 
     public void insert(Vaga vaga) {
         String sql = "INSERT INTO Vaga (id_empresa, descricao, remuneracao, data_limite_inscricao, cidade) VALUES (?, ?, ?, ?, ?)";
@@ -31,7 +33,7 @@ public class VagaDAO extends GenericDAO {
 
     public List<Vaga> getAll() {
         List<Vaga> listaVagas = new ArrayList<>();
-        String sql = "SELECT v.*, e.nome AS empresa_nome, e.cidade AS empresa_cidade FROM Vaga v LEFT JOIN Empresas e ON v.id_empresa = e.id";
+        String sql = "SELECT v.*, e.nome AS empresa_nome, e.cidade AS empresa_cidade FROM Vaga v LEFT JOIN Empresas e ON v.id_empresa = e.id WHERE v.data_limite_inscricao >= CURDATE()";
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql);
              ResultSet rs = pst.executeQuery()) {
@@ -182,38 +184,53 @@ public class VagaDAO extends GenericDAO {
     }
 
     public List<Candidatura> getAllByVaga(int idVaga) {
-    List<Candidatura> lista = new ArrayList<>();
-    String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email "
-               + "FROM Candidatura c "
-               + "JOIN Profissional p ON c.id_profissional = p.id "
-               + "WHERE c.id_vaga = ?";
+        List<Candidatura> lista = new ArrayList<>();
+        String sql = "SELECT c.id, c.curriculo, p.id as prof_id, p.nome, p.email "
+                + "FROM Candidatura c "
+                + "JOIN Profissional p ON c.id_profissional = p.id "
+                + "WHERE c.id_vaga = ?";
 
-    try (Connection conn = this.getConnection(); 
-         PreparedStatement statement = conn.prepareStatement(sql)) {
-        statement.setInt(1, idVaga);
-        try (ResultSet rs = statement.executeQuery()) {
-            while (rs.next()) {
-                Candidatura candidatura = new Candidatura();
-                candidatura.setId(rs.getInt("id"));
-                candidatura.setCurriculo(rs.getString("curriculo"));
-                
-                Profissional profissional = new Profissional();
-                profissional.setId(rs.getInt("prof_id"));
-                profissional.setNome(rs.getString("nome"));
-                profissional.setEmail(rs.getString("email"));
-                
-                candidatura.setProfissional(profissional);
-                
-                lista.add(candidatura);
+        try (Connection conn = this.getConnection(); 
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, idVaga);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Candidatura candidatura = new Candidatura();
+                    candidatura.setId(rs.getInt("id"));
+                    candidatura.setCurriculo(rs.getString("curriculo"));
+                    
+                    Profissional profissional = new Profissional();
+                    profissional.setId(rs.getInt("prof_id"));
+                    profissional.setNome(rs.getString("nome"));
+                    profissional.setEmail(rs.getString("email"));
+                    
+                    candidatura.setProfissional(profissional);
+                    
+                    lista.add(candidatura);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return lista;
     }
-    return lista;
-}
 
-
+    public LocalDate getDataLimiteInscricao(int idVaga) {
+        String sql = "SELECT data_limite_inscricao FROM Vaga WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setInt(1, idVaga);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    Date dataLimite = rs.getDate("data_limite_inscricao");
+                    return dataLimite != null ? dataLimite.toLocalDate() : null;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
    
 
 }

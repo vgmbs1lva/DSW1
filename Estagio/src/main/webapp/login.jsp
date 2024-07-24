@@ -1,11 +1,15 @@
 <%@ page import="br.ufscar.dc.dsw.util.Erro" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="${sessionScope.locale.language}">
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="message" />
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Login</title>
+    <title><fmt:message key="page.title.login" /></title>
     <style>
         body {
             display: flex;
@@ -66,7 +70,7 @@
             margin-bottom: 10px;
         }
         .list-jobs-button {
-            color: #fda085; /* Change color to match other links */
+            color: #fda085;
             text-decoration: none;
             display: block;
             margin-top: 30;
@@ -74,17 +78,33 @@
         .list-jobs-button:hover {
             text-decoration: underline;
         }
+        .language-switcher {
+            margin-top: 20px;
+        }
+        .language-switcher a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+        }
+        .language-switcher img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        .language-switcher a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 <div class="login-container">
-    <h1>Login</h1>
+    <h1><fmt:message key="label.login" /></h1>
     <form action="login" method="post">
-        <input type="email" name="login" placeholder="E-mail" required>
-        <input type="password" name="senha" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
+        <input type="email" name="login" placeholder="<fmt:message key='label.email' />" required>
+        <input type="password" name="senha" placeholder="<fmt:message key='label.password' />" required>
+        <button type="submit"><fmt:message key="label.enter" /></button>
     </form>
-    <a href="register.jsp">Não possui conta? Registre-se</a>
+    <a href="register.jsp"><fmt:message key="label.registerPrompt" /></a>
     <div class="error-messages">
         <%
             String mensagemErro = (String) session.getAttribute("mensagemErro");
@@ -94,7 +114,11 @@
             }
         %>
     </div>
-    <a href="listarVagas" class="list-jobs-button">Ver Todas as Vagas</a> <!-- Moved down here and styled similarly -->
+    <a href="listarVagas" class="list-jobs-button"><fmt:message key="label.viewAllJobs" /></a> 
+    <div class="language-switcher">
+        <a href="?lang=pt_BR"><img src="${pageContext.request.contextPath}src/main/resources/images/flag-br.png" alt="Português"></a>
+        <a href="?lang=en"><img src="${pageContext.request.contextPath}/resources/images/flag-us.png" alt="English"></a>
+    </div>
 </div>
 </body>
 </html>

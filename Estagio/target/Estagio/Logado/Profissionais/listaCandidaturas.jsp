@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -35,7 +36,6 @@
             <th>Vaga</th>
             <th>Currículo</th>
             <th>Status</th>
-            <th>Data de Candidatura</th>
         </tr>
         <c:forEach var="candidatura" items="${listaCandidaturas}">
             <tr>
@@ -43,7 +43,6 @@
                 <td>${candidatura.vaga.descricao}</td>
                 <td>${candidatura.curriculo}</td>
                 <td>${candidatura.status.descricao}</td>
-                <td>${candidatura.dataCandidatura}</td>
             </tr>
         </c:forEach>
     </table>

@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @WebServlet("/vagas/*")
@@ -70,7 +72,10 @@ public class VagasController extends HttpServlet {
                     break;
                 case "/updateStatus":
                     updateStatusCandidatura(request, response);
-                    break;    
+                    break;
+                case "/logout":
+                    response.sendRedirect(request.getContextPath() + "/logout");
+                    break;       
                 default:
                     if ("admin".equals(usuarioLogado.getTipo())) {
                         response.sendRedirect(request.getContextPath() + "/Logado/Admin/index.jsp");
@@ -189,7 +194,7 @@ public class VagasController extends HttpServlet {
     private void listCandidatos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String idVagaStr = request.getParameter("idVaga");
-        
+
         if (idVagaStr == null || idVagaStr.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID da vaga não fornecido.");
             return;
@@ -205,18 +210,34 @@ public class VagasController extends HttpServlet {
 
         List<Candidatura> listaCandidaturas = candidaturaDAO.getCandidatosByVaga(idVaga);
         request.setAttribute("listaCandidaturas", listaCandidaturas);
+        request.setAttribute("idVaga", idVaga); // Adicionar idVaga como atributo de requisição
         request.getRequestDispatcher("/Logado/Empresas/listaCandidatos.jsp").forward(request, response);
     }
 
+
     private void updateStatusCandidatura(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+                
         String idCandidaturaStr = request.getParameter("idCandidatura");
         String idStatusStr = request.getParameter("status");
         String entrevistaLink = request.getParameter("entrevistaLink");
         String entrevistaDataHoraStr = request.getParameter("entrevistaDataHora");
+        String idVagaStr = request.getParameter("idVaga"); // Adicionado para pegar o idVaga
 
-        if (idCandidaturaStr == null || idCandidaturaStr.isEmpty() || idStatusStr == null || idStatusStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parâmetros inválidos.");
+        if (idCandidaturaStr == null || idCandidaturaStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID da candidatura não fornecido.");
+            return;
+        }
+
+        if (idStatusStr == null || idStatusStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Status não fornecido.");
+            return;
+        }
+
+        if (idVagaStr == null || idVagaStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID da vaga não fornecido.");
             return;
         }
 
@@ -230,16 +251,27 @@ public class VagasController extends HttpServlet {
             return;
         }
 
+        VagaDAO vagaDAO = new VagaDAO();
+        LocalDate dataLimiteInscricao = vagaDAO.getDataLimiteInscricao(Integer.parseInt(idVagaStr));
+        if (dataLimiteInscricao != null && dataLimiteInscricao.isAfter(LocalDate.now())) {
+            response.sendRedirect(request.getContextPath() + "/vagas/candidatos?idVaga=" + idVagaStr + "&error=Somente permitido alterar o status ao fim da data limite.");
+            return;
+        }
+
         LocalDateTime entrevistaDataHora = null;
         if (entrevistaDataHoraStr != null && !entrevistaDataHoraStr.isEmpty()) {
-            entrevistaDataHora = LocalDateTime.parse(entrevistaDataHoraStr);
+            try {
+                entrevistaDataHora = LocalDateTime.parse(entrevistaDataHoraStr);
+            } catch (DateTimeParseException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Data e hora de entrevista inválida.");
+                return;
+            }
         }
 
         candidaturaDAO.updateStatus(idCandidatura, idStatus, entrevistaLink, entrevistaDataHora);
 
-        response.sendRedirect(request.getContextPath() + "/vagas/candidatos?idVaga=" + request.getParameter("idVaga"));
+        // Redireciona para a lista de candidatos passando o idVaga
+        response.sendRedirect(request.getContextPath() + "/vagas/candidatos?idVaga=" + idVagaStr);
     }
-
-
 
 }

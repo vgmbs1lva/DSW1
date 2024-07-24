@@ -17,8 +17,8 @@
     <li><a href="${pageContext.request.contextPath}/empresas/list">Gerenciar Empresas</a></li>
     <li><a href="${pageContext.request.contextPath}/profissionais/list">Gerenciar Profissionais</a></li>
     <!--<li><a href="${pageContext.request.contextPath}/vagas/list">Gerenciar Vagas</a></li>-->
-    <a href="${pageContext.request.contextPath}/login.jsp">
-        <button type="button">Voltar para Login</button>
+    <a href="${pageContext.request.contextPath}/logout">
+        <button type="button">Sair</button>
     </a>
 </ul>
 

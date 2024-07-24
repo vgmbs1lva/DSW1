@@ -45,6 +45,9 @@ public class AdminController extends HttpServlet {
                 case "/vagas":
                     listVagas(request, response);
                     break;
+                case "/logout":
+                    response.sendRedirect(request.getContextPath() + "/logout");
+                    break;       
                 default:
                     showAdminPage(request, response);
                     break;
