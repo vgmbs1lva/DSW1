@@ -2,10 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="${param.lang != null ? param.lang : 'pt-BR'}">
+<fmt:setLocale value="${param.lang != null ? param.lang : 'pt_BR'}"/>
+<fmt:setBundle basename="message" />
 <head>
     <meta charset="UTF-8">
-    <title>Minhas Candidaturas</title>
+    <title><fmt:message key="page.title.myApplications" /></title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -29,13 +31,13 @@
     </style>
 </head>
 <body>
-    <h1>Minhas Candidaturas</h1>
+    <h1><fmt:message key="page.title.myApplications" /></h1>
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>Vaga</th>
-            <th>Currículo</th>
-            <th>Status</th>
+            <th><fmt:message key="label.id" /></th>
+            <th><fmt:message key="label.job" /></th>
+            <th><fmt:message key="label.curriculum" /></th>
+            <th><fmt:message key="label.status" /></th>
         </tr>
         <c:forEach var="candidatura" items="${listaCandidaturas}">
             <tr>
@@ -46,6 +48,10 @@
             </tr>
         </c:forEach>
     </table>
-    <a href="${pageContext.request.contextPath}/Logado/Profissionais/index.jsp">Voltar</a>
+    <a href="${pageContext.request.contextPath}/Logado/Profissionais/index.jsp"><fmt:message key="label.back" /></a>
+    <div class="language-switcher">
+        <a href="?lang=pt_BR"><fmt:message key="label.portuguese" /></a>
+        <a href="?lang=en"><fmt:message key="label.english" /></a>
+    </div>
 </body>
 </html>

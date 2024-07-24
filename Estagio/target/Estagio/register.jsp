@@ -181,8 +181,8 @@
     </form>
     <a href="login.jsp"><fmt:message key="label.alreadyRegistered" /></a>
     <div class="language-switcher">
-        <a href="?lang=pt_BR">Português</a>
-        <a href="?lang=en">English</a>
+        <a href="?lang=pt_BR"><fmt:message key="label.portuguese" /></a>
+        <a href="?lang=en"><fmt:message key="label.english" /></a>
     </div>
 </div>
 </body>

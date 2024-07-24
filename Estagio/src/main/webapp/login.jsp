@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="${sessionScope.locale.language}">
-<fmt:setLocale value="${sessionScope.locale}"/>
+<html lang="en">
+<fmt:setLocale value="${param.lang != null ? param.lang : 'en'}"/>
 <fmt:setBundle basename="message" />
 <head>
     <meta charset="UTF-8">
@@ -70,7 +70,7 @@
             margin-bottom: 10px;
         }
         .list-jobs-button {
-            color: #fda085;
+            color: #fda085; /* Change color to match other links */
             text-decoration: none;
             display: block;
             margin-top: 30;
@@ -85,11 +85,6 @@
             margin: 0 5px;
             text-decoration: none;
             color: #333;
-        }
-        .language-switcher img {
-            width: 24px;
-            height: 24px;
-            vertical-align: middle;
         }
         .language-switcher a:hover {
             text-decoration: underline;
@@ -114,10 +109,10 @@
             }
         %>
     </div>
-    <a href="listarVagas" class="list-jobs-button"><fmt:message key="label.viewAllJobs" /></a> 
+    <a href="listarVagas" class="list-jobs-button"><fmt:message key="label.viewAllJobs" /></a> <!-- Moved down here and styled similarly -->
     <div class="language-switcher">
-        <a href="?lang=pt_BR"><img src="${pageContext.request.contextPath}src/main/resources/images/flag-br.png" alt="Português"></a>
-        <a href="?lang=en"><img src="${pageContext.request.contextPath}/resources/images/flag-us.png" alt="English"></a>
+        <a href="?lang=pt_BR"><fmt:message key="label.portuguese" /></a>
+        <a href="?lang=en"><fmt:message key="label.english" /></a>
     </div>
 </div>
 </body>
