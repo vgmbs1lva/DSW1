@@ -86,7 +86,7 @@ VALUES
 -- Inserir exemplos na tabela Empresas
 INSERT INTO Empresas (nome, email, senha, cnpj, descricao, cidade)
 VALUES 
-('Empresa X', 'empresax@example.com', 'senha123', '12.345.678/0001-00', 'Empresa de tecnologia', 'São Paulo'),
+('Empresa X', 'empresax@example.com', 'senha123', '12.345.678/0001-00', 'Empresa de tecnologia', 'Recife'),
 ('Empresa Y', 'empresay@example.com', 'senha123', '98.765.432/0001-00', 'Empresa de marketing', 'Rio de Janeiro');
 
 -- Inserir exemplos na tabela Usuario para profissionais e empresas
@@ -103,7 +103,7 @@ VALUES
 -- Inserir exemplos na tabela Vaga
 INSERT INTO Vaga (id_empresa, descricao, remuneracao, data_limite_inscricao, cidade)
 VALUES 
-(1, 'Desenvolvedor Java', 3000.00, '2024-08-01', 'São Paulo'),
+(1, 'Desenvolvedor Java', 3000.00, '2024-08-01', 'Recife'),
 (2, 'Analista de Marketing', 2500.00, '2024-08-15', 'Rio de Janeiro');
 
 INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_candidatura)
