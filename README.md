@@ -139,6 +139,8 @@ VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
 | **R6**    | ☑️ Implementado | 50% | 50% |
 | **R7**    | ☑️ Implementado | 50% | 50% |
 | **R8**    | ☑️ Implementado | 50% | 50% |
+| **R9**    | ☑️ Implementado (80%) | 50% | 50% |
+
 
 ---
 
