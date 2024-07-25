@@ -123,7 +123,7 @@ VALUES
 
 INSERT INTO Candidatura (id_profissional, id_vaga, curriculo, id_status, data_candidatura)
 VALUES (1, 1, 'Sou muito bom no que eu faço', 1, CURRENT_TIMESTAMP);
-
+```
 ---
 
 ### Usuarios do site
@@ -151,15 +151,15 @@ Senha - senha123
 
 | Requisito | Status | Eduardo Spinelli | Victor Germano |
 |-----------|--------|------------------|----------------|
-| **R1**    | ☑️ Implementado | 33% | 67% |
-| **R2**    | ☑️ Implementado | 33% | 67% |
-| **R3**    | ☑️ Implementado | 33% | 67% |
-| **R4**    | ☑️ Implementado | 33% | 67% |
-| **R5**    | ☑️ Implementado (sem pdf) | 33% | 67% |
-| **R6**    | ☑️ Implementado | 33% | 67% |
-| **R7**    | ☑️ Implementado | 33% | 67% |
-| **R8**    | ☑️ Implementado (sem email) | 33% | 67% |
-| **R9**    | ☑️ Implementado (80%) | 100% | 0% |
+| **R1**    | ☑️ Implementado | 50% | 50% |
+| **R2**    | ☑️ Implementado | 50% | 50% |
+| **R3**    | ☑️ Implementado | 33% | 50% |
+| **R4**    | ☑️ Implementado | 50% | 50% |
+| **R5**    | ☑️ Implementado (sem pdf) | 50% | 50% |
+| **R6**    | ☑️ Implementado | 50% | 50% |
+| **R7**    | ☑️ Implementado | 50% | 50% |
+| **R8**    | ☑️ Implementado (sem email) | 50% | 50% |
+| **R9**    | ☑️ Implementado (80%) | 50% | 50% |
 
 
 ---
