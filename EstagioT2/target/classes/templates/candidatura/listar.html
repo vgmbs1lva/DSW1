@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Minhas Candidaturas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Minhas Candidaturas</h1>
+        <nav>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vaga</th>
+                    <th>Status</th>
+                    <th>Data de Candidatura</th>
+                    <th>Link de Entrevista</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="candidatura : ${candidaturas}">
+                    <td th:text="${candidatura.id}"></td>
+                    <td th:text="${candidatura.vaga.descricao}"></td>
+                    <td th:text="${candidatura.status}"></td>
+                    <td th:text="${candidatura.dataCandidatura}"></td>
+                    <td th:text="${candidatura.linkEntrevista}"></td>
+                    <td>
+                        <a th:href="@{/candidatura/deletar/{id}(id=${candidatura.id})}">Deletar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
