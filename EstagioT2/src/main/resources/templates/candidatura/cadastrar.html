@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Candidatar-se</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Candidatar-se à Vaga</h1>
+        <nav>
+            <a th:href="@{/vaga/listar}">Voltar</a>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <form th:action="@{/candidatura/salvar}" th:object="${candidatura}" method="post">
+            <div>
+                <label for="qualificacoes">Qualificações:</label>
+                <textarea id="qualificacoes" th:field="*{qualificacoes}"></textarea>
+            </div>
+            <div>
+                <button type="submit">Candidatar-se</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

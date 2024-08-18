@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Vaga</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Editar Vaga</h1>
+        <nav>
+            <a th:href="@{/vaga/listar}">Voltar</a>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <form th:action="@{/vaga/editar/{id}(id=${vaga.id})}" th:object="${vaga}" method="post">
+            <div>
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" th:field="*{descricao}">
+            </div>
+            <div>
+                <label for="remuneracao">Remuneração:</label>
+                <input type="number" id="remuneracao" th:field="*{remuneracao}">
+            </div>
+            <div>
+                <label for="dataLimiteInscricao">Data Limite de Inscrição:</label>
+                <input type="date" id="dataLimiteInscricao" th:field="*{dataLimiteInscricao}">
+            </div>
+            <div>
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" th:field="*{cidade}">
+            </div>
+            <div>
+                <button type="submit">Atualizar</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
