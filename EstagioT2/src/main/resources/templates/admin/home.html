@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Painel Administrativo - Sistema de Oferta de Vagas</h1>
+    
+    </header>
+    <div class="container">
+        <h2>Bem-vindo, Administrador!</h2>
+        <p>Selecione uma das opções abaixo para gerenciar o sistema:</p>
+
+        <div class="actions">
+            <h3>Gerenciar Empresas</h3>
+            <p>Para gerenciar as empresas cadastradas no sistema, clique no botão abaixo:</p>
+            <a th:href="@{/admin/empresas}" class="button">Gerir Empresas</a>
+
+            <h3>Gerenciar Profissionais</h3>
+            <p>Para gerenciar os profissionais cadastrados no sistema, clique no botão abaixo:</p>
+            <a th:href="@{/admin/profissionais}" class="button">Gerir Profissionais</a>
+
+            <h3>Sair do Sistema</h3>
+            <p>Para sair do sistema, clique no botão abaixo:</p>
+            <a th:href="@{/logout}" class="button">Logout</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
