@@ -23,14 +23,27 @@ public class CustomUsuarioDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("Tentativa de login para o email: " + email);
+        
         Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+                .orElseThrow(() -> {
+                    System.out.println("Usuário não encontrado com o email: " + email);
+                    return new UsernameNotFoundException("Usuário não encontrado");
+                });
+
+        System.out.println("Usuário encontrado: " + usuario.getEmail() + ", Role: " + usuario.getRole());
         
         GrantedAuthority authority = new SimpleGrantedAuthority(usuario.getRole());
-        return new org.springframework.security.core.userdetails.User(
+        System.out.println("GrantedAuthority criado: " + authority.getAuthority());
+        
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 usuario.getEmail(),
                 usuario.getSenha(),
                 Collections.singletonList(authority)  // Converte a String role em uma lista de GrantedAuthority
         );
+
+        System.out.println("UserDetails criado: " + userDetails.getUsername());
+
+        return userDetails;
     }
 }

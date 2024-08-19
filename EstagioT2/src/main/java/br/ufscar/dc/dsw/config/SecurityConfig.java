@@ -33,6 +33,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .defaultSuccessUrl("/home", true)  // Redireciona para /home após o login bem-sucedido
                 .permitAll()
             )
             .logout(logout -> logout
@@ -40,8 +41,8 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
             )
-            .csrf(csrf -> csrf.disable());  // Se necessário, desabilite o CSRF (não recomendado para produção)
-
+            .csrf(csrf -> csrf.disable());
+    
         return http.build();
     }
 

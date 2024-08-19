@@ -20,7 +20,7 @@ public class UsuarioDetailsService implements UserDetailsService {
         Usuario usuario = dao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        return dao.builder()
+        return User.builder()
                 .username(usuario.getEmail())
                 .password(usuario.getSenha())
                 .roles(usuario.getRole())
