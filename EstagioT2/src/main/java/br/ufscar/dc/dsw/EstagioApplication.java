@@ -32,9 +32,9 @@ public class EstagioApplication {
             // Inserir dados iniciais usando construtores completos
 
             // Verificando e salvando usuários
-            verificarESalvarUsuario(new Usuario("admin@domain.com", passwordEncoder.encode("admin123"), "ADMIN"), usuarioService);
-            verificarESalvarUsuario(new Usuario("empresa@domain.com", passwordEncoder.encode("empresa123"), "EMPRESA"), usuarioService);
-            verificarESalvarUsuario(new Usuario("profissional@domain.com", passwordEncoder.encode("prof123"), "PROFISSIONAL"), usuarioService);
+            verificarESalvarUsuario(new Usuario("admin@domain.com", passwordEncoder.encode("admin123"), "ROLE_ADMIN"), usuarioService);
+            verificarESalvarUsuario(new Usuario("empresa@domain.com", passwordEncoder.encode("empresa123"), "ROLE_EMPRESA"), usuarioService);
+            verificarESalvarUsuario(new Usuario("profissional@domain.com", passwordEncoder.encode("prof123"), "ROLE_PROFISSIONAL"), usuarioService);
 
             // Verificando e salvando profissionais
             verificarESalvarProfissional(new Profissional("profissional@domain.com", passwordEncoder.encode("prof123"), "12345678901", "João Silva", "11999999999", "M", new Date()), profissionalService);
