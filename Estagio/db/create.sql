@@ -1,4 +1,4 @@
- Dropar o banco de dados se já existir
+--Dropar o banco de dados se já existir
 DROP DATABASE IF EXISTS SistemaEstagioEmprego;
 
 -- Criação do banco de dados
