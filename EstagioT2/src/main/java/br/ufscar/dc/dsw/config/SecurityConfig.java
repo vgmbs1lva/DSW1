@@ -1,13 +1,13 @@
 package br.ufscar.dc.dsw.config;
 
-import br.ufscar.dc.dsw.service.CustomUsuarioDetailsService;
-
+import br.ufscar.dc.dsw.service.UsuarioDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,10 +16,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomUsuarioDetailsService customUsuarioDetailsService;
+    private final UsuarioDetailsService usuarioDetailsService;
 
-    public SecurityConfig(CustomUsuarioDetailsService customUsuarioDetailsService) {
-        this.customUsuarioDetailsService = customUsuarioDetailsService;
+    public SecurityConfig(UsuarioDetailsService usuarioDetailsService) {
+        this.usuarioDetailsService = usuarioDetailsService;
     }
 
     @Bean
@@ -29,11 +29,13 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/empresa/**").hasRole("EMPRESA")
                 .requestMatchers("/profissional/**").hasRole("PROFISSIONAL")
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)  // Redireciona para /home após o login bem-sucedido
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=true")
                 .permitAll()
             )
             .logout(logout -> logout
@@ -54,9 +56,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(customUsuarioDetailsService).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(usuarioDetailsService).passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
 }
-
-
