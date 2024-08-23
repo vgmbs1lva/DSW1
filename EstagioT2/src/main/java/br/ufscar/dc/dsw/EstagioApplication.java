@@ -37,8 +37,7 @@ public class EstagioApplication {
             verificarESalvarUsuario(new Usuario("profissional@domain.com", passwordEncoder.encode("prof123"), "ROLE_PROFISSIONAL"), usuarioService);
 
             // Verificando e salvando profissionais
-            verificarESalvarProfissional(new Profissional("profissional@domain.com", passwordEncoder.encode("prof123"), "12345678901", "João Silva", "11999999999", "M", new Date()), profissionalService);
-
+            verificarESalvarProfissional(new Profissional("profissional@domain.com", passwordEncoder.encode("prof123"), "12345678901", "João Silva"), profissionalService);
             // Verificando e salvando empresas
             verificarESalvarEmpresa(new Empresa("empresa@domain.com", passwordEncoder.encode("empresa123"), "12345678000100", "Empresa XYZ", "Empresa de tecnologia focada em desenvolvimento de software.", "São Paulo"), empresaService);
 
