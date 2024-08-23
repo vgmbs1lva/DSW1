@@ -16,7 +16,7 @@
             </div>
             <div>
                 <label for="senha">Senha:</label>
-                <input type="senha" id="senha" name="password">
+                <input type="password" id="senha" name="password"> <!-- Corrigido tipo para "password" -->
             </div>
             <!-- Mensagem de erro -->
             <div th:if="${param.error}">
@@ -26,6 +26,10 @@
                 <button type="submit">Entrar</button>
             </div>
         </form>
+        <!-- Link para listar todas as vagas sem login -->
+        <div>
+            <a th:href="@{/vaga/listarTodas}" class="button">Listar Todas as Vagas</a>
+        </div>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>
