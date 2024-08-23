@@ -41,8 +41,7 @@
                     <td>
                         <!-- Ajustando os links para apontar para as rotas corretas dentro do escopo admin -->
                         <a th:href="@{'/admin/empresas/editar/' + ${empresa.id}}" class="button">Editar</a>
-                        <a th:href="@{'/admin/empresas/deletar/' + ${empresa.id}}" class="button">Excluir</a>
-                    </td>
+                        <a th:href="@{'/admin/empresas/deletar/' + ${empresa.id}}" onclick="return confirm('Tem certeza que deseja deletar esta Empresa?')">Deletar</a>
                 </tr>
             </tbody>
         </table>
