@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Candidatar-se</title>
+    <title>Candidatar-se à Vaga</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
         <h1>Candidatar-se à Vaga</h1>
-        <nav>
-            <a th:href="@{/vaga/listar}">Voltar</a>
-            <a th:href="@{/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
-        </nav>
     </header>
     <div class="container">
-        <form th:action="@{/candidatura/salvar}" th:object="${candidatura}" method="post">
+        <form th:action="@{/candidatura/salvar}" method="post">
+            <!-- Campo oculto para ID da vaga -->
+            <input type="hidden" name="vagaId" th:value="${vaga.id}" />
+            
             <div>
                 <label for="qualificacoes">Qualificações:</label>
-                <textarea id="qualificacoes" th:field="*{qualificacoes}"></textarea>
+                <textarea id="qualificacoes" name="qualificacoes" th:value="${qualificacoes}" required></textarea>
             </div>
+            
             <div>
-                <button type="submit">Candidatar-se</button>
+                <label for="curriculo">Currículo:</label>
+                <input type="text" id="curriculo" name="curriculo" th:value="${curriculo}" placeholder="Descreva seu currículo ou forneça um link" required>
+            </div>
+            
+            <div>
+                <button type="submit">Enviar Candidatura</button>
             </div>
         </form>
     </div>
