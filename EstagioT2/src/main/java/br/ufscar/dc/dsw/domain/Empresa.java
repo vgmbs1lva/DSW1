@@ -18,7 +18,6 @@ public class Empresa {
     @Column(nullable = false, unique = true, length = 60)
     private String email;
 
-    @NotBlank
     @Column(nullable = false, length = 64)
     private String senha;
 
