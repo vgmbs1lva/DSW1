@@ -28,6 +28,11 @@
                 <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF do Profissional" required>
             </div>
             <div>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" th:field="*{senha}" placeholder="Senha do Profissional">
+                <small>Deixe em branco para manter a senha atual.</small>
+            </div>
+            <div>
                 <button type="submit">Salvar</button>
             </div>
         </form>
