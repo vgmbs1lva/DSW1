@@ -24,8 +24,20 @@
                 <input type="email" id="email" th:field="*{email}" placeholder="Email da Empresa" required>
             </div>
             <div>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" th:field="*{senha}" placeholder="Senha" required>
+            </div>
+            <div>
                 <label for="cnpj">CNPJ:</label>
                 <input type="text" id="cnpj" th:field="*{cnpj}" placeholder="CNPJ da Empresa" required>
+            </div>
+            <div>
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" th:field="*{descricao}" placeholder="Descrição da Empresa" required>
+            </div>
+            <div>
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" th:field="*{cidade}" placeholder="Cidade da Empresa" required>
             </div>
             <div>
                 <button type="submit">Salvar</button>
