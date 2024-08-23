@@ -2,7 +2,6 @@ package br.ufscar.dc.dsw.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +17,6 @@ public class Profissional {
     @Column(nullable = false, unique = true, length = 60)
     private String email;
 
-    @NotBlank
     @Column(nullable = false, length = 64)
     private String senha;
 
@@ -32,32 +30,14 @@ public class Profissional {
     @Column(nullable = false, length = 60)
     private String nome;
 
-    @NotBlank
-    @Size(max = 15)
-    @Column(nullable = false, length = 15)
-    private String telefone;
-
-    @NotBlank
-    @Size(max = 1)
-    @Column(nullable = false, length = 1)
-    private String sexo;
-
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date dataNascimento;
-
     public Profissional(){ 
     }
     
-    public Profissional(String email, String senha, String cpf, String nome, String telefone, String sexo, Date dataNascimento) {
+    public Profissional(String email, String senha, String cpf, String nome) {
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
         this.nome = nome;
-        this.telefone = telefone;
-        this.sexo = sexo;
-        this.dataNascimento = dataNascimento;
     }
 
     // Getters and Setters
@@ -100,30 +80,6 @@ public class Profissional {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
-    public Date getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
     }
 
     // Equals and HashCode
