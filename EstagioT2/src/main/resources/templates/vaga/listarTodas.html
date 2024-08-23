@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listar Todas as Vagas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Todas as Vagas Disponíveis</h1>
+    </header>
+    <div class="container">
+        <form th:action="@{/vaga/listarTodas}" method="get">
+            <label for="cidade">Filtrar por Cidade:</label>
+            <input type="text" id="cidade" name="cidade" th:value="${cidade}" placeholder="Digite a cidade">
+            <button type="submit">Filtrar</button>
+        </form>
+        
+        <h2>Lista de Vagas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>CNPJ</th>
+                    <th>Descrição</th>
+                    <th>Remuneração</th>
+                    <th>Data Limite</th>
+                    <th>Cidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="vaga : ${vagas}">
+                    <td th:text="${vaga.empresa.cnpj}"></td>
+                    <td th:text="${vaga.descricao}"></td>
+                    <td th:text="${vaga.remuneracao}"></td>
+                    <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${vaga.cidade}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/login}">Voltar para o Login</a>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
