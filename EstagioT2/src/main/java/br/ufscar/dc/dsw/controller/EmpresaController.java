@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+
 
 import jakarta.validation.Valid;
 
@@ -25,6 +28,15 @@ public class EmpresaController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/home")
+    public String home(Model model, @AuthenticationPrincipal User user) {
+        Empresa empresa = empresaService.buscarPorEmail(user.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada: " + user.getUsername()));
+        model.addAttribute("empresa", empresa);
+        return "empresa/home";  // Certifique-se de que "empresa/home" mapeia para o arquivo templates/empresa/home.html
+    }
+    
 
     @GetMapping("/listar")
     public String listar(Model model) {
