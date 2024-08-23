@@ -22,9 +22,9 @@ public class HomeController {
             if (roles.contains("ROLE_ADMIN")) {
                 response.sendRedirect("/admin/home");
             } else if (roles.contains("ROLE_EMPRESA")) {
-                response.sendRedirect("/empresa/listar");
+                response.sendRedirect("/empresa/home");
             } else if (roles.contains("ROLE_PROFISSIONAL")) {
-                response.sendRedirect("/profissional/home");
+                response.sendRedirect("/profissional/listar");
             } else {
                 response.sendRedirect("/default");  // Página padrão caso nenhuma role seja encontrada
             }
