@@ -51,13 +51,14 @@ public class AdminController {
     @PostMapping("/empresas/salvar")
     public String salvarEmpresa(@Valid Empresa empresa, BindingResult result) {
         if (result.hasErrors()) {
+            result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
             return "admin/cadastrarEmpresa";
         }
 
         Usuario usuario = new Usuario();
         usuario.setEmail(empresa.getEmail());
         usuario.setSenha(passwordEncoder.encode(empresa.getSenha()));
-        usuario.setRole("EMPRESA");
+        usuario.setRole("ROLE_EMPRESA");
         usuarioService.salvar(usuario);
 
         empresaService.salvar(empresa);
@@ -66,9 +67,15 @@ public class AdminController {
 
     @GetMapping("/empresas/editar/{id}")
     public String editarEmpresa(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("empresa", empresaService.buscarPorId(id));
+        Empresa empresa = empresaService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada: " + id));
+        System.out.println("1111");
+        empresa.setVagas(empresa.getVagas()); // Certifique-se de que as vagas estão inicializadas
+        model.addAttribute("empresa", empresa);
+        System.out.println("2222");
         return "admin/editarEmpresa";
     }
+
 
     @PostMapping("/empresas/editar/{id}")
     public String atualizarEmpresa(@PathVariable("id") Long id, @Valid Empresa empresa, BindingResult result) {
@@ -76,15 +83,45 @@ public class AdminController {
             empresa.setId(id);
             return "admin/editarEmpresa";
         }
-        empresaService.salvar(empresa);
+
+        Empresa empresaOriginal = empresaService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada: " + id));
+
+        // Atualizar os atributos necessários
+        empresaOriginal.setNome(empresa.getNome());
+        empresaOriginal.setCnpj(empresa.getCnpj());
+        empresaOriginal.setDescricao(empresa.getDescricao());
+        empresaOriginal.setCidade(empresa.getCidade());
+
+        // Atualizar o usuário associado se o email ou a senha forem alterados
+        Usuario usuario = usuarioService.buscarPorEmail(empresaOriginal.getEmail())
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o email: " + empresaOriginal.getEmail()));
+
+        if (!empresa.getEmail().equals(usuario.getEmail())) {
+            usuario.setEmail(empresa.getEmail());
+        }
+
+        if (empresa.getSenha() != null && !empresa.getSenha().isEmpty()) {
+            usuario.setSenha(passwordEncoder.encode(empresa.getSenha()));
+        }
+
+        // Salvar o usuário atualizado
+        usuarioService.salvar(usuario);
+
+        // Atualizar a empresa, incluindo a atualização de email
+        empresaOriginal.setEmail(empresa.getEmail());
+
+        // Não substituir diretamente a coleção `vagas`, mas sim atualizar se necessário
+        if (empresa.getVagas() != null) {
+            empresaOriginal.getVagas().clear();
+            empresaOriginal.getVagas().addAll(empresa.getVagas());
+        }
+
+        empresaService.salvar(empresaOriginal);
         return "redirect:/admin/empresas";
     }
 
-    @GetMapping("/empresas/deletar/{id}")
-    public String deletarEmpresa(@PathVariable("id") Long id) {
-        empresaService.deletar(id);
-        return "redirect:/admin/empresas";
-    }
+
 
     // Rotas para gestão de profissionais
     @GetMapping("/profissionais")
@@ -107,7 +144,7 @@ public class AdminController {
         Usuario usuario = new Usuario();
         usuario.setEmail(profissional.getEmail());
         usuario.setSenha(passwordEncoder.encode(profissional.getSenha()));
-        usuario.setRole("PROFISSIONAL");
+        usuario.setRole("ROLE_PROFISSIONAL");
         usuarioService.salvar(usuario);
 
         profissionalService.salvar(profissional);
