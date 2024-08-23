@@ -29,6 +29,9 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/empresa/**").hasRole("EMPRESA")
                 .requestMatchers("/profissional/**").hasRole("PROFISSIONAL")
+                .requestMatchers("/vaga/listarTodas").permitAll() // Permitir acesso público a todas as vagas
+                .requestMatchers("/vaga/**").hasRole("EMPRESA")
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/public/**").permitAll() // Permitir acesso a recursos estáticos
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             )
