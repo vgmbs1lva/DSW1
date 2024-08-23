@@ -6,6 +6,7 @@ import br.ufscar.dc.dsw.domain.Vaga;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,8 @@ public class VagaService {
     private IVagaDAO dao;
 
     public List<Vaga> buscarTodas() {
-        return dao.findAll();
+        // Agora usa o método que busca somente as vagas em aberto
+        return buscarVagasEmAberto();
     }
 
     public Optional<Vaga> buscarPorId(Long id) {
@@ -36,6 +38,11 @@ public class VagaService {
     }
 
     public List<Vaga> buscarPorCidade(String cidade) {
-        return dao.findByCidade(cidade);
+        return dao.findByCidadeAndDataLimiteInscricaoAfter(cidade, new Date()); // Considera vagas em aberto
+    }
+
+    public List<Vaga> buscarVagasEmAberto() {
+        return dao.findByDataLimiteInscricaoAfter(new Date()); // Considera todas as vagas com data limite futura
     }
 }
+
