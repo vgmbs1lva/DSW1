@@ -24,19 +24,15 @@ public class CandidaturaService {
         return dao.findByVaga(vaga);
     }
 
+    public Optional<Candidatura> buscarPorProfissionalEVaga(Profissional profissional, Vaga vaga) {
+        return dao.findByProfissionalAndVaga(profissional, vaga);
+    }
+
     public void salvar(Candidatura candidatura) {
         dao.save(candidatura);
     }
 
     public void deletar(Long id) {
         dao.deleteById(id);
-    }
-
-    public Optional<Candidatura> buscarPorId(Long id) {
-        return dao.findById(id);
-    }
-
-    public Optional<Candidatura> buscarPorProfissionalEVaga(Profissional profissional, Vaga vaga) {
-        return dao.findByProfissionalAndVaga(profissional, vaga);
     }
 }
