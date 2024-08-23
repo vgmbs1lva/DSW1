@@ -3,6 +3,12 @@
 <head>
     <title>Listar Todas as Vagas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script>
+        function alertLogin() {
+            alert("Você precisa estar logado para se candidatar a uma vaga.");
+            window.location.href = "/login"; // Redireciona para a página de login
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -24,6 +30,7 @@
                     <th>Remuneração</th>
                     <th>Data Limite</th>
                     <th>Cidade</th>
+                    <th>Ações</th> <!-- Coluna para ações -->
                 </tr>
             </thead>
             <tbody>
@@ -33,10 +40,16 @@
                     <td th:text="${vaga.remuneracao}"></td>
                     <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
                     <td th:text="${vaga.cidade}"></td>
+                    <td>
+                        <!-- Sempre mostra o pop-up ao clicar em candidatar-se -->
+                        <a href="javascript:void(0);" 
+                           onclick="alertLogin()" 
+                           class="button">Candidatar-se</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/login}">Voltar para o Login</a>
+        <a th:href="@{/login}" class="button">Voltar para o Login</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>
