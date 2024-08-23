@@ -4,6 +4,7 @@ import br.ufscar.dc.dsw.dao.IEmpresaDAO;
 import br.ufscar.dc.dsw.domain.Empresa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,8 @@ public class EmpresaService {
     public Optional<Empresa> buscarPorId(Long id) {
         return dao.findById(id);
     }
-
+    
+    @Transactional
     public void salvar(Empresa empresa) {
         dao.save(empresa);
     }
