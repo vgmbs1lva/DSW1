@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -118,16 +120,32 @@ public class VagaController {
 
     // Novo método para listar todas as vagas em aberto e permitir filtrar por cidade
     @GetMapping("/listarTodas")
-    public String listarTodas(@RequestParam(value = "cidade", required = false) String cidade, Model model) {
+    public String listarTodas(
+            @RequestParam(value = "cidade", required = false) String cidade, 
+            Model model, 
+            Authentication authentication) {
+        
         List<Vaga> vagas;
         if (cidade != null && !cidade.isEmpty()) {
             vagas = vagaService.buscarPorCidade(cidade);
         } else {
             vagas = vagaService.buscarTodas(); // Já retorna somente vagas em aberto
         }
+
         model.addAttribute("vagas", vagas);
         model.addAttribute("cidade", cidade);
-        return "vaga/listarTodas";
-    }
 
+        // Verificar se o usuário está autenticado
+        if (authentication != null && authentication.isAuthenticated()) {
+            // Verificar se o usuário é um profissional
+            boolean isProfissional = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_PROFISSIONAL"));
+
+            if (isProfissional) {
+                return "vaga/listarTodasProfissional"; // Página para profissionais
+            }
+        }
+
+        return "vaga/listarTodas"; // Página para visitantes ou não-profissionais
+    }
 }
