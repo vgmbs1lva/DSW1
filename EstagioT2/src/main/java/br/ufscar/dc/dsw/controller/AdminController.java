@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 import jakarta.validation.Valid;
 
@@ -123,9 +124,18 @@ public class AdminController {
 
     @GetMapping("/empresas/deletar/{id}")
     public String deletarEmpresa(@PathVariable("id") Long id) {
+        Empresa empresa = empresaService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada: " + id));
+        
+        // Excluir o usuário associado à empresa
+        Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(empresa.getEmail());
+        usuarioOpt.ifPresent(usuario -> usuarioService.deletar(usuario.getId()));
+        
+        // Excluir a empresa
         empresaService.deletar(id);
         return "redirect:/admin/empresas";
     }
+
 
     // Rotas para gestão de profissionais
     @GetMapping("/profissionais")
@@ -142,6 +152,7 @@ public class AdminController {
     @PostMapping("/profissionais/salvar")
     public String salvarProfissional(@Valid Profissional profissional, BindingResult result) {
         if (result.hasErrors()) {
+            result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
             return "admin/cadastrarProfissional";
         }
 
@@ -157,7 +168,9 @@ public class AdminController {
 
     @GetMapping("/profissionais/editar/{id}")
     public String editarProfissional(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("profissional", profissionalService.buscarPorId(id));
+        Profissional profissional = profissionalService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
+        model.addAttribute("profissional", profissional);
         return "admin/editarProfissional";
     }
 
@@ -167,12 +180,47 @@ public class AdminController {
             profissional.setId(id);
             return "admin/editarProfissional";
         }
-        profissionalService.salvar(profissional);
+
+        Profissional profissionalOriginal = profissionalService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
+
+        // Atualizar os atributos necessários
+        profissionalOriginal.setNome(profissional.getNome());
+        profissionalOriginal.setCpf(profissional.getCpf());
+
+        // Atualizar o usuário associado se o email ou a senha forem alterados
+        Usuario usuario = usuarioService.buscarPorEmail(profissionalOriginal.getEmail())
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o email: " + profissionalOriginal.getEmail()));
+
+        if (!profissional.getEmail().equals(usuario.getEmail())) {
+            usuario.setEmail(profissional.getEmail());
+        }
+
+        if (profissional.getSenha() != null && !profissional.getSenha().isEmpty()) {
+            usuario.setSenha(passwordEncoder.encode(profissional.getSenha()));
+        }
+
+        // Salvar o usuário atualizado
+        usuarioService.salvar(usuario);
+
+        // Atualizar o profissional, incluindo a atualização de email
+        profissionalOriginal.setEmail(profissional.getEmail());
+
+        profissionalService.salvar(profissionalOriginal);
         return "redirect:/admin/profissionais";
     }
 
+
     @GetMapping("/profissionais/deletar/{id}")
     public String deletarProfissional(@PathVariable("id") Long id) {
+        Profissional profissional = profissionalService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
+        
+        // Excluir o usuário associado ao profissional
+        Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(profissional.getEmail());
+        usuarioOpt.ifPresent(usuario -> usuarioService.deletar(usuario.getId()));
+        
+        // Excluir o profissional
         profissionalService.deletar(id);
         return "redirect:/admin/profissionais";
     }
