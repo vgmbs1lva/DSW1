@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -27,9 +30,10 @@ public class Vaga {
     private BigDecimal remuneracao;
 
 
-    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataLimiteInscricao;
 
     @NotBlank
@@ -112,6 +116,10 @@ public class Vaga {
 
     public void setCandidaturas(List<Candidatura> candidaturas) {
         this.candidaturas = candidaturas;
+    }
+
+    public String getCnpjEmpresa() {
+        return empresa != null ? empresa.getCnpj() : null;
     }
 
     // Equals and HashCode
