@@ -121,7 +121,11 @@ public class AdminController {
         return "redirect:/admin/empresas";
     }
 
-
+    @GetMapping("/empresas/deletar/{id}")
+    public String deletarEmpresa(@PathVariable("id") Long id) {
+        empresaService.deletar(id);
+        return "redirect:/admin/empresas";
+    }
 
     // Rotas para gestão de profissionais
     @GetMapping("/profissionais")
