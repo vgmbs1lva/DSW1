@@ -42,8 +42,8 @@ public class EstagioApplication {
             verificarESalvarEmpresa(new Empresa("empresa@domain.com", passwordEncoder.encode("empresa123"), "12345678000100", "Empresa XYZ", "Empresa de tecnologia focada em desenvolvimento de software.", "São Paulo"), empresaService);
 
            // Criando e salvando vagas (sem restrições de email)
-            Vaga vaga = new Vaga("Desenvolvedor Java", new BigDecimal("115000.00"), new Date(), "São Paulo", empresaService.buscarPorEmail("empresa@domain.com").get());
-            vagaService.salvar(vaga);
+           // Vaga vaga = new Vaga("Desenvolvedor Java", new BigDecimal("115000.00"), new Date(), "São Paulo", empresaService.buscarPorEmail("empresa@domain.com").get());
+           // vagaService.salvar(vaga);
 
         };
     }
