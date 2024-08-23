@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Empresa</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo, <span th:text="${empresa.nome}">Nome da Empresa</span></h1>
+    </header>
+    <div class="container">
+        <h2>Painel de Controle da Empresa</h2>
+
+        <!-- Ações disponíveis para a empresa -->
+        <div class="actions">
+            <a th:href="@{/vaga/cadastrar}" class="button">Cadastrar Nova Vaga</a>
+            <a th:href="@{/vaga/listar}" class="button">Listar Vagas</a>
+            <a th:href="@{/logout}" class="button">Logout</a>
+        </div>
+        
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
