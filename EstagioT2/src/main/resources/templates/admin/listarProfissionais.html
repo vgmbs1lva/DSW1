@@ -15,6 +15,12 @@
     </header>
     <div class="container">
         <h2>Lista de Profissionais</h2>
+
+        <!-- Botões de ação -->
+        <div class="actions">
+            <a th:href="@{/admin/home}" class="button">Voltar para Home</a>
+            <a th:href="@{/admin/profissionais/cadastrar}" class="button">Cadastrar Novo Profissional</a>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -31,7 +37,7 @@
                     <td th:text="${profissional.cpf}"></td>
                     <td>
                         <a th:href="@{/admin/profissionais/editar/{id}(id=${profissional.id})}">Editar</a>
-                        <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}">Deletar</a>
+                        <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}" onclick="return confirm('Tem certeza que deseja deletar este profissional?')">Deletar</a>
                     </td>
                 </tr>
             </tbody>
