@@ -5,6 +5,8 @@ import br.ufscar.dc.dsw.service.ProfissionalService;
 import br.ufscar.dc.dsw.service.UsuarioService;
 import br.ufscar.dc.dsw.domain.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,14 @@ public class ProfissionalController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/home")
+    public String home(Model model, @AuthenticationPrincipal User user) {
+        Profissional profissional = profissionalService.buscarPorEmail(user.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada: " + user.getUsername()));
+        model.addAttribute("profissional", profissional);
+        return "profissional/home";
+    }
 
     @GetMapping("/listar")
     public String listar(Model model) {
