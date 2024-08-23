@@ -157,7 +157,6 @@ public class CandidaturaController {
         } else {
             return "redirect:/login?error=not_professional";
         }
-        System.out.println("7777");
         candidatura.setVaga(vaga);
         candidatura.setDataCandidatura(new Date());
         candidatura.setStatus("Pendente");
