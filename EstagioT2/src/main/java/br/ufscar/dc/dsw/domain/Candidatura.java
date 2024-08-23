@@ -26,29 +26,30 @@ public class Candidatura {
     @Column(nullable = false, length = 255)
     private String qualificacoes;
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dataCandidatura;
 
-    @NotBlank
     @Size(max = 20)
     @Column(nullable = false, length = 20)
     private String status;
+
+    @Column(nullable = false)
+    private String curriculo; // Caminho para o arquivo PDF do currículo
 
     @Size(max = 255)
     private String linkEntrevista;
 
     public Candidatura(){
-        
     }
 
-    public Candidatura(Profissional profissional, Vaga vaga, String qualificacoes, Date dataCandidatura, String status, String linkEntrevista) {
+    public Candidatura(Profissional profissional, Vaga vaga, String qualificacoes, Date dataCandidatura, String status, String curriculo, String linkEntrevista) {
         this.profissional = profissional;
         this.vaga = vaga;
         this.qualificacoes = qualificacoes;
         this.dataCandidatura = dataCandidatura;
         this.status = status;
+        this.curriculo = curriculo;
         this.linkEntrevista = linkEntrevista;
     }
 
@@ -102,6 +103,14 @@ public class Candidatura {
         this.status = status;
     }
 
+    public String getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(String curriculo) {
+        this.curriculo = curriculo;
+    }
+
     public String getLinkEntrevista() {
         return linkEntrevista;
     }
@@ -136,6 +145,7 @@ public class Candidatura {
                 ", qualificacoes='" + qualificacoes + '\'' +
                 ", dataCandidatura=" + dataCandidatura +
                 ", status='" + status + '\'' +
+                ", curriculo='" + curriculo + '\'' +
                 '}';
     }
 }
