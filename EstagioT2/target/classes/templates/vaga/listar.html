@@ -6,41 +6,38 @@
 </head>
 <body>
     <header>
-        <h1>Lista de Vagas</h1>
-        <nav>
-            <a th:href="@{/vaga/cadastrar}">Cadastrar Vaga</a>
-            <a th:href="@{/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
-        </nav>
+        <h1>Vagas</h1>
+        <!-- Removido o elemento <nav> conforme instrução anterior -->
     </header>
     <div class="container">
+        <h2>Lista de Vagas</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>CNPJ da Empresa</th>
                     <th>Descrição</th>
                     <th>Remuneração</th>
                     <th>Data Limite</th>
-                    <th>Empresa</th>
                     <th>Cidade</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="vaga : ${vagas}">
-                    <td th:text="${vaga.id}"></td>
+                    <!-- Usando o método getCnpjEmpresa() para obter o CNPJ -->
+                    <td th:text="${vaga.cnpjEmpresa}"></td>
                     <td th:text="${vaga.descricao}"></td>
                     <td th:text="${vaga.remuneracao}"></td>
                     <td th:text="${vaga.dataLimiteInscricao}"></td>
-                    <td th:text="${vaga.empresa.nome}"></td>
                     <td th:text="${vaga.cidade}"></td>
                     <td>
-                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}">Editar</a>
-                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}">Deletar</a>
+                        <a th:href="@{'/vaga/editar/' + ${vaga.id}}">Editar</a>
+                        <a th:href="@{'/vaga/deletar/' + ${vaga.id}}">Deletar</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <a th:href="@{/empresa/home}" class="button">Voltar para Home</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>

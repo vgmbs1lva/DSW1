@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Empresas</title>
+    <title>Listagem de Empresas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Lista de Empresas</h1>
-        <nav>
-            <a th:href="@{/empresa/cadastrar}">Cadastrar Empresa</a>
-            <a th:href="@{/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
-        </nav>
+        <h1>Listagem de Empresas</h1>
     </header>
     <div class="container">
+        <h2>Empresas Cadastradas</h2>
+
+        <!-- Botões de ação -->
+        <div class="actions">
+            <a th:href="@{/admin/home}" class="button">Voltar para Home</a>
+            <a th:href="@{/admin/empresas/cadastrar}" class="button">Cadastrar Nova Empresa</a>
+        </div>
+        
+        <!-- Tabela de empresas -->
         <table>
             <thead>
                 <tr>
@@ -21,6 +25,7 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>CNPJ</th>
+                    <th>Descrição</th>
                     <th>Cidade</th>
                     <th>Ações</th>
                 </tr>
@@ -31,11 +36,12 @@
                     <td th:text="${empresa.nome}"></td>
                     <td th:text="${empresa.email}"></td>
                     <td th:text="${empresa.cnpj}"></td>
+                    <td th:text="${empresa.descricao}"></td>
                     <td th:text="${empresa.cidade}"></td>
                     <td>
-                        <a th:href="@{/empresa/editar/{id}(id=${empresa.id})}">Editar</a>
-                        <a th:href="@{/empresa/deletar/{id}(id=${empresa.id})}">Deletar</a>
-                    </td>
+                        <!-- Ajustando os links para apontar para as rotas corretas dentro do escopo admin -->
+                        <a th:href="@{'/admin/empresas/editar/' + ${empresa.id}}" class="button">Editar</a>
+                        <a th:href="@{'/admin/empresas/deletar/' + ${empresa.id}}" onclick="return confirm('Tem certeza que deseja deletar esta Empresa?')">Deletar</a>
                 </tr>
             </tbody>
         </table>

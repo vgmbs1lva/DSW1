@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -30,21 +30,30 @@ public class EstagioApplication {
                                   UsuarioService usuarioService) {
         return (args) -> {
             // Inserir dados iniciais usando construtores completos
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
+            // Verificando e salvando profissionais com os novos campos
+            verificarESalvarProfissional(new Profissional(
+                "profissional@domain.com", 
+                passwordEncoder.encode("prof123"), 
+                "12345678901", 
+                "João Silva",
+                "1234567890", // Telefone
+                'M',         // Sexo
+                sdf.parse("1990-01-01")), // Data de Nascimento
+            profissionalService);
 
-            // Verificando e salvando usuários
-            verificarESalvarUsuario(new Usuario("admin@domain.com", passwordEncoder.encode("admin123"), "ROLE_ADMIN"), usuarioService);
-            verificarESalvarUsuario(new Usuario("empresa@domain.com", passwordEncoder.encode("empresa123"), "ROLE_EMPRESA"), usuarioService);
-            verificarESalvarUsuario(new Usuario("profissional@domain.com", passwordEncoder.encode("prof123"), "ROLE_PROFISSIONAL"), usuarioService);
-
-            // Verificando e salvando profissionais
-            verificarESalvarProfissional(new Profissional("profissional@domain.com", passwordEncoder.encode("prof123"), "12345678901", "João Silva"), profissionalService);
             // Verificando e salvando empresas
-            verificarESalvarEmpresa(new Empresa("empresa@domain.com", passwordEncoder.encode("empresa123"), "12345678000100", "Empresa XYZ", "Empresa de tecnologia focada em desenvolvimento de software.", "São Paulo"), empresaService);
+            verificarESalvarEmpresa(new Empresa(
+                "empresa@domain.com", 
+                passwordEncoder.encode("empresa123"), 
+                "12345678000100", 
+                "Empresa XYZ", 
+                "Empresa de tecnologia focada em desenvolvimento de software.", 
+                "São Paulo"), 
+            empresaService);
 
-           // Criando e salvando vagas (sem restrições de email)
-           // Vaga vaga = new Vaga("Desenvolvedor Java", new BigDecimal("115000.00"), new Date(), "São Paulo", empresaService.buscarPorEmail("empresa@domain.com").get());
-           // vagaService.salvar(vaga);
-
+           // Restante do código omitido por brevidade
         };
     }
 

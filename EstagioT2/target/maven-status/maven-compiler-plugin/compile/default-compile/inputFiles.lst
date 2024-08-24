@@ -1,13 +1,14 @@
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/EstagioApplication.java
-/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/config/AppConfig.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/config/InternationalizationConfig.java
+/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/config/MvcConfig.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/config/SecurityConfig.java
-/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/config/WebConfig.java
+/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/AdminController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/CandidaturaController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/EmpresaController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/HomeController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/LoginController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/ProfissionalController.java
+/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/RegisterController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/controller/VagaController.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/dao/ICandidaturaDAO.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/dao/IEmpresaDAO.java
@@ -21,7 +22,6 @@
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/domain/Vaga.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/repository/IUsuarioRepository.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/service/CandidaturaService.java
-/home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/service/CustomUsuarioDetailsService.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/service/EmpresaService.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/service/ProfissionalService.java
 /home/spinelli/DSW1/EstagioT2/src/main/java/br/ufscar/dc/dsw/service/UsuarioDetailsService.java

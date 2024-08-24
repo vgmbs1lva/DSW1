@@ -2,7 +2,9 @@ package br.ufscar.dc.dsw.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.util.Date;
 import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Profissionais")
@@ -30,18 +32,32 @@ public class Profissional {
     @Column(nullable = false, length = 60)
     private String nome;
 
-    public Profissional(){ 
+    @Size(max = 20)
+    @Column(nullable = true, length = 20)
+    private String telefone;
+
+    @Column(nullable = true)
+    private Character sexo; // 'M' para Masculino, 'F' para Feminino, null se não especificado
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Especifica o formato de data esperado
+    private Date dataNascimento;
+
+    public Profissional() {
     }
-    
-    public Profissional(String email, String senha, String cpf, String nome) {
+
+    public Profissional(String email, String senha, String cpf, String nome, String telefone, Character sexo, Date dataNascimento) {
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
         this.nome = nome;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
     }
 
-    // Getters and Setters
-
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -82,8 +98,31 @@ public class Profissional {
         this.nome = nome;
     }
 
-    // Equals and HashCode
+    public String getTelefone() {
+        return telefone;
+    }
 
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Character getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Character sexo) {
+        this.sexo = sexo;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    // Equals e HashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,7 +137,6 @@ public class Profissional {
     }
 
     // toString
-
     @Override
     public String toString() {
         return "Profissional{" +
@@ -106,6 +144,9 @@ public class Profissional {
                 ", email='" + email + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", nome='" + nome + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", sexo=" + sexo +
+                ", dataNascimento=" + dataNascimento +
                 '}';
     }
 }

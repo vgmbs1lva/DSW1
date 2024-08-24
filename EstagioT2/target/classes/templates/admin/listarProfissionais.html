@@ -6,35 +6,38 @@
 </head>
 <body>
     <header>
-        <h1>Lista de Profissionais</h1>
+        <h1>Profissionais</h1>
         <nav>
-            <a th:href="@{/profissional/cadastrar}">Cadastrar Profissional</a>
-            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/admin/home}">Home</a>
+            <a th:href="@{/admin/profissionais/cadastrar}">Cadastrar Profissional</a>
             <a th:href="@{/logout}">Logout</a>
         </nav>
     </header>
     <div class="container">
+        <h2>Lista de Profissionais</h2>
+
+        <!-- Botões de ação -->
+        <div class="actions">
+            <a th:href="@{/admin/home}" class="button">Voltar para Home</a>
+            <a th:href="@{/admin/profissionais/cadastrar}" class="button">Cadastrar Novo Profissional</a>
+        </div>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome</th>
                     <th>Email</th>
                     <th>CPF</th>
-                    <th>Telefone</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="profissional : ${profissionais}">
-                    <td th:text="${profissional.id}"></td>
                     <td th:text="${profissional.nome}"></td>
                     <td th:text="${profissional.email}"></td>
                     <td th:text="${profissional.cpf}"></td>
-                    <td th:text="${profissional.telefone}"></td>
                     <td>
-                        <a th:href="@{/profissional/editar/{id}(id=${profissional.id})}">Editar</a>
-                        <a th:href="@{/profissional/deletar/{id}(id=${profissional.id})}">Deletar</a>
+                        <a th:href="@{/admin/profissionais/editar/{id}(id=${profissional.id})}">Editar</a>
+                        <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}" onclick="return confirm('Tem certeza que deseja deletar este profissional?')">Deletar</a>
                     </td>
                 </tr>
             </tbody>

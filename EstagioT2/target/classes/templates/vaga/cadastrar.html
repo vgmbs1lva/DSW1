@@ -6,10 +6,10 @@
 </head>
 <body>
     <header>
-        <h1>Cadastrar Nova Vaga</h1>
+        <h1>Cadastrar Vaga</h1>
         <nav>
-            <a th:href="@{/vaga/listar}">Voltar</a>
-            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/vaga/listar}">Listar Vagas</a>
+            <a th:href="@{/empresa/home}">Home</a>
             <a th:href="@{/logout}">Logout</a>
         </nav>
     </header>
@@ -17,24 +17,25 @@
         <form th:action="@{/vaga/salvar}" th:object="${vaga}" method="post">
             <div>
                 <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" th:field="*{descricao}">
+                <textarea id="descricao" th:field="*{descricao}" placeholder="Descrição da vaga" required></textarea>
             </div>
             <div>
                 <label for="remuneracao">Remuneração:</label>
-                <input type="number" id="remuneracao" th:field="*{remuneracao}">
+                <input type="text" id="remuneracao" th:field="*{remuneracao}" placeholder="Remuneração" required>
             </div>
             <div>
                 <label for="dataLimiteInscricao">Data Limite de Inscrição:</label>
-                <input type="date" id="dataLimiteInscricao" th:field="*{dataLimiteInscricao}">
+                <input type="date" id="dataLimiteInscricao" th:field="*{dataLimiteInscricao}" required>
             </div>
             <div>
                 <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" th:field="*{cidade}">
+                <input type="text" id="cidade" th:field="*{cidade}" placeholder="Cidade da vaga" required>
             </div>
             <div>
                 <button type="submit">Salvar</button>
             </div>
         </form>
+        <a th:href="@{/empresa/home}" class="button">Voltar para Home</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>

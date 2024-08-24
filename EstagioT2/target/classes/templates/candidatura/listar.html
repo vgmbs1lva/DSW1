@@ -21,7 +21,6 @@
                     <th>Status</th>
                     <th>Data de Candidatura</th>
                     <th>Link de Entrevista</th>
-                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,12 +30,11 @@
                     <td th:text="${candidatura.status}"></td>
                     <td th:text="${candidatura.dataCandidatura}"></td>
                     <td th:text="${candidatura.linkEntrevista}"></td>
-                    <td>
-                        <a th:href="@{/candidatura/deletar/{id}(id=${candidatura.id})}">Deletar</a>
-                    </td>
                 </tr>
             </tbody>
         </table>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/logout}">Logout</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>
