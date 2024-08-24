@@ -48,7 +48,8 @@ public class RegisterController {
             logger.error("Validation errors found for Empresa: {}", result.getAllErrors());
             return "register/registerEmpresa"; // Retorna ao template correto em caso de erro
         }
-        Usuario usuario = new Usuario(empresa.getEmail(), passwordEncoder.encode(empresa.getSenha()), "ROLE_EMPRESA");
+        empresa.setSenha(passwordEncoder.encode(empresa.getSenha())); // Codifica a senha antes de salvar
+        Usuario usuario = new Usuario(empresa.getEmail(), empresa.getSenha(), "ROLE_EMPRESA");
         usuarioService.salvar(usuario);
         empresaService.salvar(empresa);
         return "redirect:/login";
@@ -67,12 +68,12 @@ public class RegisterController {
             logger.error("Validation errors found for Profissional: {}", result.getAllErrors());
             return "register/registerProfissional"; // Retorna ao template correto em caso de erro
         }
-        Usuario usuario = new Usuario(profissional.getEmail(), passwordEncoder.encode(profissional.getSenha()), "ROLE_PROFISSIONAL");
+        profissional.setSenha(passwordEncoder.encode(profissional.getSenha())); // Codifica a senha antes de salvar
+        Usuario usuario = new Usuario(profissional.getEmail(), profissional.getSenha(), "ROLE_PROFISSIONAL");
         usuarioService.salvar(usuario);
         profissionalService.salvar(profissional);
         return "redirect:/login";
     }
-
 
     @GetMapping
     public String redirectToEmpresa() {
