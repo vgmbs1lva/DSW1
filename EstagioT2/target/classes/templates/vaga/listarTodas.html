@@ -1,14 +1,120 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Todas as Vagas</title>
+    <title>Todas as Vagas Disponíveis</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script>
-        function alertLogin() {
-            alert("Você precisa estar logado para se candidatar a uma vaga.");
-            window.location.href = "/login"; // Redireciona para a página de login
+    <style>
+        /* Container Principal */
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 900px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-    </script>
+
+        /* Estilo do Cabeçalho */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: #007BFF;
+        }
+
+        /* Estilo do Formulário */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 150px);
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+
+        /* Estilo dos Links */
+        .actions a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        /* Botão Voltar */
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,7 +124,7 @@
         <form th:action="@{/vaga/listarTodas}" method="get">
             <label for="cidade">Filtrar por Cidade:</label>
             <input type="text" id="cidade" name="cidade" th:value="${cidade}" placeholder="Digite a cidade">
-            <button type="submit">Filtrar</button>
+            <button type="submit" class="button">Filtrar</button>
         </form>
         
         <h2>Lista de Vagas</h2>
@@ -30,7 +136,7 @@
                     <th>Remuneração</th>
                     <th>Data Limite</th>
                     <th>Cidade</th>
-                    <th>Ações</th> <!-- Coluna para ações -->
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,16 +146,13 @@
                     <td th:text="${vaga.remuneracao}"></td>
                     <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
                     <td th:text="${vaga.cidade}"></td>
-                    <td>
-                        <!-- Sempre mostra o pop-up ao clicar em candidatar-se -->
-                        <a href="javascript:void(0);" 
-                           onclick="alertLogin()" 
-                           class="button">Candidatar-se</a>
+                    <td class="actions">
+                        <a href="javascript:void(0);" onclick="alertLogin()">Candidatar-se</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/login}" class="button">Voltar para o Login</a>
+        <a th:href="@{/profissional/home}" class="button">Voltar para Home</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>

@@ -1,8 +1,115 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Todas as Vagas</title>
+    <title>Todas as Vagas Disponíveis</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Container Principal */
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 1000px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo do Cabeçalho */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: #FFF;
+        }
+
+        /* Estilo do Formulário */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 150px);
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        /* Estilo dos Links */
+        .button {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        /* Botão Voltar */
+        .button.voltar {
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button.voltar:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -41,7 +148,7 @@
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/profissional/home}" class="button">Voltar para Home</a>
+        <a th:href="@{/profissional/home}" class="button voltar">Voltar para Home</a>
     </div>
     <footer>
         <p>&copy; 2024 Sistema de Oferta de Vagas</p>

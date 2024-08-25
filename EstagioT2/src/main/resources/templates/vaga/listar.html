@@ -3,15 +3,67 @@
 <head>
     <title>Listagem de Vagas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Container Principal */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+
+        /* Estilo dos Links */
+        .actions a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Listagem de Vagas</h1>
+        <nav>
+            <a th:href="@{/empresa/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
     </header>
     <div class="container">
         <h2>Vagas Cadastradas</h2>
-
-        <!-- Tabela de vagas -->
         <table>
             <thead>
                 <tr>
@@ -28,10 +80,10 @@
                     <td th:text="${vaga.descricao}"></td>
                     <td th:text="${vaga.remuneracao}"></td>
                     <td th:text="${vaga.cidade}"></td>
-                    <td>
-                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}" class="button">Editar</a>
-                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}" class="button" onclick="return confirm('Tem certeza que deseja deletar esta vaga?')">Deletar</a>
-                        <a th:href="@{/vaga/candidatos/{id}(id=${vaga.id})}" class="button">Ver Candidatos</a> <!-- Novo link -->
+                    <td class="actions">
+                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}">Editar</a>
+                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}">Deletar</a>
+                        <a th:href="@{/vaga/candidatos/{id}(id=${vaga.id})}">Ver Candidatos</a>
                     </td>
                 </tr>
             </tbody>
