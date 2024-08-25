@@ -24,6 +24,10 @@ public class CandidaturaService {
         return dao.findByVaga(vaga);
     }
 
+    public Candidatura buscarPorId(Long id) {
+        return dao.findById(id).orElse(null);
+    }
+
     public Optional<Candidatura> buscarPorProfissionalEVaga(Profissional profissional, Vaga vaga) {
         return dao.findByProfissionalAndVaga(profissional, vaga);
     }

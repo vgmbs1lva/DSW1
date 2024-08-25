@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
@@ -31,29 +30,50 @@ public class EstagioApplication {
         return (args) -> {
             // Inserir dados iniciais usando construtores completos
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
+
+            // Criar e salvar um usuário administrador
+            verificarESalvarUsuario(new Usuario(
+                "admin@domain.com", 
+                passwordEncoder.encode("admin123"), 
+                "ROLE_ADMIN"), 
+            usuarioService);
+
             // Verificando e salvando profissionais com os novos campos
-            verificarESalvarProfissional(new Profissional(
+            Profissional profissional = new Profissional(
                 "profissional@domain.com", 
                 passwordEncoder.encode("prof123"), 
                 "12345678901", 
                 "João Silva",
                 "1234567890", // Telefone
                 'M',         // Sexo
-                sdf.parse("1990-01-01")), // Data de Nascimento
-            profissionalService);
+                sdf.parse("1990-01-01")); // Data de Nascimento
+            
+            verificarESalvarProfissional(profissional, profissionalService);
+            
+            // Adiciona o profissional também como usuário
+            verificarESalvarUsuario(new Usuario(
+                profissional.getEmail(), 
+                profissional.getSenha(), 
+                "ROLE_PROFISSIONAL"), 
+            usuarioService);
 
             // Verificando e salvando empresas
-            verificarESalvarEmpresa(new Empresa(
+            Empresa empresa = new Empresa(
                 "empresa@domain.com", 
                 passwordEncoder.encode("empresa123"), 
                 "12345678000100", 
                 "Empresa XYZ", 
                 "Empresa de tecnologia focada em desenvolvimento de software.", 
-                "São Paulo"), 
-            empresaService);
-
-           // Restante do código omitido por brevidade
+                "São Paulo");
+            
+            verificarESalvarEmpresa(empresa, empresaService);
+            
+            // Adiciona a empresa também como usuário
+            verificarESalvarUsuario(new Usuario(
+                empresa.getEmail(), 
+                empresa.getSenha(), 
+                "ROLE_EMPRESA"), 
+            usuarioService);
         };
     }
 

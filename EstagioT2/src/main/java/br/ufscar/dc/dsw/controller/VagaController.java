@@ -80,17 +80,21 @@ public class VagaController {
             if (vaga.getDataLimiteInscricao().before(hoje)) {
                 for (Candidatura candidatura : vaga.getCandidaturas()) {
                     String status = allParams.get("status_" + candidatura.getId());
+                    String linkEntrevista = allParams.get("link_" + candidatura.getId());
+
                     if (status != null) {
                         candidatura.setStatus(status);
-                        candidaturaService.salvar(candidatura);
                     }
+                    if (linkEntrevista != null && !linkEntrevista.isEmpty()) {
+                        candidatura.setLinkEntrevista(linkEntrevista);
+                    }
+                    candidaturaService.salvar(candidatura);
                 }
             }
             return "redirect:/vaga/candidatos/" + id;
         }
         return "redirect:/vaga/listar";
     }
-
 
     @GetMapping("/cadastrar")
     public String cadastrar(Vaga vaga, Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -132,7 +136,7 @@ public class VagaController {
 
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model,
-                               @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal UserDetails userDetails) {
         Optional<Vaga> vagaOpt = vagaService.buscarPorId(id);
         if (userDetails != null && vagaOpt.isPresent()) {
             Optional<Empresa> empresaOpt = empresaService.buscarPorEmail(userDetails.getUsername());
@@ -150,7 +154,7 @@ public class VagaController {
 
     @PostMapping("/editar/{id}")
     public String updateVaga(@PathVariable("id") Long id, @Valid Vaga vaga, BindingResult result,
-                             @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal UserDetails userDetails) {
         if (result.hasErrors()) {
             return "vaga/editar";
         }

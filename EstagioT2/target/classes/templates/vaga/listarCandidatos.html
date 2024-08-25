@@ -163,7 +163,9 @@
                                 <option value="NÃO SELECIONADO" th:selected="${candidatura.status == 'NÃO SELECIONADO'}">NÃO SELECIONADO</option>
                             </select>
                         </td>
-                        <td><a th:href="${candidatura.linkEntrevista}" th:text="${candidatura.linkEntrevista}"></a></td>
+                        <td>
+                            <input type="text" class="form-control" th:name="'link_' + ${candidatura.id}" th:value="${candidatura.linkEntrevista}" th:disabled="${!podeEditar}" placeholder="https://meet.google.com/..."/>
+                        </td>
                     </tr>
                 </tbody>
             </table>
