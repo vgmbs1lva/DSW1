@@ -159,7 +159,7 @@ public class CandidaturaController {
         }
         candidatura.setVaga(vaga);
         candidatura.setDataCandidatura(new Date());
-        candidatura.setStatus("Pendente");
+        candidatura.setStatus("ABERTO");
 
         // Definir o conteúdo do currículo a partir do texto fornecido
         candidatura.setCurriculo(curriculo);
