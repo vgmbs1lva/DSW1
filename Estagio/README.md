@@ -1,6 +1,6 @@
-# DSW1 - Desenvolvimento de Softwares para Web 1
+# Estagio T1
 
-Repositório para a disciplina de **Desenvolvimento de Softwares para Web 1**.
+Repositório para o Trabalho 1 -> EstagioT1
 
 ### SGBD Utilizado
 - **MySQL**
