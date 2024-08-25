@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.domain.Vaga;
+import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Empresa;
 import br.ufscar.dc.dsw.service.EmpresaService;
 import br.ufscar.dc.dsw.service.VagaService;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.Authentication;
-
 
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -34,22 +34,34 @@ public class VagaController {
             Optional<Empresa> empresaOpt = empresaService.buscarPorEmail(userDetails.getUsername());
             if (empresaOpt.isPresent()) {
                 Empresa empresa = empresaOpt.get();
-                model.addAttribute("vagas", vagaService.buscarPorEmpresa(empresa));
+                List<Vaga> vagas = vagaService.buscarPorEmpresa(empresa);
+
+                model.addAttribute("vagas", vagas);
                 return "vaga/listar";
             } else {
-                // Caso a empresa não seja encontrada, redirecionar ou exibir uma mensagem de erro
                 return "redirect:/erro";
             }
         } else {
-            // Caso UserDetails seja nulo, redireciona para a página de login
             return "redirect:/login";
         }
     }
 
+    @GetMapping("/candidatos/{id}")
+    public String listarCandidatos(@PathVariable("id") Long id, Model model) {
+        Optional<Vaga> vagaOpt = vagaService.buscarPorId(id);
+        if (vagaOpt.isPresent()) {
+            Vaga vaga = vagaOpt.get();
+            List<Candidatura> candidaturas = vaga.getCandidaturas();
+            model.addAttribute("vaga", vaga);
+            model.addAttribute("candidaturas", candidaturas);
+            return "vaga/listarCandidatos";
+        } else {
+            return "redirect:/erro";
+        }
+    }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Vaga vaga, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        // Verifica se o UserDetails não é nulo
         if (userDetails != null) {
             Optional<Empresa> empresaOpt = empresaService.buscarPorEmail(userDetails.getUsername());
             if (empresaOpt.isPresent()) {
@@ -58,11 +70,9 @@ public class VagaController {
                 model.addAttribute("vaga", vaga);
                 return "vaga/cadastrar";
             } else {
-                // Caso a empresa não seja encontrada
                 return "redirect:/erro";
             }
         } else {
-            // Caso UserDetails seja nulo, redireciona para a página de login
             return "redirect:/login";
         }
     }
@@ -81,15 +91,59 @@ public class VagaController {
                 vagaService.salvar(vaga);
                 return "redirect:/vaga/listar";
             } else {
-                // Caso a empresa não seja encontrada
                 return "redirect:/erro";
             }
         } else {
-            // Caso UserDetails seja nulo, redireciona para a página de login
             return "redirect:/login";
         }
     }
-    
+
+    @GetMapping("/editar/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Vaga> vagaOpt = vagaService.buscarPorId(id);
+        if (userDetails != null && vagaOpt.isPresent()) {
+            Optional<Empresa> empresaOpt = empresaService.buscarPorEmail(userDetails.getUsername());
+            Vaga vaga = vagaOpt.get();
+            if (empresaOpt.isPresent() && vaga.getEmpresa().equals(empresaOpt.get())) {
+                model.addAttribute("vaga", vaga);
+                return "vaga/editar";
+            } else {
+                return "redirect:/erro";
+            }
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/editar/{id}")
+    public String updateVaga(@PathVariable("id") Long id, @Valid Vaga vaga, BindingResult result,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        if (result.hasErrors()) {
+            return "vaga/editar";
+        }
+        if (userDetails != null) {
+            Optional<Empresa> empresaOpt = empresaService.buscarPorEmail(userDetails.getUsername());
+            Optional<Vaga> vagaExistenteOpt = vagaService.buscarPorId(id);
+
+            if (empresaOpt.isPresent() && vagaExistenteOpt.isPresent()) {
+                Vaga vagaExistente = vagaExistenteOpt.get();
+                Empresa empresa = empresaOpt.get();
+                vaga.setEmpresa(empresa);
+
+                // Preservar a lista de candidaturas da vaga existente
+                vaga.setCandidaturas(vagaExistente.getCandidaturas());
+
+                vagaService.salvar(vaga);
+                return "redirect:/vaga/listar";
+            } else {
+                return "redirect:/erro";
+            }
+        } else {
+            return "redirect:/login";
+        }
+    }
+
     @GetMapping("/deletar/{id}")
     public String deletar(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails != null) {
@@ -100,52 +154,45 @@ public class VagaController {
                 Empresa empresa = empresaOpt.get();
                 Vaga vaga = vagaOpt.get();
 
-                // Verifica se a vaga pertence à empresa logada
                 if (vaga.getEmpresa().equals(empresa)) {
                     vagaService.deletar(id);
                     return "redirect:/vaga/listar";
                 } else {
-                    // Caso a vaga não pertença à empresa logada
                     return "redirect:/erro";
                 }
             } else {
-                // Caso a empresa ou a vaga não sejam encontradas
                 return "redirect:/erro";
             }
         } else {
-            // Caso UserDetails seja nulo, redireciona para a página de login
             return "redirect:/login";
         }
     }
 
-    // Novo método para listar todas as vagas em aberto e permitir filtrar por cidade
     @GetMapping("/listarTodas")
     public String listarTodas(
-            @RequestParam(value = "cidade", required = false) String cidade, 
-            Model model, 
+            @RequestParam(value = "cidade", required = false) String cidade,
+            Model model,
             Authentication authentication) {
-        
+
         List<Vaga> vagas;
         if (cidade != null && !cidade.isEmpty()) {
             vagas = vagaService.buscarPorCidade(cidade);
         } else {
-            vagas = vagaService.buscarTodas(); // Já retorna somente vagas em aberto
+            vagas = vagaService.buscarTodas();
         }
 
         model.addAttribute("vagas", vagas);
         model.addAttribute("cidade", cidade);
 
-        // Verificar se o usuário está autenticado
         if (authentication != null && authentication.isAuthenticated()) {
-            // Verificar se o usuário é um profissional
             boolean isProfissional = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_PROFISSIONAL"));
 
             if (isProfissional) {
-                return "vaga/listarTodasProfissional"; // Página para profissionais
+                return "vaga/listarTodasProfissional";
             }
         }
 
-        return "vaga/listarTodas"; // Página para visitantes ou não-profissionais
+        return "vaga/listarTodas";
     }
 }

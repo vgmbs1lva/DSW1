@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -45,14 +46,15 @@ public class Vaga {
     @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "vaga", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "vaga", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Candidatura> candidaturas;
 
-    public Vaga(){
-
+    public Vaga() {
+        this.candidaturas = new ArrayList<>();
     }
 
     public Vaga(String descricao, BigDecimal remuneracao, Date dataLimiteInscricao, String cidade, Empresa empresa) {
+        this();
         this.descricao = descricao;
         this.remuneracao = remuneracao;
         this.dataLimiteInscricao = dataLimiteInscricao;
