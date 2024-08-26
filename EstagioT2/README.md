@@ -19,7 +19,7 @@ DROP DATABASE IF EXISTS Estagio;
 -- Criação do banco de dados
 CREATE DATABASE Estagio;
 
----
+```
 
 
 
