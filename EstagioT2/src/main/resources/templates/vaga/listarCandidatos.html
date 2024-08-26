@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Candidatos para a Vaga</title>
+    <title th:text="#{vaga.candidatos.title}">Candidatos para a Vaga</title>
     <style>
         /* Geral */
         body {
@@ -131,23 +131,23 @@
 </head>
 <body>
     <header>
-        <h1>Candidatos para a Vaga: <span th:text="${vaga.descricao}">Descrição da Vaga</span></h1>
+        <h1 th:text="#{vaga.candidatos.header} + ' ' + ${vaga.descricao}">Candidatos para a Vaga: Descrição da Vaga</h1>
         <nav>
-            <a th:href="@{/vaga/listar}">Voltar para a lista de Vagas</a>
+            <a th:href="@{/vaga/listar}" th:text="#{vaga.candidatos.voltar}">Voltar para a lista de Vagas</a>
         </nav>
     </header>
     <div class="container">
-        <h2>Candidatos</h2>
+        <h2 th:text="#{vaga.candidatos.title}">Candidatos</h2>
         <form th:action="@{/vaga/candidatos/{id}/editar(id=${vaga.id})}" method="post">
             <table>
                 <thead>
                     <tr>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>CPF</th>
-                        <th>Data de Candidatura</th>
-                        <th>Status</th>
-                        <th>Link de Entrevista</th>
+                        <th th:text="#{vaga.candidatos.nome}">Nome</th>
+                        <th th:text="#{vaga.candidatos.email}">Email</th>
+                        <th th:text="#{vaga.candidatos.cpf}">CPF</th>
+                        <th th:text="#{vaga.candidatos.dataCandidatura}">Data de Candidatura</th>
+                        <th th:text="#{vaga.candidatos.status}">Status</th>
+                        <th th:text="#{vaga.candidatos.linkEntrevista}">Link de Entrevista</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,9 +158,9 @@
                         <td th:text="${#dates.format(candidatura.dataCandidatura, 'dd/MM/yyyy')}">Data de Candidatura</td>
                         <td>
                             <select class="form-control" th:name="'status_' + ${candidatura.id}" th:disabled="${!podeEditar}">
-                                <option value="ABERTO" th:selected="${candidatura.status == 'ABERTO'}">ABERTO</option>
-                                <option value="ENTREVISTA" th:selected="${candidatura.status == 'ENTREVISTA'}">ENTREVISTA</option>
-                                <option value="NÃO SELECIONADO" th:selected="${candidatura.status == 'NÃO SELECIONADO'}">NÃO SELECIONADO</option>
+                                <option value="ABERTO" th:text="#{vaga.candidatos.status.aberto}" th:selected="${candidatura.status == 'ABERTO'}">ABERTO</option>
+                                <option value="ENTREVISTA" th:text="#{vaga.candidatos.status.entrevista}" th:selected="${candidatura.status == 'ENTREVISTA'}">ENTREVISTA</option>
+                                <option value="NÃO SELECIONADO" th:text="#{vaga.candidatos.status.naoSelecionado}" th:selected="${candidatura.status == 'NÃO SELECIONADO'}">NÃO SELECIONADO</option>
                             </select>
                         </td>
                         <td>
@@ -170,12 +170,12 @@
                 </tbody>
             </table>
             <div th:if="${podeEditar}">
-                <button type="submit" class="edit-button">Salvar Alterações</button>
+                <button type="submit" class="edit-button" th:text="#{vaga.candidatos.salvar}">Salvar Alterações</button>
             </div>
         </form>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{vaga.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

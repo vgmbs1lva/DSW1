@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listagem de Vagas</title>
+    <title th:text="#{vaga.listagem.title}">Listagem de Vagas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         /* Container Principal */
@@ -56,23 +56,23 @@
 </head>
 <body>
     <header>
-        <h1>Listagem de Vagas</h1>
+        <h1 th:text="#{vaga.listagem.header}">Listagem de Vagas</h1>
         <nav>
-            <a th:href="@{/empresa/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/empresa/home}" th:text="#{vaga.listagem.home}">Home</a>
+            <a th:href="@{/logout}" th:text="#{vaga.listagem.logout}">Logout</a>
         </nav>
     </header>
     <div class="container">
-        <h2>Vagas Cadastradas</h2>
+        <h2 th:text="#{vaga.listagem.subheader}">Vagas Cadastradas</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Descrição</th>
-                    <th>Remuneração</th>
-                    <th>Cidade</th>
-                    <th>Data Limite de Inscrição</th>
-                    <th>Ações</th>
+                    <th th:text="#{vaga.listagem.id}">ID</th>
+                    <th th:text="#{vaga.listagem.descricao}">Descrição</th>
+                    <th th:text="#{vaga.listagem.remuneracao}">Remuneração</th>
+                    <th th:text="#{vaga.listagem.cidade}">Cidade</th>
+                    <th th:text="#{vaga.listagem.dataLimite}">Data Limite de Inscrição</th>
+                    <th th:text="#{vaga.listagem.acoes}">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,16 +83,16 @@
                     <td th:text="${vaga.cidade}"></td>
                     <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
                     <td class="actions">
-                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}">Editar</a>
-                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}">Deletar</a>
-                        <a th:href="@{/vaga/candidatos/{id}(id=${vaga.id})}">Ver Candidatos</a>
+                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.editar}">Editar</a>
+                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.deletar}">Deletar</a>
+                        <a th:href="@{/vaga/candidatos/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.verCandidatos}">Ver Candidatos</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{vaga.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>
