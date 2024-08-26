@@ -27,6 +27,9 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Sexo</th>
+                    <th>Data de Nascimento</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -35,6 +38,9 @@
                     <td th:text="${profissional.nome}"></td>
                     <td th:text="${profissional.email}"></td>
                     <td th:text="${profissional.cpf}"></td>
+                    <td th:text="${profissional.telefone}"></td>
+                    <td th:text="${profissional.sexo}"></td>
+                    <td th:text="${#dates.format(profissional.dataNascimento, 'dd/MM/yyyy')}"></td>
                     <td>
                         <a th:href="@{/admin/profissionais/editar/{id}(id=${profissional.id})}">Editar</a>
                         <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}" onclick="return confirm('Tem certeza que deseja deletar este profissional?')">Deletar</a>
