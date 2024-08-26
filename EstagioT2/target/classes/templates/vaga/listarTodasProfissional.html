@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Todas as Vagas Disponíveis</title>
+    <title th:text="#{vagas.title}">Todas as Vagas Disponíveis</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         /* Container Principal */
@@ -113,25 +113,25 @@
 </head>
 <body>
     <header>
-        <h1>Todas as Vagas Disponíveis</h1>
+        <h1 th:text="#{vagas.title}">Todas as Vagas Disponíveis</h1>
     </header>
     <div class="container">
         <form th:action="@{/vaga/listarTodas}" method="get">
-            <label for="cidade">Filtrar por Cidade:</label>
-            <input type="text" id="cidade" name="cidade" th:value="${cidade}" placeholder="Digite a cidade">
-            <button type="submit">Filtrar</button>
+            <label for="cidade" th:text="#{vagas.filterByCity}">Filtrar por Cidade:</label>
+            <input type="text" id="cidade" name="cidade" th:value="${cidade}" th:placeholder="#{vagas.enterCity}">
+            <button type="submit" th:text="#{vagas.filterButton}">Filtrar</button>
         </form>
         
-        <h2>Lista de Vagas</h2>
+        <h2 th:text="#{vagas.listTitle}">Lista de Vagas</h2>
         <table>
             <thead>
                 <tr>
-                    <th>CNPJ</th>
-                    <th>Descrição</th>
-                    <th>Remuneração</th>
-                    <th>Data Limite</th>
-                    <th>Cidade</th>
-                    <th>Ações</th> <!-- Coluna para ações -->
+                    <th th:text="#{vagas.cnpj}">CNPJ</th>
+                    <th th:text="#{vagas.description}">Descrição</th>
+                    <th th:text="#{vagas.salary}">Remuneração</th>
+                    <th th:text="#{vagas.deadline}">Data Limite</th>
+                    <th th:text="#{vagas.city}">Cidade</th>
+                    <th th:text="#{vagas.actions}">Ações</th> <!-- Coluna para ações -->
                 </tr>
             </thead>
             <tbody>
@@ -143,15 +143,15 @@
                     <td th:text="${vaga.cidade}"></td>
                     <td>
                         <!-- Botão de candidatura -->
-                        <a th:href="@{'/candidatura/candidatar/' + ${vaga.id}}" class="button">Candidatar-se</a>
+                        <a th:href="@{'/candidatura/candidatar/' + ${vaga.id}}" class="button" th:text="#{vagas.applyButton}">Candidatar-se</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/profissional/home}" class="button voltar">Voltar para Home</a>
+        <a th:href="@{/profissional/home}" class="button voltar" th:text="#{vagas.backToHome}">Voltar para Home</a>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{vagas.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

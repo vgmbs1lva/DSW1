@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Minhas Candidaturas</title>
+    <title th:text="#{profissional.candidaturas.title}">Minhas Candidaturas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         /* Container Principal */
@@ -59,21 +59,21 @@
 </head>
 <body>
     <header>
-        <h1>Minhas Candidaturas</h1>
+        <h1 th:text="#{profissional.candidaturas.title}">Minhas Candidaturas</h1>
         <nav>
-            <a th:href="@{/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/home}" th:text="#{profissional.candidaturas.homeLink}">Home</a>
+            <a th:href="@{/logout}" th:text="#{profissional.candidaturas.logoutLink}">Logout</a>
         </nav>
     </header>
     <div class="container">
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Vaga</th>
-                    <th>Status</th>
-                    <th>Data de Candidatura</th>
-                    <th>Link de Entrevista</th>
+                    <th th:text="#{profissional.candidaturas.id}">ID</th>
+                    <th th:text="#{profissional.candidaturas.vaga}">Vaga</th>
+                    <th th:text="#{profissional.candidaturas.status}">Status</th>
+                    <th th:text="#{profissional.candidaturas.dataCandidatura}">Data de Candidatura</th>
+                    <th th:text="#{profissional.candidaturas.linkEntrevista}">Link de Entrevista</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,10 +86,9 @@
                 </tr>
             </tbody>
         </table>
-       
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{profissional.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

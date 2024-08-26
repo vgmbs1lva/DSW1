@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home - Profissionais</title>
+    <title th:text="#{profissional.home.title}">Home - Profissionais</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         /* Geral */
@@ -88,23 +88,23 @@
 </head>
 <body>
     <header>
-        <h1>Bem-vindo, <span th:text="${profissional.nome}">Profissional</span></h1>
+        <h1 th:text="#{profissional.home.welcome(${profissional.nome})}">Bem-vindo, <span th:text="${profissional.nome}">Profissional</span></h1>
     </header>
     <div class="container">
         <!-- Links para funcionalidades importantes -->
         <div class="menu">
-            <a th:href="@{/vaga/listarTodas}" class="button">Procurar Vagas</a>
-            <a th:href="@{/candidatura/listar}" class="button">Minhas Candidaturas</a>
-            <a th:href="@{/logout}" class="button">Logout</a>
+            <a th:href="@{/vaga/listarTodas}" class="button" th:text="#{profissional.home.searchJobs}">Procurar Vagas</a>
+            <a th:href="@{/candidatura/listar}" class="button" th:text="#{profissional.home.myApplications}">Minhas Candidaturas</a>
+            <a th:href="@{/logout}" class="button" th:text="#{profissional.home.logout}">Logout</a>
         </div>
         
         <!-- Mensagem de boas-vindas personalizada -->
         <div class="welcome-message">
-            <p>Olá, <span th:text="${profissional.nome}">Profissional</span>! Aqui você pode encontrar e se candidatar a novas oportunidades de emprego, além de gerenciar suas candidaturas.</p>
+            <p th:text="#{profissional.home.welcomeMessage(${profissional.nome})}">Olá, <span th:text="${profissional.nome}">Profissional</span>! Aqui você pode encontrar e se candidatar a novas oportunidades de emprego, além de gerenciar suas candidaturas.</p>
         </div>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{profissional.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

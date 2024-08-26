@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Candidatar-se à Vaga</title>
+    <title th:text="#{candidatura.title}">Candidatar-se à Vaga</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Candidatar-se à Vaga</h1>
+        <h1 th:text="#{candidatura.title}">Candidatar-se à Vaga</h1>
     </header>
     <div class="container">
         <form th:action="@{/candidatura/salvar}" method="post">
@@ -14,22 +14,22 @@
             <input type="hidden" name="vagaId" th:value="${vaga.id}" />
             
             <div>
-                <label for="qualificacoes">Qualificações:</label>
-                <textarea id="qualificacoes" name="qualificacoes" th:value="${qualificacoes}" required></textarea>
+                <label for="qualificacoes" th:text="#{candidatura.qualifications.label}">Qualificações:</label>
+                <textarea id="qualificacoes" name="qualificacoes" th:value="${qualificacoes}" th:placeholder="#{candidatura.qualifications.placeholder}" required></textarea>
             </div>
             
             <div>
-                <label for="curriculo">Currículo:</label>
-                <input type="text" id="curriculo" name="curriculo" th:value="${curriculo}" placeholder="Descreva seu currículo ou forneça um link" required>
+                <label for="curriculo" th:text="#{candidatura.resume.label}">Currículo:</label>
+                <input type="text" id="curriculo" name="curriculo" th:value="${curriculo}" th:placeholder="#{candidatura.resume.placeholder}" required>
             </div>
             
             <div>
-                <button type="submit">Enviar Candidatura</button>
+                <button type="submit" th:text="#{candidatura.submit.button}">Enviar Candidatura</button>
             </div>
         </form>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{candidatura.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

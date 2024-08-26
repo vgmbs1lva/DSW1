@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home - Empresa</title>
+    <title th:text="#{empresa.home.title}">Home - Empresa</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         /* Geral */
@@ -88,23 +88,23 @@
 </head>
 <body>
     <header>
-        <h1>Bem-vindo, <span th:text="${empresa.nome}">Nome da Empresa</span></h1>
+        <h1 th:text="#{empresa.home.welcome} + ', ' + ${empresa.nome} + '!'">Bem-vindo, <span th:text="${empresa.nome}">Nome da Empresa</span></h1>
     </header>
     <div class="container">
         <!-- Links para funcionalidades importantes -->
         <div class="menu">
-            <a th:href="@{/vaga/cadastrar}" class="button">Cadastrar Nova Vaga</a>
-            <a th:href="@{/vaga/listar}" class="button">Listar Vagas</a>
-            <a th:href="@{/logout}" class="button">Logout</a>
+            <a th:href="@{/vaga/cadastrar}" class="button" th:text="#{empresa.home.cadastrarVaga}">Cadastrar Nova Vaga</a>
+            <a th:href="@{/vaga/listar}" class="button" th:text="#{empresa.home.listarVagas}">Listar Vagas</a>
+            <a th:href="@{/logout}" class="button" th:text="#{empresa.home.logout}">Logout</a>
         </div>
         
         <!-- Mensagem de boas-vindas personalizada -->
         <div class="welcome-message">
-            <p>Olá, <span th:text="${empresa.nome}">Nome da Empresa</span>! Aqui você pode gerenciar suas vagas e acompanhar os candidatos que se inscreveram nelas.</p>
+            <p th:text="#{empresa.home.message} + ' ' + ${empresa.nome}">Olá, <span th:text="${empresa.nome}">Nome da Empresa</span>! Aqui você pode gerenciar suas vagas e acompanhar os candidatos que se inscreveram nelas.</p>
         </div>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{empresa.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

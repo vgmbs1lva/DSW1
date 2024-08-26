@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Erro de Candidatura</title>
+    <title th:text="#{candidatura.error.title}">Erro de Candidatura</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Erro de Candidatura</h1>
+        <h1 th:text="#{candidatura.error.title}">Erro de Candidatura</h1>
     </header>
     <div class="container">
-        <p th:text="${errorMessage}">Você já se candidatou a esta vaga.</p>
-        <a href="/vaga/listarTodas" class="button">Voltar para a lista de vagas</a>
+        <p th:text="#{candidatura.error.message}">Você já se candidatou a esta vaga.</p>
+        <a th:href="@{/vaga/listarTodas}" class="button" th:text="#{candidatura.error.backToList}">Voltar para a lista de vagas</a>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{candidatura.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>
