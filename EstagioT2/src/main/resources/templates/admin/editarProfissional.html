@@ -28,6 +28,22 @@
                 <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF do Profissional" required>
             </div>
             <div>
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" th:field="*{telefone}" placeholder="Telefone do Profissional">
+            </div>
+            <div>
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" th:field="*{sexo}">
+                    <option value="" th:text="#{sexo.naoEspecificado}">Não especificado</option>
+                    <option value="M" th:text="#{sexo.masculino}">Masculino</option>
+                    <option value="F" th:text="#{sexo.feminino}">Feminino</option>
+                </select>
+            </div>
+            <div>
+                <label for="dataNascimento">Data de Nascimento:</label>
+                <input type="date" id="dataNascimento" th:field="*{dataNascimento}">
+            </div>
+            <div>
                 <label for="senha">Senha:</label>
                 <input type="password" id="senha" th:field="*{senha}" placeholder="Senha do Profissional">
                 <small>Deixe em branco para manter a senha atual.</small>
