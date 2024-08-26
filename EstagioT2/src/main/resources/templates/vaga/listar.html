@@ -71,6 +71,7 @@
                     <th>Descrição</th>
                     <th>Remuneração</th>
                     <th>Cidade</th>
+                    <th>Data Limite de Inscrição</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -80,6 +81,7 @@
                     <td th:text="${vaga.descricao}"></td>
                     <td th:text="${vaga.remuneracao}"></td>
                     <td th:text="${vaga.cidade}"></td>
+                    <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
                     <td class="actions">
                         <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}">Editar</a>
                         <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}">Deletar</a>
