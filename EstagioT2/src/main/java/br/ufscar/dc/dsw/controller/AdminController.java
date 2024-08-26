@@ -51,17 +51,18 @@ public class AdminController {
 
     @PostMapping("/empresas/salvar")
     public String salvarEmpresa(@Valid Empresa empresa, BindingResult result) {
+        System.out.println("1111");
         if (result.hasErrors()) {
             result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
             return "admin/cadastrarEmpresa";
         }
-
+        System.out.println("1111");
         Usuario usuario = new Usuario();
         usuario.setEmail(empresa.getEmail());
         usuario.setSenha(passwordEncoder.encode(empresa.getSenha()));
         usuario.setRole("ROLE_EMPRESA");
         usuarioService.salvar(usuario);
-
+        System.out.println("1111");
         empresaService.salvar(empresa);
         return "redirect:/admin/empresas";
     }
@@ -187,6 +188,9 @@ public class AdminController {
         // Atualizar os atributos necessários
         profissionalOriginal.setNome(profissional.getNome());
         profissionalOriginal.setCpf(profissional.getCpf());
+        profissionalOriginal.setTelefone(profissional.getTelefone()); // Atualizar telefone
+        profissionalOriginal.setSexo(profissional.getSexo()); // Atualizar sexo
+        profissionalOriginal.setDataNascimento(profissional.getDataNascimento()); // Atualizar data de nascimento
 
         // Atualizar o usuário associado se o email ou a senha forem alterados
         Usuario usuario = usuarioService.buscarPorEmail(profissionalOriginal.getEmail())
@@ -209,6 +213,7 @@ public class AdminController {
         profissionalService.salvar(profissionalOriginal);
         return "redirect:/admin/profissionais";
     }
+
 
 
     @GetMapping("/profissionais/deletar/{id}")
