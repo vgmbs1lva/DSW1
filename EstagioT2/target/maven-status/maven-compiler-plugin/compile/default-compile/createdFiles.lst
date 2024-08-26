@@ -22,8 +22,8 @@ br/ufscar/dc/dsw/controller/ProfissionalController.class
 br/ufscar/dc/dsw/dao/IProfissionalDAO.class
 br/ufscar/dc/dsw/service/CandidaturaService.class
 br/ufscar/dc/dsw/domain/Usuario.class
-br/ufscar/dc/dsw/config/MvcConfig.class
 br/ufscar/dc/dsw/service/UsuarioService.class
+br/ufscar/dc/dsw/config/MvcConfig.class
 br/ufscar/dc/dsw/controller/RegisterController.class
 br/ufscar/dc/dsw/config/InternationalizationConfig.class
 br/ufscar/dc/dsw/EstagioApplication.class

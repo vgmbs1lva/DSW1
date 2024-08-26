@@ -1,66 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cadastrar Profissional</title>
+    <title th:text="#{admin.professional.register.title}">Cadastrar Profissional</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Cadastrar Profissional</h1>
+        <h1 th:text="#{admin.professional.register.header}">Cadastrar Profissional</h1>
         <nav>
-            <a th:href="@{/admin/profissionais}">Listar Profissionais</a>
-            <a th:href="@{/admin/home}">Home</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/admin/profissionais}" th:text="#{admin.professional.register.list}">Listar Profissionais</a>
+            <a th:href="@{/admin/home}" th:text="#{admin.professional.register.home}">Home</a>
+            <a th:href="@{/logout}" th:text="#{admin.professional.register.logout}">Logout</a>
         </nav>
     </header>
     <div class="container">
         <form th:action="@{/admin/profissionais/salvar}" th:object="${profissional}" method="post">
             <div>
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" th:field="*{nome}" placeholder="Nome do Profissional" required>
+                <label for="nome" th:text="#{admin.professional.register.name}">Nome:</label>
+                <input type="text" id="nome" th:field="*{nome}" th:placeholder="#{admin.professional.register.name.placeholder}" required>
                 <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Erro no nome</span>
             </div>
             <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" th:field="*{email}" placeholder="Email do Profissional" required>
+                <label for="email" th:text="#{admin.professional.register.email}">Email:</label>
+                <input type="email" id="email" th:field="*{email}" th:placeholder="#{admin.professional.register.email.placeholder}" required>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro no email</span>
             </div>
             <div>
-                <label for="cpf">CPF:</label>
-                <input type="text" id="cpf" th:field="*{cpf}" placeholder="CPF do Profissional" required>
+                <label for="cpf" th:text="#{admin.professional.register.cpf}">CPF:</label>
+                <input type="text" id="cpf" th:field="*{cpf}" th:placeholder="#{admin.professional.register.cpf.placeholder}" required>
                 <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}">Erro no CPF</span>
             </div>
             <div>
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" th:field="*{telefone}" placeholder="Telefone do Profissional">
+                <label for="telefone" th:text="#{admin.professional.register.phone}">Telefone:</label>
+                <input type="text" id="telefone" th:field="*{telefone}" th:placeholder="#{admin.professional.register.phone.placeholder}">
                 <span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">Erro no telefone</span>
             </div>
             <div>
-                <label for="sexo">Sexo:</label>
+                <label for="sexo" th:text="#{admin.professional.register.gender}">Sexo:</label>
                 <select id="sexo" th:field="*{sexo}">
-                    <option value="" th:text="#{sexo.naoEspecificado}">Não especificado</option>
-                    <option value="M" th:text="#{sexo.masculino}">Masculino</option>
-                    <option value="F" th:text="#{sexo.feminino}">Feminino</option>
+                    <option value="" th:text="#{gender.unspecified}">Não especificado</option>
+                    <option value="M" th:text="#{gender.male}">Masculino</option>
+                    <option value="F" th:text="#{gender.female}">Feminino</option>
                 </select>
                 <span th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}">Erro no sexo</span>
             </div>
             <div>
-                <label for="dataNascimento">Data de Nascimento:</label>
+                <label for="dataNascimento" th:text="#{admin.professional.register.birthDate}">Data de Nascimento:</label>
                 <input type="date" id="dataNascimento" th:field="*{dataNascimento}">
                 <span th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">Erro na data de nascimento</span>
             </div>
             <div>
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" th:field="*{senha}" placeholder="Senha" required>
+                <label for="senha" th:text="#{admin.professional.register.password}">Senha:</label>
+                <input type="password" id="senha" th:field="*{senha}" th:placeholder="#{admin.professional.register.password.placeholder}" required>
                 <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Erro na senha</span>
             </div>
             <div>
-                <button type="submit">Cadastrar</button>
+                <button type="submit" th:text="#{admin.professional.register.submit}">Cadastrar</button>
             </div>
         </form>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{footer.copyright}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

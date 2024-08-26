@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listar Profissionais</title>
+    <title th:text="#{admin.professional.list.title}">Listar Profissionais</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Profissionais</h1>
+        <h1 th:text="#{admin.professional.list.header}">Profissionais</h1>
         <nav>
-            <a th:href="@{/admin/home}">Home</a>
-            <a th:href="@{/admin/profissionais/cadastrar}">Cadastrar Profissional</a>
-            <a th:href="@{/logout}">Logout</a>
+            <a th:href="@{/admin/home}" th:text="#{admin.professional.list.home}">Home</a>
+            <a th:href="@{/admin/profissionais/cadastrar}" th:text="#{admin.professional.list.register}">Cadastrar Profissional</a>
+            <a th:href="@{/logout}" th:text="#{admin.professional.list.logout}">Logout</a>
         </nav>
     </header>
     <div class="container">
-        <h2>Lista de Profissionais</h2>
+        <h2 th:text="#{admin.professional.list.title}">Lista de Profissionais</h2>
 
         <!-- Botões de ação -->
         <div class="actions">
-            <a th:href="@{/admin/home}" class="button">Voltar para Home</a>
-            <a th:href="@{/admin/profissionais/cadastrar}" class="button">Cadastrar Novo Profissional</a>
+            <a th:href="@{/admin/home}" class="button" th:text="#{admin.professional.list.backToHome}">Voltar para Home</a>
+            <a th:href="@{/admin/profissionais/cadastrar}" class="button" th:text="#{admin.professional.list.registerNew}">Cadastrar Novo Profissional</a>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>CPF</th>
-                    <th>Ações</th>
+                    <th th:text="#{admin.professional.list.name}">Nome</th>
+                    <th th:text="#{admin.professional.list.email}">Email</th>
+                    <th th:text="#{admin.professional.list.cpf}">CPF</th>
+                    <th th:text="#{admin.professional.list.phone}">Telefone</th>
+                    <th th:text="#{admin.professional.list.gender}">Sexo</th>
+                    <th th:text="#{admin.professional.list.birthDate}">Data de Nascimento</th>
+                    <th th:text="#{admin.professional.list.actions}">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,16 +38,19 @@
                     <td th:text="${profissional.nome}"></td>
                     <td th:text="${profissional.email}"></td>
                     <td th:text="${profissional.cpf}"></td>
+                    <td th:text="${profissional.telefone}"></td>
+                    <td th:text="${profissional.sexo}"></td>
+                    <td th:text="${#dates.format(profissional.dataNascimento, 'dd/MM/yyyy')}"></td>
                     <td>
-                        <a th:href="@{/admin/profissionais/editar/{id}(id=${profissional.id})}">Editar</a>
-                        <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}" onclick="return confirm('Tem certeza que deseja deletar este profissional?')">Deletar</a>
+                        <a th:href="@{/admin/profissionais/editar/{id}(id=${profissional.id})}" th:text="#{admin.professional.list.edit}">Editar</a>
+                        <a th:href="@{/admin/profissionais/deletar/{id}(id=${profissional.id})}" onclick="return confirm('#{admin.professional.list.confirmDelete}')" th:text="#{admin.professional.list.delete}">Deletar</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{footer.copyright}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>

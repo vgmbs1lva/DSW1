@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers("/candidatura/listar").hasRole("PROFISSIONAL") // Apenas profissionais podem acessar
                 .requestMatchers("/candidatura/candidatar**").hasRole("PROFISSIONAL") // Somente profissionais podem acessar
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/public/**").permitAll() // Permitir acesso a recursos estáticos
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

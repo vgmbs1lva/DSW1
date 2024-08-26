@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listagem de Empresas</title>
+    <title th:text="#{admin.company.list.title}">Listagem de Empresas</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <header>
-        <h1>Listagem de Empresas</h1>
+        <h1 th:text="#{admin.company.list.header}">Listagem de Empresas</h1>
     </header>
     <div class="container">
-        <h2>Empresas Cadastradas</h2>
+        <h2 th:text="#{admin.company.list.subheader}">Empresas Cadastradas</h2>
 
         <!-- Botões de ação -->
         <div class="actions">
-            <a th:href="@{/admin/home}" class="button">Voltar para Home</a>
-            <a th:href="@{/admin/empresas/cadastrar}" class="button">Cadastrar Nova Empresa</a>
+            <a th:href="@{/admin/home}" class="button" th:text="#{admin.company.list.backHome}">Voltar para Home</a>
+            <a th:href="@{/admin/empresas/cadastrar}" class="button" th:text="#{admin.company.list.addCompany}">Cadastrar Nova Empresa</a>
         </div>
         
         <!-- Tabela de empresas -->
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>CNPJ</th>
-                    <th>Descrição</th>
-                    <th>Cidade</th>
-                    <th>Ações</th>
+                    <th th:text="#{admin.company.list.table.id}">ID</th>
+                    <th th:text="#{admin.company.list.table.name}">Nome</th>
+                    <th th:text="#{admin.company.list.table.email}">Email</th>
+                    <th th:text="#{admin.company.list.table.cnpj}">CNPJ</th>
+                    <th th:text="#{admin.company.list.table.description}">Descrição</th>
+                    <th th:text="#{admin.company.list.table.city}">Cidade</th>
+                    <th th:text="#{admin.company.list.table.actions}">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,15 +39,16 @@
                     <td th:text="${empresa.descricao}"></td>
                     <td th:text="${empresa.cidade}"></td>
                     <td>
-                        <!-- Ajustando os links para apontar para as rotas corretas dentro do escopo admin -->
-                        <a th:href="@{'/admin/empresas/editar/' + ${empresa.id}}" class="button">Editar</a>
-                        <a th:href="@{'/admin/empresas/deletar/' + ${empresa.id}}" onclick="return confirm('Tem certeza que deseja deletar esta Empresa?')">Deletar</a>
+                        <a th:href="@{'/admin/empresas/editar/' + ${empresa.id}}" class="button" th:text="#{admin.company.list.table.edit}">Editar</a>
+                        <a th:href="@{'/admin/empresas/deletar/' + ${empresa.id}}" onclick="return confirm('#{admin.company.list.table.delete.confirm}')"
+                           th:text="#{admin.company.list.table.delete}">Deletar</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <footer>
-        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+        <p th:text="#{footer.copyright}">&copy; 2024 Sistema de Oferta de Vagas</p>
     </footer>
 </body>
 </html>
