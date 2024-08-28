@@ -22,41 +22,33 @@ CREATE DATABASE Estagio;
 ```
 
 
-
 ### Usuários do site
 ADMIN:
-Login - admin@example.com
+Login - admin@domain.com
 Senha - admin123
 
-EMPRESAS:
-Login - empresax@example.com
-Senha - senha123
+EMPRESA:
+Login - empresa@domain.com
+Senha - empresa123
 
-Login - empresay@example.com
-Senha - senha123
-
-PROFISSIONAIS:
-Login - joao@example.com
-Senha - senha123
-
-Login - maria@example.com
-Senha - senha123
-
+PROFISSIONAl:
+Login - profissional@domain.com
+Senha - prof123
 ---
 
 ## Responsabilidades de Implementação
 
 | Requisito | Status | Eduardo Spinelli | Victor Germano |
 |-----------|--------|------------------|----------------|
-| **R1**    | ☑️ Implementado | 50% | 50% |
-| **R2**    | ☑️ Implementado | 50% | 50% |
-| **R3**    | ☑️ Implementado | 50% | 50% |
-| **R4**    | ☑️ Implementado | 50% | 50% |
-| **R5**    | ☑️ Implementado (sem PDF) | 50% | 50% |
-| **R6**    | ☑️ Implementado | 50% | 50% |
-| **R7**    | ☑️ Implementado | 50% | 50% |
-| **R8**    | ☑️ Implementado (sem email) | 50% | 50% |
-| **R9**    | ☑️ Implementado | 50% | 50% |
+| **R1**    | ☑️ Implementado | 0% | 100% |
+| **R2**    | ☑️ Implementado | 0% | 100% |
+| **R3**    | ☑️ Implementado | 0% | 100% |
+| **R4**    | ☑️ Implementado | 0% | 100% |
+| **R5**    | ☑️ Implementado (sem PDF) | 0% | 100% |
+| **R6**    | ☑️ Implementado | 0% | 100% |
+| **R7**    | ☑️ Implementado | 100% | 0% |
+| **R8**    | ☑️ Implementado (sem email) | 100% | 0% |
+| **R9**    | ☑️ Implementado | 100% | 0% |
 | **R10**   | ☑️ Implementado | 50% | 50% |
 
 ---
