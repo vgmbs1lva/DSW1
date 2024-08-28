@@ -31,9 +31,10 @@ EMPRESA:
 Login - empresa@domain.com
 Senha - empresa123
 
-PROFISSIONAl:
+PROFISSIONAL:
 Login - profissional@domain.com
 Senha - prof123
+
 ---
 
 ## Responsabilidades de Implementação
