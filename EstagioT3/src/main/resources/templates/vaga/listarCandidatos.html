@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{vaga.candidatos.title}">Candidatos para a Vaga</title>
+    <style>
+        /* Geral */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Navegação */
+        nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            padding: 5px 10px;
+            background-color: #0056b3;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #003d80;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        /* Estilo dos Links */
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Botões de Ação */
+        .edit-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Campos de Formulário */
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="#{vaga.candidatos.header} + ' ' + ${vaga.descricao}">Candidatos para a Vaga: Descrição da Vaga</h1>
+        <nav>
+            <a th:href="@{/vaga/listar}" th:text="#{vaga.candidatos.voltar}">Voltar para a lista de Vagas</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h2 th:text="#{vaga.candidatos.title}">Candidatos</h2>
+        <form th:action="@{/vaga/candidatos/{id}/editar(id=${vaga.id})}" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th th:text="#{vaga.candidatos.nome}">Nome</th>
+                        <th th:text="#{vaga.candidatos.email}">Email</th>
+                        <th th:text="#{vaga.candidatos.cpf}">CPF</th>
+                        <th th:text="#{vaga.candidatos.dataCandidatura}">Data de Candidatura</th>
+                        <th th:text="#{vaga.candidatos.status}">Status</th>
+                        <th th:text="#{vaga.candidatos.linkEntrevista}">Link de Entrevista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="candidatura : ${candidaturas}">
+                        <td th:text="${candidatura.profissional.nome}">Nome do Candidato</td>
+                        <td th:text="${candidatura.profissional.email}">Email do Candidato</td>
+                        <td th:text="${candidatura.profissional.cpf}">CPF do Candidato</td>
+                        <td th:text="${#dates.format(candidatura.dataCandidatura, 'dd/MM/yyyy')}">Data de Candidatura</td>
+                        <td>
+                            <select class="form-control" th:name="'status_' + ${candidatura.id}" th:disabled="${!podeEditar}">
+                                <option value="ABERTO" th:text="#{vaga.candidatos.status.aberto}" th:selected="${candidatura.status == 'ABERTO'}">ABERTO</option>
+                                <option value="ENTREVISTA" th:text="#{vaga.candidatos.status.entrevista}" th:selected="${candidatura.status == 'ENTREVISTA'}">ENTREVISTA</option>
+                                <option value="NÃO SELECIONADO" th:text="#{vaga.candidatos.status.naoSelecionado}" th:selected="${candidatura.status == 'NÃO SELECIONADO'}">NÃO SELECIONADO</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:name="'link_' + ${candidatura.id}" th:value="${candidatura.linkEntrevista}" th:disabled="${!podeEditar}" placeholder="https://meet.google.com/..."/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${podeEditar}">
+                <button type="submit" class="edit-button" th:text="#{vaga.candidatos.salvar}">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <p th:text="#{vaga.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

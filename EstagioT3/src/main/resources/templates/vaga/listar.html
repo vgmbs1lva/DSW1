@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{vaga.listagem.title}">Listagem de Vagas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Container Principal */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .actions a {
+            margin-right: 10px;
+        }
+
+        /* Estilo dos Links */
+        .actions a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="#{vaga.listagem.header}">Listagem de Vagas</h1>
+        <nav>
+            <a th:href="@{/empresa/home}" th:text="#{vaga.listagem.home}">Home</a>
+            <a th:href="@{/logout}" th:text="#{vaga.listagem.logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h2 th:text="#{vaga.listagem.subheader}">Vagas Cadastradas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th th:text="#{vaga.listagem.id}">ID</th>
+                    <th th:text="#{vaga.listagem.descricao}">Descrição</th>
+                    <th th:text="#{vaga.listagem.remuneracao}">Remuneração</th>
+                    <th th:text="#{vaga.listagem.cidade}">Cidade</th>
+                    <th th:text="#{vaga.listagem.dataLimite}">Data Limite de Inscrição</th>
+                    <th th:text="#{vaga.listagem.acoes}">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="vaga : ${vagas}">
+                    <td th:text="${vaga.id}"></td>
+                    <td th:text="${vaga.descricao}"></td>
+                    <td th:text="${vaga.remuneracao}"></td>
+                    <td th:text="${vaga.cidade}"></td>
+                    <td th:text="${#dates.format(vaga.dataLimiteInscricao, 'dd/MM/yyyy')}"></td>
+                    <td class="actions">
+                        <a th:href="@{/vaga/editar/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.editar}">Editar</a>
+                        <a th:href="@{/vaga/deletar/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.deletar}">Deletar</a>
+                        <a th:href="@{/vaga/candidatos/{id}(id=${vaga.id})}" th:text="#{vaga.listagem.verCandidatos}">Ver Candidatos</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p th:text="#{vaga.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

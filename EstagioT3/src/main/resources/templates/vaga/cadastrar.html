@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{vaga.title}">Cadastrar Vaga</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1 th:text="#{vaga.title}">Cadastrar Vaga</h1>
+        <nav>
+            <a th:href="@{/vaga/listar}" th:text="#{vaga.list}">Listar Vagas</a>
+            <a th:href="@{/empresa/home}" th:text="#{vaga.home}">Home</a>
+            <a th:href="@{/logout}" th:text="#{vaga.logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <form th:action="@{/vaga/salvar}" th:object="${vaga}" method="post">
+            <div>
+                <label for="descricao" th:text="#{vaga.description}">Descrição:</label>
+                <textarea id="descricao" th:field="*{descricao}" th:placeholder="#{vaga.description.placeholder}" required></textarea>
+            </div>
+            <div>
+                <label for="remuneracao" th:text="#{vaga.salary}">Remuneração:</label>
+                <input type="text" id="remuneracao" th:field="*{remuneracao}" th:placeholder="#{vaga.salary.placeholder}" required>
+            </div>
+            <div>
+                <label for="dataLimiteInscricao" th:text="#{vaga.deadline}">Data Limite de Inscrição:</label>
+                <input type="date" id="dataLimiteInscricao" th:field="*{dataLimiteInscricao}" required>
+            </div>
+            <div>
+                <label for="cidade" th:text="#{vaga.city}">Cidade:</label>
+                <input type="text" id="cidade" th:field="*{cidade}" th:placeholder="#{vaga.city.placeholder}" required>
+            </div>
+            <div>
+                <button type="submit" th:text="#{vaga.saveButton}">Salvar</button>
+            </div>
+        </form>
+        <a th:href="@{/empresa/home}" class="button" th:text="#{vaga.backToHome}">Voltar para Home</a>
+    </div>
+    <footer>
+        <p th:text="#{vaga.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

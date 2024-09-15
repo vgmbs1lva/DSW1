@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{empresa.home.title}">Home - Empresa</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Geral */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Menu de links */
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .menu .button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Mensagem de boas-vindas */
+        .welcome-message {
+            text-align: center;
+            font-size: 1.25rem;
+            margin-top: 20px;
+        }
+
+        .welcome-message span {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="#{empresa.home.welcome} + ', ' + ${empresa.nome} + '!'">Bem-vindo, <span th:text="${empresa.nome}">Nome da Empresa</span></h1>
+    </header>
+    <div class="container">
+        <!-- Links para funcionalidades importantes -->
+        <div class="menu">
+            <a th:href="@{/vaga/cadastrar}" class="button" th:text="#{empresa.home.cadastrarVaga}">Cadastrar Nova Vaga</a>
+            <a th:href="@{/vaga/listar}" class="button" th:text="#{empresa.home.listarVagas}">Listar Vagas</a>
+            <a th:href="@{/logout}" class="button" th:text="#{empresa.home.logout}">Logout</a>
+        </div>
+        
+        <!-- Mensagem de boas-vindas personalizada -->
+        <div class="welcome-message">
+            <p th:text="#{empresa.home.message} + ' ' + ${empresa.nome}">Olá, <span th:text="${empresa.nome}">Nome da Empresa</span>! Aqui você pode gerenciar suas vagas e acompanhar os candidatos que se inscreveram nelas.</p>
+        </div>
+    </div>
+    <footer>
+        <p th:text="#{empresa.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

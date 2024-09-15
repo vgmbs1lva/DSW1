@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{login.title}">Login</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 th:text="#{login.header}">Login</h1>
+    </header>
+    <div class="container">
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label for="email" th:text="#{login.email.label}">Email:</label>
+                <input type="text" id="email" name="username">
+            </div>
+            <div>
+                <label for="senha" th:text="#{login.password.label}">Senha:</label>
+                <input type="password" id="senha" name="password">
+            </div>
+            <!-- Mensagem de erro -->
+            <div th:if="${param.error}">
+                <p style="color:red;" th:text="#{login.error.message}">Email ou senha inválidos. Por favor, tente novamente.</p>
+            </div>
+            <div>
+                <button type="submit" th:text="#{login.submit}">Entrar</button>
+            </div>
+        </form>
+        <!-- Link para registro -->
+        <div>
+            <a th:href="@{/register/empresa}" class="button" th:text="#{login.register.link}">Registrar-se</a>
+        </div>
+        <!-- Link para listar todas as vagas sem login -->
+        <div>
+            <a th:href="@{/vaga/listarTodas}" class="button" th:text="#{login.list.jobs.link}">Listar Todas as Vagas</a>
+        </div>
+    </div>
+    <footer>
+        <p th:text="#{login.footer}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

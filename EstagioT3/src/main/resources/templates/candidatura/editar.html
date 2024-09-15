@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Candidatura</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Editar Candidatura</h1>
+        <nav>
+            <a th:href="@{/candidatura/listar}">Voltar</a>
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <form th:action="@{/candidatura/editar/{id}(id=${candidatura.id})}" th:object="${candidatura}" method="post">
+            <div>
+                <label for="qualificacoes">Qualificações:</label>
+                <textarea id="qualificacoes" th:field="*{qualificacoes}"></textarea>
+            </div>
+            <div>
+                <label for="status">Status:</label>
+                <select id="status" th:field="*{status}">
+                    <option value="ABERTO" th:selected="${candidatura.status == 'ABERTO'}">Aberto</option>
+                    <option value="NÃO SELECIONADO" th:selected="${candidatura.status == 'NÃO SELECIONADO'}">Não Selecionado</option>
+                    <option value="ENTREVISTA" th:selected="${candidatura.status == 'ENTREVISTA'}">Entrevista</option>
+                </select>
+            </div>
+            <div th:if="${candidatura.status == 'ENTREVISTA'}">
+                <label for="linkEntrevista">Link de Entrevista:</label>
+                <input type="text" id="linkEntrevista" th:field="*{linkEntrevista}">
+            </div>
+            <div>
+                <button type="submit">Atualizar</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

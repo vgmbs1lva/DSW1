@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{candidatura.title}">Candidatar-se à Vaga</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1 th:text="#{candidatura.title}">Candidatar-se à Vaga</h1>
+    </header>
+    <div class="container">
+        <form th:action="@{/candidatura/salvar}" method="post">
+            <!-- Campo oculto para ID da vaga -->
+            <input type="hidden" name="vagaId" th:value="${vaga.id}" />
+            
+            <div>
+                <label for="qualificacoes" th:text="#{candidatura.qualifications.label}">Qualificações:</label>
+                <textarea id="qualificacoes" name="qualificacoes" th:value="${qualificacoes}" th:placeholder="#{candidatura.qualifications.placeholder}" required></textarea>
+            </div>
+            
+            <div>
+                <label for="curriculo" th:text="#{candidatura.resume.label}">Currículo:</label>
+                <input type="text" id="curriculo" name="curriculo" th:value="${curriculo}" th:placeholder="#{candidatura.resume.placeholder}" required>
+            </div>
+            
+            <div>
+                <button type="submit" th:text="#{candidatura.submit.button}">Enviar Candidatura</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <p th:text="#{candidatura.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{profissional.candidaturas.title}">Minhas Candidaturas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Container Principal */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        /* Estilo dos Links */
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navegação */
+        nav a {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="#{profissional.candidaturas.title}">Minhas Candidaturas</h1>
+        <nav>
+            <a th:href="@{/home}" th:text="#{profissional.candidaturas.homeLink}">Home</a>
+            <a th:href="@{/logout}" th:text="#{profissional.candidaturas.logoutLink}">Logout</a>
+        </nav>
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th th:text="#{profissional.candidaturas.id}">ID</th>
+                    <th th:text="#{profissional.candidaturas.vaga}">Vaga</th>
+                    <th th:text="#{profissional.candidaturas.status}">Status</th>
+                    <th th:text="#{profissional.candidaturas.dataCandidatura}">Data de Candidatura</th>
+                    <th th:text="#{profissional.candidaturas.linkEntrevista}">Link de Entrevista</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="candidatura : ${candidaturas}">
+                    <td th:text="${candidatura.id}"></td>
+                    <td th:text="${candidatura.vaga.descricao}"></td>
+                    <td th:text="${candidatura.status}"></td>
+                    <td th:text="${#dates.format(candidatura.dataCandidatura, 'dd/MM/yyyy')}"></td>
+                    <td><a th:href="${candidatura.linkEntrevista}" th:text="${candidatura.linkEntrevista}"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p th:text="#{profissional.footer.copy}">&copy; 2024 Sistema de Oferta de Vagas</p>
+    </footer>
+</body>
+</html>
